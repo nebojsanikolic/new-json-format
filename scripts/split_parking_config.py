@@ -52,6 +52,11 @@ def _sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _sha256_checksum(data: bytes) -> str:
+    """Manifest integrity field: sha256:<hex> of exact UTF-8 file bytes."""
+    return f"sha256:{_sha256_bytes(data)}"
+
+
 def _dump_json(path: Path, obj: Any, *, pretty: bool) -> bytes:
     path.parent.mkdir(parents=True, exist_ok=True)
     if pretty:
@@ -214,24 +219,30 @@ def write_delivery(
     pretty: bool = True,
     include_checksum: bool = True,
 ) -> dict[str, Any]:
-    """Write files; fill optional checksums on manifest city entries. Returns stats."""
+    """Write files; fill checksum + contentHash on shared and city entries."""
     out_dir.mkdir(parents=True, exist_ok=True)
     cities_dir = out_dir / "cities"
     cities_dir.mkdir(parents=True, exist_ok=True)
 
-    _dump_json(out_dir / "shared.json", shared, pretty=pretty)
+    shared_raw = _dump_json(out_dir / "shared.json", shared, pretty=pretty)
+    if include_checksum:
+        digest = _sha256_checksum(shared_raw)
+        manifest["shared"]["checksum"] = digest
+        manifest["shared"]["contentHash"] = digest
 
     checksum_by_city: dict[str, str] = {}
     for city_id, slice_obj in cities.items():
         raw = _dump_json(cities_dir / f"{city_id}.json", slice_obj, pretty=pretty)
         if include_checksum:
-            checksum_by_city[city_id] = _sha256_bytes(raw)
+            checksum_by_city[city_id] = _sha256_checksum(raw)
 
     if include_checksum:
         for entry in manifest["cities"]:
             cid = entry["cityId"]
             if cid in checksum_by_city:
-                entry["checksum"] = checksum_by_city[cid]
+                digest = checksum_by_city[cid]
+                entry["checksum"] = digest
+                entry["contentHash"] = digest
 
     _dump_json(out_dir / "manifest.json", manifest, pretty=pretty)
 

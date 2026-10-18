@@ -7,7 +7,9 @@
   "shared": {
     "version": "2026.10.18.1",
     "forceUpdate": false,
-    "url": "shared.json"
+    "url": "shared.json",
+    "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
+    "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
   },
   "cities": [
     {
@@ -16,7 +18,8 @@
       "version": "2026.10.18.1",
       "forceUpdate": true,
       "url": "cities/city-beograd.json",
-      "checksum": "e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d"
+      "checksum": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d",
+      "contentHash": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d"
     }
   ]
 }

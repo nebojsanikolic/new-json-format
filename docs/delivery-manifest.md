@@ -35,14 +35,37 @@ path as `manifest.json` (e.g. `https://cdn.example/parking/v1/`).
 
 | Field | Type | Meaning |
 | --- | --- | --- |
-| `schemaVersion` | string | Delivery envelope version (currently `"1.0.0"`). |
+| `schemaVersion` | string | **Delivery/schema envelope** version (currently `"1.0.0"`). Separate from `mainVersion`, city `version`, shared `version`, and monolith `dataVersion`. |
 | `minAppVersion` | string | App must be ≥ this to consume this delivery. Raise when the engine needs a new capability. |
-| `mainVersion` | string | Revision of this publish (often mirrors monolith `dataVersion`). |
+| `mainVersion` | string | Revision of this **publish** (content stamp; often mirrors monolith `dataVersion`). |
 | `forceUpdate` | boolean | **Main / global** force flag (see semantics below). |
+| `updateDescription` | string \| locale map | Optional whole-delivery notice. Prefer `{ "sr-Latn", "sr-Cyrl", "en", "ru" }`. |
 | `generatedAt` | string | ISO-8601 UTC when this delivery was built. |
-| `shared` | object | Pointer to `shared.json` (`version`, `forceUpdate`, `url`). |
+| `shared` | object | Pointer to `shared.json` (see below). |
 | `cities` | array | One entry per city file (see below). |
 | `source` | object | Optional provenance copied from the monolith. |
+
+### Integrity: `checksum` / `contentHash`
+
+Studio and `split_parking_config.py` hash the **exact UTF-8 JSON bytes** written for `shared.json` and each `cities/{id}.json`.
+
+| Field | Format | Meaning |
+| --- | --- | --- |
+| `checksum` | `sha256:<hex>` | Required on export for shared + every city entry. |
+| `contentHash` | `sha256:<hex>` | Same digest as `checksum` — etag-equivalent next to `version`. |
+
+CDN HTTP `ETag` headers and HMAC signing are **backend/ops** concerns (not written by the studio). Clients may treat `contentHash` like an etag when verifying downloads.
+
+### Shared entry
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `version` | string | Shared catalog revision. |
+| `forceUpdate` | boolean | Hard vs soft shared refresh. |
+| `url` | string | Relative path (`shared.json`). |
+| `checksum` / `contentHash` | string | `sha256:<hex>` of `shared.json` bytes. |
+| `updateDescription` | string \| locale map | Optional “what’s new” for shared. |
+| `updatedAt` | string | Optional ISO-8601 UTC. |
 
 ### City entry
 
@@ -52,8 +75,10 @@ path as `manifest.json` (e.g. `https://cdn.example/parking/v1/`).
 | `countryId` | string | Country id (`rs`, `me`, …). |
 | `version` | string | City file revision. **Bump on any content change** for that city. |
 | `forceUpdate` | boolean | Hard vs soft update for this city (see below). |
+| `updateDescription` | string \| locale map | Prefer `{ "sr-Latn", "sr-Cyrl", "en", "ru" }`. |
+| `updatedAt` | string | Optional ISO-8601 UTC. |
 | `url` | string | Relative path, e.g. `cities/city-beograd.json`. |
-| `checksum` | string | Optional SHA-256 hex of the city file bytes (integrity). |
+| `checksum` / `contentHash` | string | `sha256:<hex>` of the city file bytes. |
 
 Example:
 
@@ -63,10 +88,18 @@ Example:
   "minAppVersion": "5.0.0",
   "mainVersion": "1.0.0-geojson",
   "forceUpdate": false,
+  "updateDescription": {
+    "en": "Schema unchanged — city price updates only.",
+    "sr-Latn": "Šema nepromenjena — samo cene po gradovima.",
+    "sr-Cyrl": "Шема непромењена — само цене по градовима.",
+    "ru": "Схема без изменений — только цены по городам."
+  },
   "shared": {
     "version": "2026.10.18.1",
     "forceUpdate": false,
-    "url": "shared.json"
+    "url": "shared.json",
+    "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
+    "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
   },
   "cities": [
     {
@@ -75,7 +108,8 @@ Example:
       "version": "2026.10.18.1",
       "forceUpdate": true,
       "url": "cities/city-beograd.json",
-      "checksum": "optional-sha256"
+      "checksum": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d",
+      "contentHash": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d"
     }
   ]
 }
@@ -160,7 +194,7 @@ Payment methods and rules are **included by reference** from the city’s zones/
 3. If `forceUpdate` (main) → refresh shared + all cities needed for the user’s context before use.
 4. Compare `shared.version` (and `shared.forceUpdate`) → fetch `shared.json` if needed.
 5. For each city the user may use: if local version ≠ manifest version, or `forceUpdate`, fetch that city URL (blocking when forced).
-6. Optionally verify `checksum`.
+6. Verify `checksum` / `contentHash` (`sha256:<hex>`) against the downloaded file bytes.
 
 ---
 
@@ -173,7 +207,7 @@ Payment methods and rules are **included by reference** from the city’s zones/
 | `--force-update-cities city-a,city-b` | Hard-refresh listed cities |
 | `--force-update-all-cities` | Hard-refresh every city (cutover) |
 | `--city-version 2026.10.18.2` | Stamp all city files |
-| `--no-checksum` | Omit SHA-256 on entries |
+| `--no-checksum` | Omit `checksum` / `contentHash` on shared + city entries |
 | `--compact` | Minified JSON |
 
 See also: [geojson-import.md](geojson-import.md) · [field-reference.md](field-reference.md) · example [`examples/delivery/`](../examples/delivery/).

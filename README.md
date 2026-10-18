@@ -37,7 +37,7 @@ commerce     products + rules + paymentMethods
 - **Hours** use `"HH:mm"` strings (`"07:00"`, `"24:00"` for end-of-day). Zones have **`enabled`** (`false` = hide in app). Coordinates are rounded to **6 decimal places**.
 - **Money** is always `{ "amount": number, "currencyId": string }`.
 - **Locales** are maps (`sr-Latn`, `en`, …); grammatical cases nest under the locale.
-- **Versioning:** monolith uses `dataVersion` + `minAppVersion`. Production CDN delivery uses **manifest + shared + cities** with per-city `version` and **`forceUpdate`** (see below).
+- **Versioning:** monolith uses `dataVersion` + `minAppVersion` (+ optional `schemaVersion`). Production CDN delivery uses **manifest + shared + cities** with explicit **`schemaVersion`** (envelope), `mainVersion` / city / shared content versions, **`forceUpdate`**, and **`checksum` / `contentHash`** as `sha256:<hex>` of file bytes (see below).
 
 ## Production delivery layout
 
