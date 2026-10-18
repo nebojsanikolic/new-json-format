@@ -1,0 +1,173 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "number" },
+          "code": { "type": "string" },
+          "symbol": { "type": "string" },
+          "exchangeRate": { "type": "number" },
+          "name": { "type": "string" }
+        },
+        "required": ["id", "code", "symbol", "exchangeRate", "name"]
+      }
+    },
+    "montenegro_cities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/city" }
+    },
+    "cities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/city" }
+    }
+  },
+  "required": ["version", "currency", "montenegro_cities", "cities"],
+  "$defs": {
+    "city": {
+      "type": "object",
+      "description": "Flattened city + zones + daily tickets. Montenegro and Serbia city lists share the same shape with minor required-field differences.",
+      "properties": {
+        "city_name": { "type": "string" },
+        "city_name_ru": { "type": "string" },
+        "city_name_genitive": { "type": "string" },
+        "city_name_dative": { "type": "string" },
+        "city_name_accusative": { "type": "string" },
+        "city_name_locative": { "type": "string" },
+        "city_name_instrumental": { "type": "string" },
+        "city_name_preposition": { "type": "string" },
+        "city_short_name": { "type": "string" },
+        "city_coordinate": {
+          "type": "object",
+          "properties": {
+            "latitude": { "type": "number" },
+            "longitude": { "type": "number" }
+          },
+          "required": ["latitude", "longitude"]
+        },
+        "city_id": { "type": "number" },
+        "daily_tickets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dailyTicket" }
+        },
+        "Zones": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/zone" }
+        }
+      },
+      "required": [
+        "city_name",
+        "city_name_ru",
+        "city_name_genitive",
+        "city_name_dative",
+        "city_name_accusative",
+        "city_name_locative",
+        "city_name_instrumental",
+        "city_name_preposition",
+        "city_short_name",
+        "city_coordinate",
+        "city_id",
+        "daily_tickets",
+        "Zones"
+      ]
+    },
+    "dailyTicket": {
+      "type": "object",
+      "properties": {
+        "parking_zone_id": { "type": "number" },
+        "sms_number": { "type": "string" },
+        "sms_prefix": { "type": "string" },
+        "sms_prefix_daily": { "type": "string" },
+        "name": { "type": "string" },
+        "name_en": { "type": "string" },
+        "name_rs_cyrl": { "type": "string" },
+        "name_ru": { "type": "string" },
+        "color": { "type": "string" },
+        "desc": { "type": "string" },
+        "desc_en": { "type": "string" },
+        "desc_rs_cyrl": { "type": "string" },
+        "desc_ru": { "type": "string" },
+        "forZones": {
+          "type": "array",
+          "items": { "type": "number" }
+        },
+        "interval": { "type": "number" },
+        "price": { "type": "number" },
+        "currency_id": { "type": "number" }
+      }
+    },
+    "zone": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "price": { "type": "number" },
+        "value": { "type": "number" },
+        "per_hour": { "type": "boolean" },
+        "currency": { "type": "string" },
+        "currency_id": { "type": "number" },
+        "color": { "type": "string" },
+        "name": { "type": "string" },
+        "name_en": { "type": "string" },
+        "name_rs_cyrl": { "type": "string" },
+        "name_ru": { "type": "string" },
+        "description": { "type": "string" },
+        "description_en": { "type": "string" },
+        "description_rs_cyrl": { "type": "string" },
+        "description_ru": { "type": "string" },
+        "sms_number": { "type": "string" },
+        "sms_prefix": { "type": "string" },
+        "restriction": { "type": "boolean" },
+        "restriction_time": { "type": "number" },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "latitude": { "type": "number" },
+                "longitude": { "type": "number" }
+              },
+              "required": ["latitude", "longitude"]
+            }
+          }
+        },
+        "parking_hours": {
+          "type": "object",
+          "properties": {
+            "weekday": { "$ref": "#/$defs/timeWindow" },
+            "saturday": { "$ref": "#/$defs/timeWindow" },
+            "sunday": { "$ref": "#/$defs/timeWindow" }
+          },
+          "required": ["weekday", "saturday", "sunday"]
+        },
+        "info_note": {
+          "type": "object",
+          "properties": {
+            "rs": { "type": "string" },
+            "en": { "type": "string" },
+            "ru": { "type": "string" }
+          }
+        },
+        "working_days_override": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "timeWindow": {
+      "type": "object",
+      "properties": {
+        "start": { "type": "number" },
+        "end": { "type": "number" }
+      }
+    }
+  }
+}

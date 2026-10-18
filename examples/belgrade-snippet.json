@@ -1,0 +1,1332 @@
+{
+  "dataVersion": "1.0.0",
+  "minAppVersion": "5.0.0",
+  "note": "Belgrade excerpt — polygons truncated for readability; see parking-config.generated.json for full data.",
+  "city": {
+    "id": "city-beograd",
+    "legacyId": 11,
+    "countryId": "rs",
+    "timezone": "Europe/Belgrade",
+    "shortName": "BG",
+    "center": {
+      "latitude": 44.8163,
+      "longitude": 20.4612
+    },
+    "locales": {
+      "sr-Latn": {
+        "name": "Beograd",
+        "preposition": "1",
+        "cases": {
+          "genitive": "Beograda",
+          "dative": "Beogradu",
+          "accusative": "Beograd",
+          "locative": "Beogradu",
+          "instrumental": "Beogradom"
+        }
+      },
+      "ru": {
+        "name": "Белград"
+      },
+      "en": {
+        "name": "Beograd"
+      }
+    },
+    "zoneIds": [
+      "zone-beograd-zona-a",
+      "zone-beograd-zona-b",
+      "zone-beograd-zona-1",
+      "zone-beograd-zona-2",
+      "zone-beograd-zona-3",
+      "zone-beograd-opste-parkiraliste"
+    ],
+    "coveragePolicyId": "coverage-beograd",
+    "coveragePolygon": null,
+    "fullDayButtonColor": "#FFFFFF",
+    "effectiveFrom": null,
+    "effectiveTo": null
+  },
+  "zones": [
+    {
+      "id": "zone-beograd-zona-a",
+      "legacyId": 111,
+      "cityId": "city-beograd",
+      "color": "#802DA6",
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona A",
+          "description": "Parkirališta u Starom gradu, sa fokusom na Kosančićev venac, okolinu Trga Republike i Skupštine Republike Srbije.\nBez mogućnosti produženog parkiranja."
+        },
+        "sr-Cyrl": {
+          "name": "Зона А",
+          "description": "Паркиралишта у Старом граду, са фокусом на Косанчићев венац, околину Трга Републике и Скупштине Републике Србије.\nБез могућности продуженог паркирања."
+        },
+        "en": {
+          "name": "Zone A",
+          "description": "Street parking in the Stari grad, with a focus on Kosancicev venac, the surroundings of Republic Square (Trg Republike), and the National Assembly of the Republic of Serbia.\nNo possibility of extended parking."
+        },
+        "ru": {
+          "name": "Зона А",
+          "description": "Уличная парковка в «Стари град», с фокусом на «Косанчичев венац», окрестности площади Республики (Трг Републике) и Народной скупщины Республики Сербия.\nБез возможности продления парковки."
+        }
+      },
+      "polygonIds": [
+        "poly-beograd-zona-a-0"
+      ],
+      "productIds": [
+        "prod-timed-beograd-zona-a"
+      ],
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-a"
+      ],
+      "paymentWindows": [
+        {
+          "days": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
+          "startHour": 7.0,
+          "endHour": 22.0
+        },
+        {
+          "days": [
+            "saturday"
+          ],
+          "startHour": 7.0,
+          "endHour": 22.0
+        },
+        {
+          "days": [
+            "sunday"
+          ],
+          "startHour": 7.0,
+          "endHour": 14.0
+        }
+      ],
+      "workingDayOverrides": [],
+      "eligibility": {
+        "type": "public"
+      },
+      "fullDayOnly": false,
+      "seasonalWindows": [],
+      "operatorId": null,
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_polygonCount": 3
+    },
+    {
+      "id": "zone-beograd-zona-b",
+      "legacyId": 116,
+      "cityId": "city-beograd",
+      "color": "#F9F6EE",
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona B",
+          "description": "Parkirališta koja se nalaze samo na donjem Dorćolu do Takovske.\nPostoji mogućnost produženog parkiranja od 60 minuta po ceni od 180 dinara.",
+          "infoNote": "Produženo parkiranje se može uplatiti tek nakon prijema poruke od Parking servisa."
+        },
+        "sr-Cyrl": {
+          "name": "Зона Б",
+          "description": "Паркиралишта која се налазе само на доњем Дорћолу до Таковске.\nПостоји могућност продуженог паркирања од 60 минута по цени од 180 динара."
+        },
+        "en": {
+          "name": "Zone B",
+          "description": "Street parking located only in river side of Dorcol up to Takovska.\nThere is a possibility of extended parking for 60 minutes at a price of 180 dinars.",
+          "infoNote": "Extended parking can only be paid after receiving a message from the Parking Service."
+        },
+        "ru": {
+          "name": "Зона Б",
+          "description": "Уличная парковка, расположенная только в «Доњи Дорћол» до улицы «Таковска».\nСуществует возможность продления парковки на 60 минут по цене 180 динаров.",
+          "infoNote": "Продление парковки можно оплатить только после получения сообщения от службы парковки."
+        }
+      },
+      "polygonIds": [
+        "poly-beograd-zona-b-0"
+      ],
+      "productIds": [
+        "prod-timed-beograd-zona-b"
+      ],
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-b"
+      ],
+      "paymentWindows": [
+        {
+          "days": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
+          "startHour": 7.0,
+          "endHour": 22.0
+        },
+        {
+          "days": [
+            "saturday"
+          ],
+          "startHour": 7.0,
+          "endHour": 22.0
+        },
+        {
+          "days": [
+            "sunday"
+          ],
+          "startHour": 7.0,
+          "endHour": 14.0
+        }
+      ],
+      "workingDayOverrides": [],
+      "eligibility": {
+        "type": "public"
+      },
+      "fullDayOnly": false,
+      "seasonalWindows": [],
+      "operatorId": null,
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_polygonCount": 6
+    },
+    {
+      "id": "zone-beograd-zona-1",
+      "legacyId": 112,
+      "cityId": "city-beograd",
+      "color": "#FF3932",
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona 1",
+          "description": "Parkirališta koja se nalaze između Terazijske terase i Londona, kao i u delovima Donjeg Dorćola i prostor od Skadarlije prema Takovskoj.\nPostoji mogućnost produženog parkiranja od 30 minuta po ceni od 120 dinara.",
+          "infoNote": "Produženo parkiranje se može uplatiti tek nakon prijema poruke od Parking servisa."
+        },
+        "sr-Cyrl": {
+          "name": "Зона 1",
+          "description": "Паркиралишта која се налазе између Теразијске терасе и Лондона, као и у деловима Доњег Дорћола и простор од Скадарлије према Таковској.\nПостоји могућност продуженог паркирања од 30 минута по цени од 120 динара."
+        },
+        "en": {
+          "name": "Zone 1",
+          "description": "Street parking located between Terazijska terasa and London, as well as in parts of Donji Dorcol and the area from Skadarlija towards Takovska.\nThere is a possibility of extended parking for 30 minutes at a price of 120 dinars.",
+          "infoNote": "Extended parking can only be paid after receiving a message from the Parking Service."
+        },
+        "ru": {
+          "name": "Зона 1",
+          "description": "Уличная парковка, расположенная между «Теразийска тераса» и «Лондон», а также в частях «Доњи Дорћол» и на территории от «Скадарлия» в сторону улицы «Таковска».\nСуществует возможность продления парковки на 30 минут по цене 120 динаров.",
+          "infoNote": "Продление парковки можно оплатить только после получения сообщения от службы парковки."
+        }
+      },
+      "polygonIds": [
+        "poly-beograd-zona-1-0"
+      ],
+      "productIds": [
+        "prod-timed-beograd-zona-1"
+      ],
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-1"
+      ],
+      "paymentWindows": [
+        {
+          "days": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
+          "startHour": 7.0,
+          "endHour": 22.0
+        },
+        {
+          "days": [
+            "saturday"
+          ],
+          "startHour": 7.0,
+          "endHour": 22.0
+        },
+        {
+          "days": [
+            "sunday"
+          ],
+          "startHour": 7.0,
+          "endHour": 14.0
+        }
+      ],
+      "workingDayOverrides": [],
+      "eligibility": {
+        "type": "public"
+      },
+      "fullDayOnly": false,
+      "seasonalWindows": [],
+      "operatorId": null,
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_polygonCount": 3
+    },
+    {
+      "id": "zone-beograd-zona-2",
+      "legacyId": 113,
+      "cityId": "city-beograd",
+      "color": "#FFC100",
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona 2",
+          "description": "Parkirališta koja se nalaze na Skadarliji, Londonu, Krunskom vencu, Savamala i deo Savskog venca.\nPostoji mogućnost produženog parkiranja od 60 minuta po ceni od 180 dinara.",
+          "infoNote": "Produženo parkiranje se može uplatiti tek nakon prijema poruke od Parking servisa."
+        },
+        "sr-Cyrl": {
+          "name": "Зона 2",
+          "description": "Паркиралишта која се налазе на Скадарлији, Лондону, Крунском венцу, Савамала и део Савског венца.\nПостоји могућност продуженог паркирања од 60 минута по цени од 180 динара."
+        },
+        "en": {
+          "name": "Zone 2",
+          "description": "Street parking located in Skadarlija, London, Krunski venac, Savamala, and part of Savski venac.\nThere is a possibility of extended parking for 60 minutes at a price of 180 dinars.",
+          "infoNote": "Extended parking can only be paid after receiving a message from the Parking Service."
+        },
+        "ru": {
+          "name": "Зона 2",
+          "description": "Уличная парковка, расположенная в районах «Скадарлия», «Лондон», «Крунски венац», «Савамала» и части района «Савски венац».\nСуществует возможность продления парковки на 60 минут по цене 180 динаров.",
+          "infoNote": "Продление парковки можно оплатить только после получения сообщения от службы парковки."
+        }
+      },
+      "polygonIds": [
+        "poly-beograd-zona-2-0"
+      ],
+      "productIds": [
+        "prod-timed-beograd-zona-2"
+      ],
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-2"
+      ],
+      "paymentWindows": [
+        {
+          "days": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
+          "startHour": 7.0,
+          "endHour": 21.0
+        },
+        {
+          "days": [
+            "saturday"
+          ],
+          "startHour": 7.0,
+          "endHour": 14.0
+        }
+      ],
+      "workingDayOverrides": [],
+      "eligibility": {
+        "type": "public"
+      },
+      "fullDayOnly": false,
+      "seasonalWindows": [],
+      "operatorId": null,
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_polygonCount": 4
+    },
+    {
+      "id": "zone-beograd-zona-3",
+      "legacyId": 115,
+      "cityId": "city-beograd",
+      "color": "#557C55",
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona 3",
+          "description": "Parkirališta u delovima Savskog venca, Vračara, Zvezdare, Palilule, Starog grada, Zemuna, kao i deo Novog Beograda. Postoji mogućnost produženog parkiranja od 60 minuta po ceni od 160 dinara.",
+          "infoNote": "Produženo parkiranje se može uplatiti tek nakon prijema poruke od Parking servisa."
+        },
+        "sr-Cyrl": {
+          "name": "Зона 3",
+          "description": "Паркиралишта у деловима Савског венца, Врачара, Звездаре, Палилуле, Старог града, Земуна, као и део Новог Београда. Постоји могућност продуженог паркирања од 60 минута по цени од 160 динара."
+        },
+        "en": {
+          "name": "Zone 3",
+          "description": "Street parking in parts of Savski venac, Vracar, Zvezdara, Palilula, Stari grad, Zemun, as well as part of Novi Beograd. There is a possibility of extended parking for 60 minutes at a price of 160 dinars.",
+          "infoNote": "Extended parking can only be paid after receiving a message from the Parking Service."
+        },
+        "ru": {
+          "name": "Зона 3",
+          "description": "Уличная парковка в частях районов «Савски венац», «Врачар», «Звездара», «Палилула», «Стари град», «Земун», а также части района «Нови Београд». Существует возможность продления парковки на 60 минут по цене 160 динаров.",
+          "infoNote": "Продление парковки можно оплатить только после получения сообщения от службы парковки."
+        }
+      },
+      "polygonIds": [
+        "poly-beograd-zona-3-0"
+      ],
+      "productIds": [
+        "prod-timed-beograd-zona-3"
+      ],
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-3"
+      ],
+      "paymentWindows": [
+        {
+          "days": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
+          "startHour": 7.0,
+          "endHour": 21.0
+        },
+        {
+          "days": [
+            "saturday"
+          ],
+          "startHour": 7.0,
+          "endHour": 14.0
+        }
+      ],
+      "workingDayOverrides": [],
+      "eligibility": {
+        "type": "public"
+      },
+      "fullDayOnly": false,
+      "seasonalWindows": [],
+      "operatorId": null,
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_polygonCount": 254
+    },
+    {
+      "id": "zone-beograd-opste-parkiraliste",
+      "legacyId": 114,
+      "cityId": "city-beograd",
+      "color": "#007AFF",
+      "locales": {
+        "sr-Latn": {
+          "name": "Opšte parkiralište",
+          "description": "Parkirališta u glavnim ulicama Novog Beograda i deo Senjaka.",
+          "infoNote": "U pojedinim delovima zone, na rezervisanim parking mestima, parkiranje je slobodno tek od 17 časova."
+        },
+        "sr-Cyrl": {
+          "name": "Опште паркиралиште",
+          "description": "Паркиралишта у главним улицама Новог Београда и део Сењака."
+        },
+        "en": {
+          "name": "General Parking Area",
+          "description": "Street parking of main streets of Novi Beograd, and part of Senjak.",
+          "infoNote": "In certain parts of the street parking zone, parking in reserved spots is only available from 5 PM onwards."
+        },
+        "ru": {
+          "name": "Открытая парковка",
+          "description": "Уличная парковка на главных улицах Нового Београда и в части района «Сеняк».",
+          "infoNote": "В некоторых частях зоны на зарезервированных парковочных местах парковка разрешена только с 17:00."
+        }
+      },
+      "polygonIds": [
+        "poly-beograd-opste-parkiraliste-0"
+      ],
+      "productIds": [
+        "prod-timed-beograd-opste-parkiraliste",
+        "prod-fullday-beograd-celodnevna-opste-parkiraliste"
+      ],
+      "paymentMethodIds": [
+        "pay-sms-beograd-opste-parkiraliste",
+        "pay-sms-fullday-beograd-celodnevna-opste-parkiraliste"
+      ],
+      "paymentWindows": [
+        {
+          "days": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday"
+          ],
+          "startHour": 8.0,
+          "endHour": 21.0
+        },
+        {
+          "days": [
+            "saturday"
+          ],
+          "startHour": 8.0,
+          "endHour": 14.0
+        }
+      ],
+      "workingDayOverrides": [],
+      "eligibility": {
+        "type": "public"
+      },
+      "fullDayOnly": false,
+      "seasonalWindows": [],
+      "operatorId": null,
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_polygonCount": 76
+    }
+  ],
+  "polygons": [
+    {
+      "id": "poly-beograd-zona-a-0",
+      "zoneId": "zone-beograd-zona-a",
+      "ring": [
+        {
+          "latitude": 44.81451224195,
+          "longitude": 20.45658980598
+        },
+        {
+          "latitude": 44.81423079047,
+          "longitude": 20.45767184474
+        },
+        {
+          "latitude": 44.81400651983,
+          "longitude": 20.45827981002
+        },
+        {
+          "latitude": 0,
+          "longitude": 0,
+          "_truncated": true
+        }
+      ],
+      "overrides": {},
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_ringPointCount": 71
+    },
+    {
+      "id": "poly-beograd-zona-b-0",
+      "zoneId": "zone-beograd-zona-b",
+      "ring": [
+        {
+          "latitude": 44.81411733452,
+          "longitude": 20.47305795472
+        },
+        {
+          "latitude": 44.81426346647,
+          "longitude": 20.47319302535
+        },
+        {
+          "latitude": 44.814571608,
+          "longitude": 20.47248531104
+        },
+        {
+          "latitude": 0,
+          "longitude": 0,
+          "_truncated": true
+        }
+      ],
+      "overrides": {},
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_ringPointCount": 13
+    },
+    {
+      "id": "poly-beograd-zona-1-0",
+      "zoneId": "zone-beograd-zona-1",
+      "ring": [
+        {
+          "latitude": 44.81581461734,
+          "longitude": 20.46249336477
+        },
+        {
+          "latitude": 44.8156654315,
+          "longitude": 20.46414169728
+        },
+        {
+          "latitude": 44.81628000544,
+          "longitude": 20.46414151929
+        },
+        {
+          "latitude": 0,
+          "longitude": 0,
+          "_truncated": true
+        }
+      ],
+      "overrides": {},
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_ringPointCount": 73
+    },
+    {
+      "id": "poly-beograd-zona-2-0",
+      "zoneId": "zone-beograd-zona-2",
+      "ring": [
+        {
+          "latitude": 44.80831282161,
+          "longitude": 20.46339117679
+        },
+        {
+          "latitude": 44.80773826538,
+          "longitude": 20.46263962716
+        },
+        {
+          "latitude": 44.80789811394,
+          "longitude": 20.46240091055
+        },
+        {
+          "latitude": 0,
+          "longitude": 0,
+          "_truncated": true
+        }
+      ],
+      "overrides": {},
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_ringPointCount": 95
+    },
+    {
+      "id": "poly-beograd-zona-3-0",
+      "zoneId": "zone-beograd-zona-3",
+      "ring": [
+        {
+          "latitude": 44.81492815725,
+          "longitude": 20.42690724
+        },
+        {
+          "latitude": 44.81504285372,
+          "longitude": 20.42701424116
+        },
+        {
+          "latitude": 44.81522593287,
+          "longitude": 20.42662426695
+        },
+        {
+          "latitude": 0,
+          "longitude": 0,
+          "_truncated": true
+        }
+      ],
+      "overrides": {},
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_ringPointCount": 5
+    },
+    {
+      "id": "poly-beograd-opste-parkiraliste-0",
+      "zoneId": "zone-beograd-opste-parkiraliste",
+      "ring": [
+        {
+          "latitude": 44.82441816624,
+          "longitude": 20.41900679335
+        },
+        {
+          "latitude": 44.8243482898,
+          "longitude": 20.41915745546
+        },
+        {
+          "latitude": 44.82496942452,
+          "longitude": 20.41973010709
+        },
+        {
+          "latitude": 0,
+          "longitude": 0,
+          "_truncated": true
+        }
+      ],
+      "overrides": {},
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "_ringPointCount": 5
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-timed-beograd-zona-a",
+      "legacyId": 111,
+      "kind": "timed",
+      "zoneIds": [
+        "zone-beograd-zona-a"
+      ],
+      "coversZoneIds": [],
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona A",
+          "description": "Parkirališta u Starom gradu, sa fokusom na Kosančićev venac, okolinu Trga Republike i Skupštine Republike Srbije.\nBez mogućnosti produženog parkiranja."
+        },
+        "sr-Cyrl": {
+          "name": "Зона А",
+          "description": "Паркиралишта у Старом граду, са фокусом на Косанчићев венац, околину Трга Републике и Скупштине Републике Србије.\nБез могућности продуженог паркирања."
+        },
+        "en": {
+          "name": "Zone A",
+          "description": "Street parking in the Stari grad, with a focus on Kosancicev venac, the surroundings of Republic Square (Trg Republike), and the National Assembly of the Republic of Serbia.\nNo possibility of extended parking."
+        },
+        "ru": {
+          "name": "Зона А",
+          "description": "Уличная парковка в «Стари град», с фокусом на «Косанчичев венац», окрестности площади Республики (Трг Републике) и Народной скупщины Республики Сербия.\nБез возможности продления парковки."
+        }
+      },
+      "color": "#802DA6",
+      "price": {
+        "amount": 120.0,
+        "currencyId": "rsd"
+      },
+      "pricing": {
+        "mode": "per_hour",
+        "baseDurationMinutes": 30,
+        "ladder": [],
+        "nightRates": [],
+        "seasonalPrices": []
+      },
+      "validity": {
+        "mode": null,
+        "durationMinutes": 30,
+        "buttonColor": null
+      },
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-a"
+      ],
+      "ruleIds": [
+        "rule-max-duration-beograd-zona-a",
+        "rule-cooldown-beograd-zona-a"
+      ],
+      "eligibility": {
+        "type": "public"
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "prod-timed-beograd-zona-b",
+      "legacyId": 116,
+      "kind": "timed",
+      "zoneIds": [
+        "zone-beograd-zona-b"
+      ],
+      "coversZoneIds": [],
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona B",
+          "description": "Parkirališta koja se nalaze samo na donjem Dorćolu do Takovske.\nPostoji mogućnost produženog parkiranja od 60 minuta po ceni od 180 dinara.",
+          "infoNote": "Produženo parkiranje se može uplatiti tek nakon prijema poruke od Parking servisa."
+        },
+        "sr-Cyrl": {
+          "name": "Зона Б",
+          "description": "Паркиралишта која се налазе само на доњем Дорћолу до Таковске.\nПостоји могућност продуженог паркирања од 60 минута по цени од 180 динара."
+        },
+        "en": {
+          "name": "Zone B",
+          "description": "Street parking located only in river side of Dorcol up to Takovska.\nThere is a possibility of extended parking for 60 minutes at a price of 180 dinars.",
+          "infoNote": "Extended parking can only be paid after receiving a message from the Parking Service."
+        },
+        "ru": {
+          "name": "Зона Б",
+          "description": "Уличная парковка, расположенная только в «Доњи Дорћол» до улицы «Таковска».\nСуществует возможность продления парковки на 60 минут по цене 180 динаров.",
+          "infoNote": "Продление парковки можно оплатить только после получения сообщения от службы парковки."
+        }
+      },
+      "color": "#F9F6EE",
+      "price": {
+        "amount": 65.0,
+        "currencyId": "rsd"
+      },
+      "pricing": {
+        "mode": "per_hour",
+        "baseDurationMinutes": 60,
+        "ladder": [],
+        "nightRates": [],
+        "seasonalPrices": []
+      },
+      "validity": {
+        "mode": null,
+        "durationMinutes": 60,
+        "buttonColor": null
+      },
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-b"
+      ],
+      "ruleIds": [
+        "rule-max-duration-beograd-zona-b",
+        "rule-cooldown-beograd-zona-b"
+      ],
+      "eligibility": {
+        "type": "public"
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "prod-timed-beograd-zona-1",
+      "legacyId": 112,
+      "kind": "timed",
+      "zoneIds": [
+        "zone-beograd-zona-1"
+      ],
+      "coversZoneIds": [],
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona 1",
+          "description": "Parkirališta koja se nalaze između Terazijske terase i Londona, kao i u delovima Donjeg Dorćola i prostor od Skadarlije prema Takovskoj.\nPostoji mogućnost produženog parkiranja od 30 minuta po ceni od 120 dinara.",
+          "infoNote": "Produženo parkiranje se može uplatiti tek nakon prijema poruke od Parking servisa."
+        },
+        "sr-Cyrl": {
+          "name": "Зона 1",
+          "description": "Паркиралишта која се налазе између Теразијске терасе и Лондона, као и у деловима Доњег Дорћола и простор од Скадарлије према Таковској.\nПостоји могућност продуженог паркирања од 30 минута по цени од 120 динара."
+        },
+        "en": {
+          "name": "Zone 1",
+          "description": "Street parking located between Terazijska terasa and London, as well as in parts of Donji Dorcol and the area from Skadarlija towards Takovska.\nThere is a possibility of extended parking for 30 minutes at a price of 120 dinars.",
+          "infoNote": "Extended parking can only be paid after receiving a message from the Parking Service."
+        },
+        "ru": {
+          "name": "Зона 1",
+          "description": "Уличная парковка, расположенная между «Теразийска тераса» и «Лондон», а также в частях «Доњи Дорћол» и на территории от «Скадарлия» в сторону улицы «Таковска».\nСуществует возможность продления парковки на 30 минут по цене 120 динаров.",
+          "infoNote": "Продление парковки можно оплатить только после получения сообщения от службы парковки."
+        }
+      },
+      "color": "#FF3932",
+      "price": {
+        "amount": 80.0,
+        "currencyId": "rsd"
+      },
+      "pricing": {
+        "mode": "per_hour",
+        "baseDurationMinutes": 60,
+        "ladder": [],
+        "nightRates": [],
+        "seasonalPrices": []
+      },
+      "validity": {
+        "mode": null,
+        "durationMinutes": 60,
+        "buttonColor": null
+      },
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-1"
+      ],
+      "ruleIds": [
+        "rule-max-duration-beograd-zona-1",
+        "rule-cooldown-beograd-zona-1"
+      ],
+      "eligibility": {
+        "type": "public"
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "prod-timed-beograd-zona-2",
+      "legacyId": 113,
+      "kind": "timed",
+      "zoneIds": [
+        "zone-beograd-zona-2"
+      ],
+      "coversZoneIds": [],
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona 2",
+          "description": "Parkirališta koja se nalaze na Skadarliji, Londonu, Krunskom vencu, Savamala i deo Savskog venca.\nPostoji mogućnost produženog parkiranja od 60 minuta po ceni od 180 dinara.",
+          "infoNote": "Produženo parkiranje se može uplatiti tek nakon prijema poruke od Parking servisa."
+        },
+        "sr-Cyrl": {
+          "name": "Зона 2",
+          "description": "Паркиралишта која се налазе на Скадарлији, Лондону, Крунском венцу, Савамала и део Савског венца.\nПостоји могућност продуженог паркирања од 60 минута по цени од 180 динара."
+        },
+        "en": {
+          "name": "Zone 2",
+          "description": "Street parking located in Skadarlija, London, Krunski venac, Savamala, and part of Savski venac.\nThere is a possibility of extended parking for 60 minutes at a price of 180 dinars.",
+          "infoNote": "Extended parking can only be paid after receiving a message from the Parking Service."
+        },
+        "ru": {
+          "name": "Зона 2",
+          "description": "Уличная парковка, расположенная в районах «Скадарлия», «Лондон», «Крунски венац», «Савамала» и части района «Савски венац».\nСуществует возможность продления парковки на 60 минут по цене 180 динаров.",
+          "infoNote": "Продление парковки можно оплатить только после получения сообщения от службы парковки."
+        }
+      },
+      "color": "#FFC100",
+      "price": {
+        "amount": 65.0,
+        "currencyId": "rsd"
+      },
+      "pricing": {
+        "mode": "per_hour",
+        "baseDurationMinutes": 60,
+        "ladder": [],
+        "nightRates": [],
+        "seasonalPrices": []
+      },
+      "validity": {
+        "mode": null,
+        "durationMinutes": 60,
+        "buttonColor": null
+      },
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-2"
+      ],
+      "ruleIds": [
+        "rule-max-duration-beograd-zona-2",
+        "rule-cooldown-beograd-zona-2"
+      ],
+      "eligibility": {
+        "type": "public"
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "prod-timed-beograd-zona-3",
+      "legacyId": 115,
+      "kind": "timed",
+      "zoneIds": [
+        "zone-beograd-zona-3"
+      ],
+      "coversZoneIds": [],
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona 3",
+          "description": "Parkirališta u delovima Savskog venca, Vračara, Zvezdare, Palilule, Starog grada, Zemuna, kao i deo Novog Beograda. Postoji mogućnost produženog parkiranja od 60 minuta po ceni od 160 dinara.",
+          "infoNote": "Produženo parkiranje se može uplatiti tek nakon prijema poruke od Parking servisa."
+        },
+        "sr-Cyrl": {
+          "name": "Зона 3",
+          "description": "Паркиралишта у деловима Савског венца, Врачара, Звездаре, Палилуле, Старог града, Земуна, као и део Новог Београда. Постоји могућност продуженог паркирања од 60 минута по цени од 160 динара."
+        },
+        "en": {
+          "name": "Zone 3",
+          "description": "Street parking in parts of Savski venac, Vracar, Zvezdara, Palilula, Stari grad, Zemun, as well as part of Novi Beograd. There is a possibility of extended parking for 60 minutes at a price of 160 dinars.",
+          "infoNote": "Extended parking can only be paid after receiving a message from the Parking Service."
+        },
+        "ru": {
+          "name": "Зона 3",
+          "description": "Уличная парковка в частях районов «Савски венац», «Врачар», «Звездара», «Палилула», «Стари град», «Земун», а также части района «Нови Београд». Существует возможность продления парковки на 60 минут по цене 160 динаров.",
+          "infoNote": "Продление парковки можно оплатить только после получения сообщения от службы парковки."
+        }
+      },
+      "color": "#557C55",
+      "price": {
+        "amount": 55.0,
+        "currencyId": "rsd"
+      },
+      "pricing": {
+        "mode": "per_hour",
+        "baseDurationMinutes": 60,
+        "ladder": [],
+        "nightRates": [],
+        "seasonalPrices": []
+      },
+      "validity": {
+        "mode": null,
+        "durationMinutes": 60,
+        "buttonColor": null
+      },
+      "paymentMethodIds": [
+        "pay-sms-beograd-zona-3"
+      ],
+      "ruleIds": [
+        "rule-max-duration-beograd-zona-3",
+        "rule-cooldown-beograd-zona-3"
+      ],
+      "eligibility": {
+        "type": "public"
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "prod-timed-beograd-opste-parkiraliste",
+      "legacyId": 114,
+      "kind": "timed",
+      "zoneIds": [
+        "zone-beograd-opste-parkiraliste"
+      ],
+      "coversZoneIds": [],
+      "locales": {
+        "sr-Latn": {
+          "name": "Opšte parkiralište",
+          "description": "Parkirališta u glavnim ulicama Novog Beograda i deo Senjaka.",
+          "infoNote": "U pojedinim delovima zone, na rezervisanim parking mestima, parkiranje je slobodno tek od 17 časova."
+        },
+        "sr-Cyrl": {
+          "name": "Опште паркиралиште",
+          "description": "Паркиралишта у главним улицама Новог Београда и део Сењака."
+        },
+        "en": {
+          "name": "General Parking Area",
+          "description": "Street parking of main streets of Novi Beograd, and part of Senjak.",
+          "infoNote": "In certain parts of the street parking zone, parking in reserved spots is only available from 5 PM onwards."
+        },
+        "ru": {
+          "name": "Открытая парковка",
+          "description": "Уличная парковка на главных улицах Нового Београда и в части района «Сеняк».",
+          "infoNote": "В некоторых частях зоны на зарезервированных парковочных местах парковка разрешена только с 17:00."
+        }
+      },
+      "color": "#007AFF",
+      "price": {
+        "amount": 45.0,
+        "currencyId": "rsd"
+      },
+      "pricing": {
+        "mode": "per_hour",
+        "baseDurationMinutes": 60,
+        "ladder": [],
+        "nightRates": [],
+        "seasonalPrices": []
+      },
+      "validity": {
+        "mode": null,
+        "durationMinutes": 60,
+        "buttonColor": null
+      },
+      "paymentMethodIds": [
+        "pay-sms-beograd-opste-parkiraliste"
+      ],
+      "ruleIds": [],
+      "eligibility": {
+        "type": "public"
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "prod-fullday-beograd-celodnevna-opste-parkiraliste",
+      "legacyId": 1101,
+      "kind": "full_day",
+      "zoneIds": [
+        "zone-beograd-opste-parkiraliste"
+      ],
+      "coversZoneIds": [],
+      "locales": {
+        "sr-Latn": {
+          "name": "Celodnevna: Opšte parkiralište",
+          "description": "Važi do isteka naplate u danu kada je uplaćena."
+        },
+        "sr-Cyrl": {
+          "name": "Целодневна: Опште паркиралиште",
+          "description": "Важи до истека наплате у дану када је уплаћена."
+        },
+        "en": {
+          "name": "Daily ticket: General Parking Area",
+          "description": "It is valid until the payment expires on the day it was paid."
+        },
+        "ru": {
+          "name": "Суточный: Открытая парковка",
+          "description": "Действителен до окончания оплаты в день покупки."
+        }
+      },
+      "color": "#FFFFFF",
+      "price": {
+        "amount": 400.0,
+        "currencyId": "rsd"
+      },
+      "pricing": {
+        "mode": "fixed",
+        "baseDurationMinutes": 1440,
+        "ladder": [],
+        "nightRates": [],
+        "seasonalPrices": []
+      },
+      "validity": {
+        "mode": "calendar_day",
+        "durationMinutes": 1440,
+        "buttonColor": "#FFFFFF"
+      },
+      "paymentMethodIds": [
+        "pay-sms-fullday-beograd-celodnevna-opste-parkiraliste"
+      ],
+      "ruleIds": [],
+      "eligibility": {
+        "type": "public"
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "pay-webview-card-example",
+      "type": "webview_card",
+      "enabled": false,
+      "webviewCard": {
+        "urlTemplate": "https://pay.example.com/checkout?zone={zoneId}&product={productId}&plate={plate}",
+        "returnUrlScheme": "parkingapp://payment-result",
+        "parameters": {}
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "pay-sms-beograd-zona-a",
+      "type": "sms",
+      "enabled": true,
+      "sms": {
+        "number": "9114",
+        "prefix": "",
+        "messageSlots": [
+          {
+            "index": 1,
+            "durationMinutes": 30,
+            "sendWindow": null
+          }
+        ],
+        "maxDurationMinutes": 30,
+        "cooldownAfterMax": {
+          "enabled": true,
+          "resumeNextPaymentWindow": true
+        }
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "pay-sms-beograd-zona-b",
+      "type": "sms",
+      "enabled": true,
+      "sms": {
+        "number": "9116",
+        "prefix": "",
+        "messageSlots": [
+          {
+            "index": 1,
+            "durationMinutes": 60,
+            "sendWindow": null
+          }
+        ],
+        "maxDurationMinutes": 120,
+        "cooldownAfterMax": {
+          "enabled": true,
+          "resumeNextPaymentWindow": true
+        }
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "pay-sms-beograd-zona-1",
+      "type": "sms",
+      "enabled": true,
+      "sms": {
+        "number": "9111",
+        "prefix": "",
+        "messageSlots": [
+          {
+            "index": 1,
+            "durationMinutes": 60,
+            "sendWindow": null
+          }
+        ],
+        "maxDurationMinutes": 60,
+        "cooldownAfterMax": {
+          "enabled": true,
+          "resumeNextPaymentWindow": true
+        }
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "pay-sms-beograd-zona-2",
+      "type": "sms",
+      "enabled": true,
+      "sms": {
+        "number": "9112",
+        "prefix": "",
+        "messageSlots": [
+          {
+            "index": 1,
+            "durationMinutes": 60,
+            "sendWindow": null
+          }
+        ],
+        "maxDurationMinutes": 120,
+        "cooldownAfterMax": {
+          "enabled": true,
+          "resumeNextPaymentWindow": true
+        }
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "pay-sms-beograd-zona-3",
+      "type": "sms",
+      "enabled": true,
+      "sms": {
+        "number": "9113",
+        "prefix": "",
+        "messageSlots": [
+          {
+            "index": 1,
+            "durationMinutes": 60,
+            "sendWindow": null
+          }
+        ],
+        "maxDurationMinutes": 180,
+        "cooldownAfterMax": {
+          "enabled": true,
+          "resumeNextPaymentWindow": true
+        }
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "pay-sms-beograd-opste-parkiraliste",
+      "type": "sms",
+      "enabled": true,
+      "sms": {
+        "number": "9119",
+        "prefix": "",
+        "messageSlots": [
+          {
+            "index": 1,
+            "durationMinutes": 60,
+            "sendWindow": null
+          }
+        ],
+        "maxDurationMinutes": null,
+        "cooldownAfterMax": null
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    },
+    {
+      "id": "pay-sms-fullday-beograd-celodnevna-opste-parkiraliste",
+      "type": "sms",
+      "enabled": true,
+      "sms": {
+        "number": "9118",
+        "prefix": "",
+        "messageSlots": [
+          {
+            "index": 1,
+            "durationMinutes": 1440,
+            "sendWindow": null
+          }
+        ],
+        "maxDurationMinutes": 1440,
+        "cooldownAfterMax": null
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule-max-duration-beograd-zona-a",
+      "type": "max_duration",
+      "maxDurationMinutes": 30,
+      "notes": "Mapped from legacy restriction_time"
+    },
+    {
+      "id": "rule-cooldown-beograd-zona-a",
+      "type": "cooldown_after_max",
+      "enabled": true,
+      "resumeNextPaymentWindow": true,
+      "notes": "Inferred: block further SMS after max duration until next payment window"
+    },
+    {
+      "id": "rule-max-duration-beograd-zona-b",
+      "type": "max_duration",
+      "maxDurationMinutes": 120,
+      "notes": "Mapped from legacy restriction_time"
+    },
+    {
+      "id": "rule-cooldown-beograd-zona-b",
+      "type": "cooldown_after_max",
+      "enabled": true,
+      "resumeNextPaymentWindow": true,
+      "notes": "Inferred: block further SMS after max duration until next payment window"
+    },
+    {
+      "id": "rule-max-duration-beograd-zona-1",
+      "type": "max_duration",
+      "maxDurationMinutes": 60,
+      "notes": "Mapped from legacy restriction_time"
+    },
+    {
+      "id": "rule-cooldown-beograd-zona-1",
+      "type": "cooldown_after_max",
+      "enabled": true,
+      "resumeNextPaymentWindow": true,
+      "notes": "Inferred: block further SMS after max duration until next payment window"
+    },
+    {
+      "id": "rule-max-duration-beograd-zona-2",
+      "type": "max_duration",
+      "maxDurationMinutes": 120,
+      "notes": "Mapped from legacy restriction_time"
+    },
+    {
+      "id": "rule-cooldown-beograd-zona-2",
+      "type": "cooldown_after_max",
+      "enabled": true,
+      "resumeNextPaymentWindow": true,
+      "notes": "Inferred: block further SMS after max duration until next payment window"
+    },
+    {
+      "id": "rule-max-duration-beograd-zona-3",
+      "type": "max_duration",
+      "maxDurationMinutes": 180,
+      "notes": "Mapped from legacy restriction_time"
+    },
+    {
+      "id": "rule-cooldown-beograd-zona-3",
+      "type": "cooldown_after_max",
+      "enabled": true,
+      "resumeNextPaymentWindow": true,
+      "notes": "Inferred: block further SMS after max duration until next payment window"
+    }
+  ],
+  "coveragePolicy": {
+    "id": "coverage-beograd",
+    "cityId": "city-beograd",
+    "onOverlap": "offer_highest_rank",
+    "zones": [
+      {
+        "zoneId": "zone-beograd-zona-a",
+        "rank": 120006,
+        "coversZoneIds": []
+      },
+      {
+        "zoneId": "zone-beograd-zona-1",
+        "rank": 80005,
+        "coversZoneIds": []
+      },
+      {
+        "zoneId": "zone-beograd-zona-b",
+        "rank": 65004,
+        "coversZoneIds": []
+      },
+      {
+        "zoneId": "zone-beograd-zona-2",
+        "rank": 65003,
+        "coversZoneIds": []
+      },
+      {
+        "zoneId": "zone-beograd-zona-3",
+        "rank": 55002,
+        "coversZoneIds": []
+      },
+      {
+        "zoneId": "zone-beograd-opste-parkiraliste",
+        "rank": 45001,
+        "coversZoneIds": []
+      }
+    ]
+  },
+  "currencies": [
+    {
+      "id": "rsd",
+      "legacyId": 1,
+      "code": "RSD",
+      "symbol": "RSD",
+      "exchangeRate": 1.0,
+      "locales": {
+        "en": {
+          "name": "Serbian Dinar"
+        }
+      }
+    },
+    {
+      "id": "eur",
+      "legacyId": 2,
+      "code": "EUR",
+      "symbol": "€",
+      "exchangeRate": 117.4,
+      "locales": {
+        "en": {
+          "name": "Euro"
+        }
+      }
+    }
+  ]
+}
