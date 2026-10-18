@@ -570,10 +570,12 @@ def transform_geojson_files(
                     else:
                         poly_id = ids.unique(f"poly-{city_slug}-{z_slug}")
                     polygon_ids.append(poly_id)
-                    overrides: dict[str, Any] = {}
                     sub = p.get("parking:zone:subzone") or p.get("podzona")
-                    if sub:
-                        overrides["locales"] = empty_locales_map(f"{z_name} ({sub})")
+                    overrides = (
+                        {"locales": empty_locales_map(f"{z_name} ({sub})")}
+                        if sub
+                        else None
+                    )
                     polygons_out.append(
                         {
                             "id": poly_id,
@@ -642,6 +644,8 @@ def transform_geojson_files(
                     pay_id = ids.unique(f"pay-sms-{city_slug}-{z_slug}")
                     payment_method_ids.append(pay_id)
                     slots = message_slots_from_ladder(mode, base_mins, ladder)
+                    for slot in slots:
+                        slot.setdefault("sendWindow", None)
                     payment_methods_out.append(
                         {
                             "id": pay_id,
@@ -654,6 +658,7 @@ def transform_geojson_files(
                                 "maxDurationMinutes": max_minutes,
                                 "cooldownAfterMax": cooldown_obj,
                             },
+                            "webviewCard": None,
                             "effectiveFrom": None,
                             "effectiveTo": None,
                         }
@@ -677,6 +682,7 @@ def transform_geojson_files(
                                 "ladder": ladder,
                                 "nightRates": [],
                                 "seasonalPrices": [],
+                                "byDay": None,
                             },
                             "validity": {
                                 "mode": None,
@@ -727,6 +733,7 @@ def transform_geojson_files(
                                 "maxDurationMinutes": 1440,
                                 "cooldownAfterMax": None,
                             },
+                            "webviewCard": None,
                             "effectiveFrom": None,
                             "effectiveTo": None,
                         }
@@ -770,6 +777,7 @@ def transform_geojson_files(
                                 "ladder": [],
                                 "nightRates": [],
                                 "seasonalPrices": [],
+                                "byDay": None,
                             },
                             "validity": {
                                 "mode": validity_mode,
@@ -840,6 +848,7 @@ def transform_geojson_files(
                         "fullDayOnly": full_day_only,
                         "seasonalWindows": [],
                         "operatorId": operator_id,
+                        "holidayPolicy": None,
                         "effectiveFrom": None,
                         "effectiveTo": None,
                     }
@@ -852,7 +861,7 @@ def transform_geojson_files(
                     "legacyId": legacy_city_id,
                     "countryId": country_id,
                     "timezone": tz,
-                    "shortName": sample.get("city_short_name"),
+                    "shortName": sample.get("city_short_name") or None,
                     "center": center,
                     "locales": city_locales_from_props(sample),
                     "zoneIds": zone_ids,
@@ -892,6 +901,10 @@ def transform_geojson_files(
                 + ". SMS sendWindow / city cases / coverage (coversZoneIds) left for manual fill — not seeded."
             ),
         },
+        "client": {
+            "supportedLocales": ["sr-Latn", "sr-Cyrl", "en", "ru"],
+            "localeFallback": ["sr-Latn", "en", "sr-Cyrl", "ru"],
+        },
         "locales": LOCALE_CATALOG,
         "currencies": CURRENCY_SEED,
         "countries": countries,
@@ -905,6 +918,7 @@ def transform_geojson_files(
         "coveragePolicies": [],
         "residentPermits": [],
         "fines": fines_out,
+        "holidays": [],
     }
 
 

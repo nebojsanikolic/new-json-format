@@ -2,6 +2,20 @@
   "schemaVersion": "1.0.0",
   "version": "2026.10.18.1",
   "generatedAt": "2026-10-18T13:00:00Z",
+  "client": {
+    "supportedLocales": [
+      "sr-Latn",
+      "sr-Cyrl",
+      "en",
+      "ru"
+    ],
+    "localeFallback": [
+      "sr-Latn",
+      "en",
+      "sr-Cyrl",
+      "ru"
+    ]
+  },
   "locales": [
     {
       "id": "sr-Latn",

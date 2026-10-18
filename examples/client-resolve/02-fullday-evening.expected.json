@@ -1,0 +1,58 @@
+{
+  "scenario": "full-day-lot-evening",
+  "available": true,
+  "blockedReason": null,
+  "zoneId": "zone-fullday-1",
+  "polygonId": "poly-fullday-1",
+  "locale": "en",
+  "at": "2026-10-14T18:00:00+02:00",
+  "displayName": "Market lot",
+  "description": null,
+  "color": "#1565C0",
+  "fullDayOnly": true,
+  "paymentWindows": [
+    {
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday"
+      ],
+      "startHour": "06:00",
+      "endHour": "14:00"
+    }
+  ],
+  "inPaymentWindow": false,
+  "note": "Outside paymentWindows — not collected for new starts; full_day still listed (app may disable purchase until next window).",
+  "products": [
+    {
+      "id": "prod-fullday-1",
+      "kind": "full_day",
+      "displayName": "Full day",
+      "price": {
+        "amount": 500,
+        "currencyId": "rsd"
+      },
+      "pricingMode": "fixed",
+      "validityMode": "calendar_day",
+      "paymentMethods": [
+        {
+          "id": "pay-sms-fd",
+          "type": "sms",
+          "sms": {
+            "number": "9001",
+            "prefix": null,
+            "maxDurationMinutes": 1440
+          }
+        }
+      ],
+      "rules": {
+        "maxDurationMinutes": null,
+        "freeInitialMinutes": null,
+        "cooldownAfterMax": null
+      }
+    }
+  ]
+}

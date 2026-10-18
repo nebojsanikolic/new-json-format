@@ -2,6 +2,8 @@
 
 Status: **accepted** (schema + Studio Catalog/inspector). Items #8–#12 are **not** in schema. There is **no grace-minutes field** — see [Outside payment windows](#outside-payment-windows-public-on-street).
 
+Full stacked precedence (enabled, closures, dating, holidays, windows, pricing, locales, …): **[evaluation-order.md](evaluation-order.md)**. Resolve algorithm: **[client-resolve.md](client-resolve.md)**.
+
 Shared `LocalesMap` contract: **all four** keys required on every in-app locales object — `sr-Latn`, `sr-Cyrl`, `en`, `ru` (no partial maps).
 
 ## Country + city holidays

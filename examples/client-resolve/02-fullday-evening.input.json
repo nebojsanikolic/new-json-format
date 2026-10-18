@@ -1,0 +1,326 @@
+{
+  "scenario": "full-day-lot-evening",
+  "description": "Full-day-only lot; evening outside paymentWindows",
+  "shared": {
+    "schemaVersion": "1.0.0",
+    "version": "fixture",
+    "client": {
+      "supportedLocales": [
+        "sr-Latn",
+        "sr-Cyrl",
+        "en",
+        "ru"
+      ],
+      "localeFallback": [
+        "sr-Latn",
+        "en",
+        "sr-Cyrl",
+        "ru"
+      ]
+    },
+    "locales": [
+      {
+        "id": "sr-Latn",
+        "name": "Srpski (latinica)",
+        "sortOrder": 1
+      },
+      {
+        "id": "sr-Cyrl",
+        "name": "Srpski (ćirilica)",
+        "sortOrder": 2
+      },
+      {
+        "id": "en",
+        "name": "English",
+        "sortOrder": 3
+      },
+      {
+        "id": "ru",
+        "name": "Русский",
+        "sortOrder": 4
+      }
+    ],
+    "currencies": [
+      {
+        "id": "rsd",
+        "code": "RSD",
+        "symbol": "RSD",
+        "exchangeRate": 1,
+        "locales": {
+          "sr-Latn": {
+            "name": "RSD"
+          },
+          "sr-Cyrl": {
+            "name": "RSD"
+          },
+          "en": {
+            "name": "RSD"
+          },
+          "ru": {
+            "name": "RSD"
+          }
+        }
+      }
+    ],
+    "countries": [
+      {
+        "id": "rs",
+        "timezone": "Europe/Belgrade",
+        "defaultCurrencyId": "rsd",
+        "languageSortOrder": [
+          "sr-Latn",
+          "sr-Cyrl",
+          "en",
+          "ru"
+        ],
+        "locales": {
+          "sr-Latn": {
+            "name": "Srbija"
+          },
+          "sr-Cyrl": {
+            "name": "Србија"
+          },
+          "en": {
+            "name": "Serbia"
+          },
+          "ru": {
+            "name": "Сербия"
+          }
+        },
+        "coveragePolygon": null,
+        "effectiveFrom": null,
+        "effectiveTo": null
+      }
+    ],
+    "operators": [],
+    "holidays": []
+  },
+  "city": {
+    "cityId": "city-beograd",
+    "countryId": "rs",
+    "schemaVersion": "1.0.0",
+    "version": "fixture",
+    "city": {
+      "id": "city-beograd",
+      "countryId": "rs",
+      "timezone": "Europe/Belgrade",
+      "center": [
+        44.8176,
+        20.4569
+      ],
+      "locales": {
+        "sr-Latn": {
+          "name": "Beograd"
+        },
+        "sr-Cyrl": {
+          "name": "Београд"
+        },
+        "en": {
+          "name": "Belgrade"
+        },
+        "ru": {
+          "name": "Белград"
+        }
+      },
+      "zoneIds": [
+        "zone-fullday-1"
+      ],
+      "coveragePolicyId": "coverage-beograd",
+      "coveragePolygon": null,
+      "fullDayButtonColor": null,
+      "effectiveFrom": null,
+      "effectiveTo": null,
+      "legacyId": null,
+      "shortName": "BG"
+    },
+    "zones": [
+      {
+        "id": "zone-fullday-1",
+        "legacyId": null,
+        "cityId": "city-beograd",
+        "enabled": true,
+        "color": "#1565C0",
+        "displayOrder": 2,
+        "locales": {
+          "sr-Latn": {
+            "name": "Pijaca"
+          },
+          "sr-Cyrl": {
+            "name": "Пијаца"
+          },
+          "en": {
+            "name": "Market lot"
+          },
+          "ru": {
+            "name": "Рынок"
+          }
+        },
+        "polygonIds": [
+          "poly-fullday-1"
+        ],
+        "productIds": [
+          "prod-fullday-1"
+        ],
+        "paymentMethodIds": [
+          "pay-sms-fd"
+        ],
+        "paymentWindows": [
+          {
+            "days": [
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday"
+            ],
+            "startHour": "06:00",
+            "endHour": "14:00"
+          }
+        ],
+        "workingDayOverrides": [],
+        "eligibility": {
+          "type": "public"
+        },
+        "fullDayOnly": true,
+        "seasonalWindows": [],
+        "operatorId": null,
+        "holidayPolicy": null,
+        "closures": [],
+        "effectiveFrom": null,
+        "effectiveTo": null
+      }
+    ],
+    "polygons": [
+      {
+        "id": "poly-fullday-1",
+        "zoneId": "zone-fullday-1",
+        "enabled": true,
+        "ring": [
+          [
+            44.81,
+            20.45
+          ],
+          [
+            44.81,
+            20.451
+          ],
+          [
+            44.809,
+            20.451
+          ],
+          [
+            44.809,
+            20.45
+          ],
+          [
+            44.81,
+            20.45
+          ]
+        ],
+        "ringTruncated": null,
+        "overrides": null,
+        "closures": [],
+        "effectiveFrom": null,
+        "effectiveTo": null
+      }
+    ],
+    "products": [
+      {
+        "id": "prod-fullday-1",
+        "legacyId": null,
+        "kind": "full_day",
+        "zoneIds": [
+          "zone-fullday-1"
+        ],
+        "coversZoneIds": [],
+        "locales": {
+          "sr-Latn": {
+            "name": "Celodnevna"
+          },
+          "sr-Cyrl": {
+            "name": "Целодневна"
+          },
+          "en": {
+            "name": "Full day"
+          },
+          "ru": {
+            "name": "Дневной"
+          }
+        },
+        "color": "#1565C0",
+        "price": {
+          "amount": 500,
+          "currencyId": "rsd"
+        },
+        "pricing": {
+          "mode": "fixed",
+          "baseDurationMinutes": 1440,
+          "ladder": [],
+          "nightRates": [],
+          "seasonalPrices": [],
+          "byDay": null
+        },
+        "validity": {
+          "mode": "calendar_day",
+          "durationMinutes": 1440,
+          "buttonColor": null
+        },
+        "paymentMethodIds": [
+          "pay-sms-fd"
+        ],
+        "ruleIds": [],
+        "eligibility": null,
+        "effectiveFrom": null,
+        "effectiveTo": null
+      }
+    ],
+    "paymentMethods": [
+      {
+        "id": "pay-sms-fd",
+        "type": "sms",
+        "enabled": true,
+        "sms": {
+          "number": "9001",
+          "prefix": null,
+          "messageSlots": [
+            {
+              "index": 1,
+              "durationMinutes": 1440,
+              "sendWindow": null
+            }
+          ],
+          "maxDurationMinutes": 1440,
+          "cooldownAfterMax": null
+        },
+        "webviewCard": null,
+        "effectiveFrom": null,
+        "effectiveTo": null
+      }
+    ],
+    "rules": [],
+    "coveragePolicies": [
+      {
+        "id": "coverage-beograd",
+        "cityId": "city-beograd",
+        "onOverlap": "offer_highest_rank",
+        "zones": [
+          {
+            "zoneId": "zone-fullday-1",
+            "rank": 1000,
+            "coversZoneIds": []
+          }
+        ]
+      }
+    ],
+    "residentPermits": [],
+    "fines": [],
+    "holidays": []
+  },
+  "query": {
+    "zoneId": "zone-fullday-1",
+    "polygonId": "poly-fullday-1",
+    "locale": "en",
+    "at": "2026-10-14T18:00:00+02:00"
+  }
+}

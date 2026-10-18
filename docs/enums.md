@@ -26,6 +26,15 @@ Mental model: one `String`/`rawValue` enum per table below.
 
 All four required on every `LocalesMap` (see [field-reference.md](field-reference.md) locales contract).
 
+### `shared.client` (and monolith `client`)
+
+| Field | Typical value |
+| --- | --- |
+| `supportedLocales` | `["sr-Latn","sr-Cyrl","en","ru"]` |
+| `localeFallback` | `["sr-Latn","en","sr-Cyrl","ru"]` |
+
+Apps resolve display strings with UI locale, then `localeFallback` ([client-resolve.md](client-resolve.md)). Studio split/export always emits this block.
+
 ## `WeekdayKey`
 
 `monday` · `tuesday` · `wednesday` · `thursday` · `friday` · `saturday` · `sunday`

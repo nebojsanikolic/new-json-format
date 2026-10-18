@@ -1,0 +1,54 @@
+{
+  "scenario": "timed-zone-weekday-midday",
+  "available": true,
+  "blockedReason": null,
+  "zoneId": "zone-timed-1",
+  "polygonId": "poly-timed-1",
+  "locale": "en",
+  "at": "2026-10-14T12:00:00+02:00",
+  "displayName": "Zone 1",
+  "description": "Center",
+  "color": "#E53935",
+  "paymentWindows": [
+    {
+      "days": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "startHour": "07:00",
+      "endHour": "21:00"
+    }
+  ],
+  "inPaymentWindow": true,
+  "products": [
+    {
+      "id": "prod-timed-1",
+      "kind": "timed",
+      "displayName": "One hour",
+      "price": {
+        "amount": 80,
+        "currencyId": "rsd"
+      },
+      "pricingMode": "ladder",
+      "paymentMethods": [
+        {
+          "id": "pay-sms-1",
+          "type": "sms",
+          "sms": {
+            "number": "9000",
+            "prefix": "BG",
+            "maxDurationMinutes": 180
+          }
+        }
+      ],
+      "rules": {
+        "maxDurationMinutes": 180,
+        "freeInitialMinutes": 15,
+        "cooldownAfterMax": null
+      }
+    }
+  ]
+}

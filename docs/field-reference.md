@@ -8,9 +8,13 @@ Companion docs: [schema.md](schema.md) (concepts) · [enums.md](enums.md) (close
 | Marker | Meaning |
 | --- | --- |
 | **R** | Required on that object |
-| **O** | Optional (may be `null` or omitted where noted) |
+| **O** | Optional — **prefer explicit `null`** for known scalar/object fields on the stable shape (zone / polygon / product / payment / city / country / fine). Do not require apps to probe “does this key exist?”. Omitting is still valid for older files; validators must accept either. |
+| Arrays | Empty list → `[]` (not `null`) |
+| LocalesMap | Always all four keys: `sr-Latn`, `sr-Cyrl`, `en`, `ru` |
 | string id | Stable back-office id (`city-beograd`, `rsd`, …) |
 | locale map | Object keyed by locale id (`sr-Latn`, `sr-Cyrl`, `en`, `ru`, …) |
+
+Do **not** invent null stubs for nested structures that are not part of that entity’s model (e.g. no fake `sms` object on a webview-only method beyond the stable `webviewCard` / channel fields).
 
 ---
 
@@ -36,12 +40,17 @@ Companion docs: [schema.md](schema.md) (concepts) · [enums.md](enums.md) (close
 | `residentPermits` | array | **R** | Resident permits (may be `[]`). |
 | `fines` | array | **R** | Fine amounts / discounts (may be `[]`). |
 | `holidays` | array | O | Country + city/municipal holidays (omit or `[]`). |
+| `client` | object | O* | Client constants (`supportedLocales`, `localeFallback`). Optional on older monoliths; **always** present on `shared.json` after split/export. |
 
 ```json
 {
   "dataVersion": "1.0.0",
   "minAppVersion": "5.0.0",
   "generatedAt": "2026-10-18T09:37:00Z",
+  "client": {
+    "supportedLocales": ["sr-Latn", "sr-Cyrl", "en", "ru"],
+    "localeFallback": ["sr-Latn", "en", "sr-Cyrl", "ru"]
+  },
   "locales": [],
   "currencies": [],
   "countries": [],
@@ -58,6 +67,15 @@ Companion docs: [schema.md](schema.md) (concepts) · [enums.md](enums.md) (close
   "fines": []
 }
 ```
+
+### `client` (also on `shared.json`)
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `supportedLocales` | string[] | **R** | Locales the UI must support (the four `LocalesMap` keys). |
+| `localeFallback` | string[] | **R** | Ordered fallback when a `LocalesMap` string is empty for the UI locale. Default: `["sr-Latn","en","sr-Cyrl","ru"]`. |
+
+See [enums.md](enums.md) · [client-resolve.md](client-resolve.md) · [evaluation-order.md](evaluation-order.md).
 
 ### `source`
 
@@ -878,11 +896,14 @@ Split a monolith with `scripts/split_parking_config.py`. Tiny sample:
 | Path | Role |
 | --- | --- |
 | [schema.md](schema.md) | Concept guide |
+| [client-resolve.md](client-resolve.md) | App resolve algorithm |
+| [evaluation-order.md](evaluation-order.md) | Full precedence cheat sheet |
 | [parking-config.schema.json](parking-config.schema.json) | JSON Schema |
 | [delivery-manifest.md](delivery-manifest.md) | Manifest + shared + per-city delivery + `forceUpdate` |
 | [geojson-import.md](geojson-import.md) | Local GeoJSON → monolith (confidential) |
 | [../data/parking-config.generated.json](../data/parking-config.generated.json) | Full generated config (monolith) |
 | [../examples/belgrade-snippet.json](../examples/belgrade-snippet.json) | Belgrade excerpt |
 | [../examples/delivery/](../examples/delivery/) | Minimal manifest delivery stub |
+| [../examples/client-resolve/](../examples/client-resolve/) | Golden resolve fixtures |
 | [requirements.md](requirements.md) | Product requirements |
 | [project-context.md](project-context.md) | Locked decisions |

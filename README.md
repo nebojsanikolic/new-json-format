@@ -23,11 +23,15 @@ No legacy-key compatibility. Names are for back-office editors, not for mirrorin
 | Goal | Go here |
 | --- | --- |
 | Every field | [`docs/field-reference.md`](docs/field-reference.md) |
+| Resolve offer (algorithm) | [`docs/client-resolve.md`](docs/client-resolve.md) |
+| Precedence cheat sheet | [`docs/evaluation-order.md`](docs/evaluation-order.md) |
+| Closed string enums | [`docs/enums.md`](docs/enums.md) |
 | CDN / `forceUpdate` / checksums | [`docs/delivery-manifest.md`](docs/delivery-manifest.md) |
 | Concepts (layers, inheritance) | [`docs/schema.md`](docs/schema.md) |
 | Machine schema | [`docs/parking-config.schema.json`](docs/parking-config.schema.json) |
 | GeoJSON → config (local, confidential) | [`docs/geojson-import.md`](docs/geojson-import.md) |
 | Tiny delivery stub | [`examples/delivery/`](examples/delivery/) |
+| Client-resolve fixtures | [`examples/client-resolve/`](examples/client-resolve/) |
 | Readable city excerpt | [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) |
 
 ---
@@ -41,7 +45,9 @@ commerce     products · paymentMethods · rules
 ```
 
 Holidays, closures, `pricing.byDay`, and `free_initial_minutes`: [docs/holidays-and-time-rules.md](docs/holidays-and-time-rules.md).  
-Closed string enums (Swift/Kotlin): [docs/enums.md](docs/enums.md).
+Full runtime precedence: [docs/evaluation-order.md](docs/evaluation-order.md).  
+Closed string enums (Swift/Kotlin): [docs/enums.md](docs/enums.md).  
+`shared.client` locales + fallback: see field-reference / enums. Stable optional fields prefer explicit `null` over omit.
 
 Products = *what* is sold. Payment methods = *how* (today: `sms`; `webview_card` ready structurally). Zones link by id arrays — no nested payloads.
 

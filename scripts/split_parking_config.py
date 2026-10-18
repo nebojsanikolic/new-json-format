@@ -36,6 +36,21 @@ CITY_ARRAY_KEYS = (
     "fines",
 )
 
+DEFAULT_CLIENT = {
+    "supportedLocales": ["sr-Latn", "sr-Cyrl", "en", "ru"],
+    "localeFallback": ["sr-Latn", "en", "sr-Cyrl", "ru"],
+}
+
+
+def _resolve_client(config: dict[str, Any]) -> dict[str, Any]:
+    raw = config.get("client") or {}
+    supported = raw.get("supportedLocales") or DEFAULT_CLIENT["supportedLocales"]
+    fallback = raw.get("localeFallback") or DEFAULT_CLIENT["localeFallback"]
+    return {
+        "supportedLocales": list(supported),
+        "localeFallback": list(fallback),
+    }
+
 
 def _split_holidays(config: dict[str, Any]) -> tuple[list[dict], list[dict]]:
     """Country-scoped (no cityId) → shared; city-scoped → city slices."""
@@ -109,6 +124,7 @@ def split_config(
         "schemaVersion": schema_version,
         "version": shared_version,
         "generatedAt": config.get("generatedAt") or _utc_now(),
+        "client": _resolve_client(config),
     }
     for key in SHARED_KEYS:
         shared[key] = list(config.get(key) or [])

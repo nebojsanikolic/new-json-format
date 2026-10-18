@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/nebojsanikolic/new-json-format/docs/parking-config.schema.json",
   "title": "ParkingConfig",
-  "description": "Rule-data parking configuration: catalog + geography + products/rules/payment methods.",
+  "description": "Rule-data parking configuration: catalog + geography + products/rules/payment methods. Convention: for known optional scalar/object fields on zone/polygon/product/payment (and similar), prefer explicit null over omitting the key when the field is part of the stable shape. Arrays stay [] when empty; LocalesMap always has all four keys.",
   "type": "object",
   "required": [
     "dataVersion",
@@ -141,6 +141,10 @@
       "items": {
         "$ref": "#/$defs/holiday"
       }
+    },
+    "client": {
+      "$ref": "#/$defs/clientConstants",
+      "description": "Client constants (supported locales + locale fallback). Prefer present on monolith; always present on shared.json after split/export."
     }
   },
   "$defs": {
@@ -536,7 +540,14 @@
           "description": "Dates that use weekday payment windows."
         },
         "eligibility": {
-          "$ref": "#/$defs/eligibility"
+          "oneOf": [
+            {
+              "$ref": "#/$defs/eligibility"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "fullDayOnly": {
           "type": "boolean"
@@ -551,22 +562,33 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "description": "Operator responsible for this zone. Prefer explicit null when unset (stable optional scalar)."
         },
         "effectiveFrom": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "description": "ISO date/datetime when active. Prefer explicit null when always active."
         },
         "effectiveTo": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "description": "ISO date/datetime when inactive. Prefer explicit null when always active."
         },
         "holidayPolicy": {
-          "$ref": "#/$defs/holidayPolicy"
+          "oneOf": [
+            {
+              "$ref": "#/$defs/holidayPolicy"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Holiday observe/override policy. Prefer explicit null when unset (inherit country/city catalog defaults only)."
         },
         "closures": {
           "type": "array",
@@ -651,23 +673,36 @@
           "description": "Polygon vertices as [lat, lon] pairs."
         },
         "ringTruncated": {
-          "type": "boolean",
-          "description": "True when `ring` is a shortened sample (examples / snippets). Prefer this over sentinel coordinates."
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "True when ring is a shortened sample. Prefer null/omit in production city files."
         },
         "overrides": {
-          "$ref": "#/$defs/polygonOverrides"
+          "oneOf": [
+            {
+              "$ref": "#/$defs/polygonOverrides"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Per-polygon field overrides. Prefer explicit null (or omit) when inheriting the whole zone; empty object also means inherit all."
         },
         "effectiveFrom": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "description": "Prefer explicit null when always active."
         },
         "effectiveTo": {
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "description": "Prefer explicit null when always active."
         },
         "closures": {
           "type": "array",
@@ -788,9 +823,12 @@
           }
         },
         "byDay": {
-          "type": "object",
+          "type": [
+            "object",
+            "null"
+          ],
           "additionalProperties": false,
-          "description": "Day-keyed pricing overlays. If omitted, use default ladder/price. Keys are weekday names.",
+          "description": "Day-keyed pricing overlays. Prefer explicit null when unused (stable shape). Keys are weekday names.",
           "properties": {
             "monday": {
               "$ref": "#/$defs/dayPricingOverride"
@@ -894,7 +932,15 @@
           "$ref": "#/$defs/productPricing"
         },
         "validity": {
-          "$ref": "#/$defs/productValidity"
+          "oneOf": [
+            {
+              "$ref": "#/$defs/productValidity"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Validity window for the product. Prefer explicit null for timed products without a validity object."
         },
         "paymentMethodIds": {
           "type": "array",
@@ -911,7 +957,14 @@
           "description": "Ids referencing top-level rules[]."
         },
         "eligibility": {
-          "$ref": "#/$defs/eligibility"
+          "oneOf": [
+            {
+              "$ref": "#/$defs/eligibility"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "effectiveFrom": {
           "type": [
@@ -990,10 +1043,18 @@
           "additionalProperties": false,
           "properties": {
             "number": {
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Short code / destination number."
             },
             "prefix": {
-              "type": "string"
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "SMS body prefix. Prefer explicit null when unused."
             },
             "messageSlots": {
               "type": "array",
@@ -1029,19 +1090,12 @@
           }
         },
         "webviewCard": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "urlTemplate": {
-              "type": "string"
-            },
-            "returnUrlScheme": {
-              "type": "string"
-            },
-            "parameters": {
-              "type": "object"
-            }
-          }
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true,
+          "description": "Webview card channel config. Prefer explicit null for SMS-only methods."
         },
         "effectiveFrom": {
           "type": [
@@ -1590,6 +1644,33 @@
         "free_initial_minutes"
       ],
       "description": "Known rule kinds. Studio Validate errors on unknown; apps ignore unknown at runtime. New kinds = schema bump."
+    },
+    "clientConstants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supportedLocales",
+        "localeFallback"
+      ],
+      "description": "Shared client UI constants shipped in shared.json (and on the monolith root).",
+      "properties": {
+        "supportedLocales": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/localeId"
+          },
+          "description": "Locales the client must support for this config (currently the four LocalesMap keys)."
+        },
+        "localeFallback": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/localeId"
+          },
+          "description": "Ordered fallback when a LocalesMap string is empty for the UI locale."
+        }
+      }
     }
   }
 }

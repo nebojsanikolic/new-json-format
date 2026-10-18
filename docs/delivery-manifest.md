@@ -19,7 +19,7 @@ python3 scripts/split_parking_config.py \
 ```
 delivery/
   manifest.json          # always fetched first (small)
-  shared.json            # locales, currencies, countries, operators, country holidays
+  shared.json            # client, locales, currencies, countries, operators, country holidays
   cities/
     city-beograd.json
     city-podgorica.json
@@ -164,11 +164,19 @@ Always bump the city `version` string on **any** city content change so soft upd
 
 Rarely changing catalog:
 
+- `client` — `{ supportedLocales, localeFallback }` (always set by split/export)
 - `locales`, `currencies`, `countries`, `operators`
 - `holidays` — country-scoped only (no `cityId`)
 - Plus `schemaVersion`, `version`, `generatedAt`
 
 Operators live here (not duplicated in every city file). City zones still reference `operatorId`.
+
+```json
+"client": {
+  "supportedLocales": ["sr-Latn", "sr-Cyrl", "en", "ru"],
+  "localeFallback": ["sr-Latn", "en", "sr-Cyrl", "ru"]
+}
+```
 
 ---
 

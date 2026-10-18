@@ -3,6 +3,8 @@
 | Doc | Use when |
 | --- | --- |
 | [field-reference.md](field-reference.md) | Looking up a field (types, required, examples) |
+| [client-resolve.md](client-resolve.md) | How apps resolve a display offer from city + shared |
+| [evaluation-order.md](evaluation-order.md) | Full precedence cheat sheet (one page for app teams) |
 | [delivery-manifest.md](delivery-manifest.md) | CDN layout, `forceUpdate`, checksums |
 | [geojson-import.md](geojson-import.md) | Local GeoJSON → monolith |
 | [schema.md](schema.md) | Layers, inheritance, payment channels |
@@ -13,4 +15,4 @@
 | [requirements.md](requirements.md) | Product requirements |
 | [legacy-schema.json](legacy-schema.json) | Old `zonesData_v2` shape |
 
-Landing: [../README.md](../README.md) · Delivery stub: [../examples/delivery/](../examples/delivery/) · Monolith: [../data/parking-config.generated.json](../data/parking-config.generated.json)
+Landing: [../README.md](../README.md) · Delivery stub: [../examples/delivery/](../examples/delivery/) · Resolve fixtures: [../examples/client-resolve/](../examples/client-resolve/) · Monolith: [../data/parking-config.generated.json](../data/parking-config.generated.json)

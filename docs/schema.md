@@ -93,7 +93,7 @@ Shared contract `LocalesMap` = `Record<"sr-Latn"|"sr-Cyrl"|"en"|"ru", LocaleStri
 
 ### Effective dating
 
-Optional `effectiveFrom` / `effectiveTo` (ISO date or datetime) on zones, polygons, products, payment methods, prices, and seasonal windows. Null / omitted = always active. Back office can stage future prices and polygons ahead of time.
+Optional `effectiveFrom` / `effectiveTo` (ISO date or datetime) on zones, polygons, products, payment methods, prices, and seasonal windows. Prefer **explicit `null`** when always active (stable optional scalars); omitted is still accepted. Back office can stage future prices and polygons ahead of time.
 
 ### Versioning & unknown rules
 

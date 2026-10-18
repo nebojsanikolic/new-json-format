@@ -85,6 +85,7 @@
       "fullDayOnly": false,
       "seasonalWindows": [],
       "operatorId": "op-example-beograd",
+      "holidayPolicy": null,
       "effectiveFrom": null,
       "effectiveTo": null
     }
@@ -150,9 +151,21 @@
         "currencyId": "rsd"
       },
       "pricing": {
+        "mode": "ladder",
         "baseDurationMinutes": 60,
-        "ladder": [],
-        "nightRates": []
+        "ladder": [
+          {
+            "stepIndex": 1,
+            "durationMinutes": 60,
+            "price": {
+              "amount": 80.0,
+              "currencyId": "rsd"
+            }
+          }
+        ],
+        "nightRates": [],
+        "seasonalPrices": [],
+        "byDay": null
       },
       "validity": null,
       "paymentMethodIds": [
@@ -184,6 +197,7 @@
         "maxDurationMinutes": 180,
         "cooldownAfterMax": null
       },
+      "webviewCard": null,
       "effectiveFrom": null,
       "effectiveTo": null
     }

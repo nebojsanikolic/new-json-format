@@ -22,6 +22,10 @@ Replace the current flat parking JSON with a **rule-data** format so new rules a
 | Effective dating | `effectiveFrom` / `effectiveTo` where values can change on a schedule |
 | Domain | Public on-street / open lots run by local parking services — not private garages |
 | After paid hours | Car may remain until the next payment window starts; outside `paymentWindows` = not collected (no short grace field) |
+| Optional fields | Prefer **explicit `null`** for known optional scalar/object fields on zone/polygon/product/payment (stable shape); arrays stay `[]`; LocalesMap always four keys |
+| Client constants | `shared.client` / monolith `client`: `supportedLocales` + `localeFallback` (always set on export) |
+| Lookup indexes | No `zonesById` (etc.) in city JSON — apps build dictionaries |
+| Resolve docs | [client-resolve.md](client-resolve.md) + [evaluation-order.md](evaluation-order.md) + fixtures in `examples/client-resolve/` |
 
 ## Architecture
 
