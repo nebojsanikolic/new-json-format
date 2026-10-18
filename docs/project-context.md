@@ -32,10 +32,9 @@ Three layers:
 ## Status
 
 - Decisions locked (including money shape).
-- First schema + full production transform published in this repo:
-  - [`schema.md`](schema.md)
-  - [`parking-config.schema.json`](parking-config.schema.json)
-  - [`../data/parking-config.generated.json`](../data/parking-config.generated.json)
+- **GitHub repo:** [https://github.com/nebojsanikolic/new-json-format](https://github.com/nebojsanikolic/new-json-format)  
+  Schema + full production transform live there (`data/parking-config.generated.json`, `docs/schema.md`, JSON Schema).
+- Local / Context copies also under the Project store `docs/` while push/auth was being set up.
 - Next (product/app): wire cutover, back-office editor, fill coverage `coversZoneIds` and multi-slot SMS windows that were previously hard-coded.
 
 ## Related

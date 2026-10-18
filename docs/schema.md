@@ -2,6 +2,13 @@
 
 Human-readable guide to `parking-config.generated.json`. Machine schema: [`parking-config.schema.json`](parking-config.schema.json).
 
+## Quick path for reviewers
+
+1. Read **Layers** and **Money** / **Locales** below.
+2. Open [`../examples/belgrade-snippet.json`](../examples/belgrade-snippet.json) for a concrete city.
+3. Full data: [`../data/parking-config.generated.json`](../data/parking-config.generated.json).
+4. Mapping from production: bottom of this doc (**Production → new mapping**).
+
 ## Why this shape
 
 - **Cutover, not compat** — no legacy field names; apps that need this format force-update once.

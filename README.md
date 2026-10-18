@@ -1,40 +1,79 @@
 # New JSON format
 
-Rule-data parking configuration for Nebojša Nikolić’s parking app — a clean cutover from the flat `zonesData_v2` shape.
+Rule-data parking configuration for Nebojša Nikolić’s parking app.
 
-## What’s in this repo
+This repo defines a **new remote-config JSON shape** to replace today’s flat `zonesData_v2` file. After one cutover (force-update is OK), new parking rules can ship via config without hard-coding them in the app — except brand-new engine capabilities that need a newer app version.
 
-| Path | Purpose |
+There is **no legacy-format compatibility**. Field names are written for a back-office editor (non-developers), not for matching old keys.
+
+## Start here
+
+| Read this | For |
 | --- | --- |
-| [`data/parking-config.generated.json`](data/parking-config.generated.json) | **Main deliverable** — full production data in the new format |
-| [`data/zonesData_v2.source.json`](data/zonesData_v2.source.json) | Snapshot of production input |
 | [`docs/schema.md`](docs/schema.md) | Human-readable format guide |
-| [`docs/parking-config.schema.json`](docs/parking-config.schema.json) | JSON Schema |
-| [`docs/requirements.md`](docs/requirements.md) | Product requirements |
+| [`docs/parking-config.schema.json`](docs/parking-config.schema.json) | Machine JSON Schema |
+| [`data/parking-config.generated.json`](data/parking-config.generated.json) | **Full transformed production data** (main deliverable) |
+| [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) | Small Belgrade excerpt (polygons truncated) |
 | [`docs/project-context.md`](docs/project-context.md) | Locked design decisions |
-| [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) | Belgrade excerpt (polygons truncated) |
-| [`scripts/transform.py`](scripts/transform.py) | Regenerates generated JSON from source |
+| [`docs/requirements.md`](docs/requirements.md) | Product requirements list |
 
-## Design in one page
+## Architecture (three layers)
 
-- **Catalog** → countries / cities / operators / currencies  
-- **Geography** → zones → polygons (**polygon overrides zone**)  
-- **Commerce** → products + typed rules + channel-agnostic payment methods (`sms` now, `webview_card` later)  
-- Money always `{ "amount", "currencyId" }`  
-- Locales as maps (cases nested under locale)  
-- `dataVersion` + `minAppVersion`; unknown rule/payment types ignored by older apps  
+```
+catalog      countries · cities · operators · currencies · locales
+geography    zones → polygons     (polygon.overrides.* beats the zone)
+commerce     products + rules + paymentMethods
+```
 
-Full detail: [`docs/schema.md`](docs/schema.md).
+- **Products** describe *what* is sold (duration, price, eligibility, validity).
+- **Payment methods** describe *how* to pay, by `type`:
+  - `sms` — live today (number, prefix, `messageSlots`, send windows, cooldown)
+  - `webview_card` — ready structurally; add a method + app support later **without reshaping** products or zones
+- **Money** is always `{ "amount": number, "currencyId": string }`.
+- **Locales** are maps (`sr-Latn`, `en`, …); grammatical cases nest under the locale.
+- **Versioning:** `dataVersion` (cache freshness) + `minAppVersion`. Unknown rule/payment `type` values are ignored by older apps.
 
-## Regenerate
+## Repo layout
+
+```
+README.md
+data/
+  parking-config.generated.json   # full new-format config from production
+  zonesData_v2.source.json        # snapshot of production input
+docs/
+  schema.md                       # format guide
+  parking-config.schema.json      # JSON Schema
+  project-context.md              # decisions
+  requirements.md
+  legacy-schema.json              # old shape (reference only)
+examples/
+  belgrade-snippet.json
+scripts/
+  transform.py                    # regenerates generated JSON + Belgrade example
+```
+
+## How the generated file was produced
+
+1. Production source:  
+   https://raw.githubusercontent.com/nebojsanikolic/jsonHost/refs/heads/main/zonesData_v2.json  
+   (snapshot also stored as `data/zonesData_v2.source.json`)
+2. Transform: `python3 scripts/transform.py`
+3. Output: `data/parking-config.generated.json`  
+   (~98 cities, 211 zones, polygons, timed + full-day products, SMS payment methods, coverage policy stubs)
+
+Features not present in production (night rates, price ladders, seasonal overlays, resident permits, fines, live webview card, explicit `coversZoneIds`) are **hooks in the schema** — empty arrays, disabled example payment method, or documented for back office to fill.
+
+## Regenerate locally
 
 ```bash
 python3 scripts/transform.py
 ```
 
-Requires Python 3.10+. Reads `data/zonesData_v2.source.json`, writes the generated file and Belgrade example.
+Python 3.10+. Overwrites `data/parking-config.generated.json` and `examples/belgrade-snippet.json`.
 
-## Source data
+## Review tips
 
-Production input:  
-https://raw.githubusercontent.com/nebojsanikolic/jsonHost/refs/heads/main/zonesData_v2.json
+1. Skim [`docs/schema.md`](docs/schema.md) for the object model.
+2. Open [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) for a readable city.
+3. Spot-check the full file against [`docs/parking-config.schema.json`](docs/parking-config.schema.json).
+4. Compare mapping notes at the bottom of `docs/schema.md` with legacy [`docs/legacy-schema.json`](docs/legacy-schema.json).
