@@ -211,5 +211,20 @@
         }
       }
     }
+  ],
+  "holidays": [
+    {
+      "id": "hol-beograd-2027-04-16",
+      "countryId": "rs",
+      "cityId": "city-beograd",
+      "date": "2027-04-16",
+      "locales": {
+        "sr-Latn": { "name": "Dan Beograda" },
+        "sr-Cyrl": { "name": "Дан Београда" },
+        "en": { "name": "Belgrade Day" },
+        "ru": { "name": "День Белграда" }
+      },
+      "defaultBehavior": "free"
+    }
   ]
 }

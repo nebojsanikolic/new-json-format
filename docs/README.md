@@ -6,6 +6,7 @@
 | [delivery-manifest.md](delivery-manifest.md) | CDN layout, `forceUpdate`, checksums |
 | [geojson-import.md](geojson-import.md) | Local GeoJSON → monolith |
 | [schema.md](schema.md) | Layers, inheritance, payment channels |
+| [holidays-and-time-rules.md](holidays-and-time-rules.md) | Holidays, closures, byDay, free-initial (accepted) |
 | [parking-config.schema.json](parking-config.schema.json) | Machine validation |
 | [project-context.md](project-context.md) | Locked decisions |
 | [requirements.md](requirements.md) | Product requirements |

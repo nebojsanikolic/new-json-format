@@ -23,79 +23,141 @@
   ],
   "additionalProperties": false,
   "properties": {
-    "dataVersion": { "type": "string", "description": "Config version for cache freshness." },
-    "minAppVersion": { "type": "string", "description": "Minimum app version required to consume this config." },
-    "generatedAt": { "type": ["string", "null"], "format": "date-time" },
+    "dataVersion": {
+      "type": "string",
+      "description": "Config version for cache freshness."
+    },
+    "minAppVersion": {
+      "type": "string",
+      "description": "Minimum app version required to consume this config."
+    },
+    "generatedAt": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
     "source": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "url": { "type": "string" },
-        "legacyVersion": { "type": ["number", "string", "null"] },
-        "notes": { "type": "string" }
+        "url": {
+          "type": "string"
+        },
+        "legacyVersion": {
+          "type": [
+            "number",
+            "string",
+            "null"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
       }
     },
     "locales": {
       "type": "array",
-      "items": { "$ref": "#/$defs/localeCatalogEntry" }
+      "items": {
+        "$ref": "#/$defs/localeCatalogEntry"
+      }
     },
     "currencies": {
       "type": "array",
-      "items": { "$ref": "#/$defs/currency" }
+      "items": {
+        "$ref": "#/$defs/currency"
+      }
     },
     "countries": {
       "type": "array",
-      "items": { "$ref": "#/$defs/country" }
+      "items": {
+        "$ref": "#/$defs/country"
+      }
     },
     "operators": {
       "type": "array",
-      "items": { "$ref": "#/$defs/operator" }
+      "items": {
+        "$ref": "#/$defs/operator"
+      }
     },
     "cities": {
       "type": "array",
-      "items": { "$ref": "#/$defs/city" }
+      "items": {
+        "$ref": "#/$defs/city"
+      }
     },
     "zones": {
       "type": "array",
-      "items": { "$ref": "#/$defs/zone" }
+      "items": {
+        "$ref": "#/$defs/zone"
+      }
     },
     "polygons": {
       "type": "array",
-      "items": { "$ref": "#/$defs/polygon" }
+      "items": {
+        "$ref": "#/$defs/polygon"
+      }
     },
     "products": {
       "type": "array",
-      "items": { "$ref": "#/$defs/product" }
+      "items": {
+        "$ref": "#/$defs/product"
+      }
     },
     "paymentMethods": {
       "type": "array",
-      "items": { "$ref": "#/$defs/paymentMethod" }
+      "items": {
+        "$ref": "#/$defs/paymentMethod"
+      }
     },
     "rules": {
       "type": "array",
-      "items": { "$ref": "#/$defs/rule" }
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
     },
     "coveragePolicies": {
       "type": "array",
-      "items": { "$ref": "#/$defs/coveragePolicy" }
+      "items": {
+        "$ref": "#/$defs/coveragePolicy"
+      }
     },
     "residentPermits": {
       "type": "array",
-      "items": { "$ref": "#/$defs/residentPermit" }
+      "items": {
+        "$ref": "#/$defs/residentPermit"
+      }
     },
     "fines": {
       "type": "array",
-      "items": { "$ref": "#/$defs/fine" }
+      "items": {
+        "$ref": "#/$defs/fine"
+      }
+    },
+    "holidays": {
+      "type": "array",
+      "description": "Country and city/municipal holidays. Optional; omit or [] when unused. Country-scoped holidays (no cityId) ship in shared.json; city-scoped in the city slice.",
+      "items": {
+        "$ref": "#/$defs/holiday"
+      }
     }
   },
   "$defs": {
     "money": {
       "type": "object",
-      "required": ["amount", "currencyId"],
+      "required": [
+        "amount",
+        "currencyId"
+      ],
       "additionalProperties": false,
       "properties": {
-        "amount": { "type": "number" },
-        "currencyId": { "type": "string" }
+        "amount": {
+          "type": "number"
+        },
+        "currencyId": {
+          "type": "string"
+        }
       }
     },
     "latLng": {
@@ -103,8 +165,15 @@
       "minItems": 2,
       "maxItems": 2,
       "description": "WGS84 point as [latitude, longitude] (lat-first, mobile-friendly — not GeoJSON lon-first). Rounded to 6 decimal places.",
-      "items": { "type": "number" },
-      "examples": [[44.814512, 20.45659]]
+      "items": {
+        "type": "number"
+      },
+      "examples": [
+        [
+          44.814512,
+          20.45659
+        ]
+      ]
     },
     "timeOfDay": {
       "type": "string",
@@ -112,8 +181,18 @@
       "description": "Clock time as HH:mm (24-hour). Use \"24:00\" for end-of-day midnight."
     },
     "effectiveDating": {
-      "effectiveFrom": { "type": ["string", "null"] },
-      "effectiveTo": { "type": ["string", "null"] }
+      "effectiveFrom": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "effectiveTo": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
     },
     "localizedText": {
       "type": "object",
@@ -121,23 +200,43 @@
       "additionalProperties": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "description": { "type": "string" },
-          "infoNote": { "type": "string" },
-          "preposition": { "type": "string" },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "infoNote": {
+            "type": "string"
+          },
+          "preposition": {
+            "type": "string"
+          },
           "alternativeNames": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
           "cases": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "genitive": { "type": "string" },
-              "dative": { "type": "string" },
-              "accusative": { "type": "string" },
-              "locative": { "type": "string" },
-              "instrumental": { "type": "string" }
+              "genitive": {
+                "type": "string"
+              },
+              "dative": {
+                "type": "string"
+              },
+              "accusative": {
+                "type": "string"
+              },
+              "locative": {
+                "type": "string"
+              },
+              "instrumental": {
+                "type": "string"
+              }
             }
           }
         }
@@ -145,107 +244,238 @@
     },
     "eligibility": {
       "type": "object",
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "properties": {
         "type": {
           "type": "string",
           "description": "public | residents | vehicle_class | … unknown types ignored by older apps"
         },
-        "notes": { "type": "string" }
+        "notes": {
+          "type": "string"
+        }
       },
       "additionalProperties": true
     },
     "localeCatalogEntry": {
       "type": "object",
-      "required": ["id", "sortOrder"],
+      "required": [
+        "id",
+        "sortOrder"
+      ],
       "additionalProperties": false,
       "properties": {
-        "id": { "type": "string" },
-        "name": { "type": "string" },
-        "sortOrder": { "type": "integer" }
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sortOrder": {
+          "type": "integer"
+        }
       }
     },
     "currency": {
       "type": "object",
-      "required": ["id", "code", "symbol", "exchangeRate"],
+      "required": [
+        "id",
+        "code",
+        "symbol",
+        "exchangeRate"
+      ],
       "additionalProperties": false,
       "properties": {
-        "id": { "type": "string" },
-        "legacyId": { "type": ["integer", "null"] },
-        "code": { "type": "string" },
-        "symbol": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "legacyId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "code": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        },
         "exchangeRate": {
           "type": "number",
           "description": "Rate vs base currency (legacy base = RSD)."
         },
-        "locales": { "$ref": "#/$defs/localizedText" }
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        }
       }
     },
     "country": {
       "type": "object",
-      "required": ["id", "timezone", "defaultCurrencyId"],
+      "required": [
+        "id",
+        "timezone",
+        "defaultCurrencyId"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "timezone": { "type": "string" },
-        "defaultCurrencyId": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "defaultCurrencyId": {
+          "type": "string"
+        },
         "languageSortOrder": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "locales": { "$ref": "#/$defs/localizedText" },
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        },
         "coveragePolygon": {
           "oneOf": [
-            { "type": "null" },
+            {
+              "type": "null"
+            },
             {
               "type": "array",
-              "items": { "$ref": "#/$defs/latLng" }
+              "items": {
+                "$ref": "#/$defs/latLng"
+              }
             }
           ]
         },
-        "effectiveFrom": { "type": ["string", "null"] },
-        "effectiveTo": { "type": ["string", "null"] }
+        "effectiveFrom": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       },
       "additionalProperties": false
     },
     "operator": {
       "type": "object",
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "legacyId": { "type": ["integer", "null"] },
-        "locales": { "$ref": "#/$defs/localizedText" },
-        "contact": { "type": "object", "additionalProperties": true }
+        "id": {
+          "type": "string"
+        },
+        "legacyId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "contact": {
+          "type": "object",
+          "additionalProperties": true
+        }
       },
       "additionalProperties": false
     },
     "city": {
       "type": "object",
-      "required": ["id", "countryId", "timezone", "center"],
+      "required": [
+        "id",
+        "countryId",
+        "timezone",
+        "center"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "legacyId": { "type": ["integer", "null"] },
-        "countryId": { "type": "string" },
-        "timezone": { "type": "string" },
-        "shortName": { "type": "string" },
-        "center": { "$ref": "#/$defs/latLng" },
-        "locales": { "$ref": "#/$defs/localizedText" },
-        "zoneIds": { "type": "array", "items": { "type": "string" } },
-        "coveragePolicyId": { "type": ["string", "null"] },
-        "coveragePolygon": {
-          "oneOf": [
-            { "type": "null" },
-            { "type": "array", "items": { "$ref": "#/$defs/latLng" } }
+        "id": {
+          "type": "string"
+        },
+        "legacyId": {
+          "type": [
+            "integer",
+            "null"
           ]
         },
-        "fullDayButtonColor": { "type": ["string", "null"] },
-        "effectiveFrom": { "type": ["string", "null"] },
-        "effectiveTo": { "type": ["string", "null"] }
+        "countryId": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "shortName": {
+          "type": "string"
+        },
+        "center": {
+          "$ref": "#/$defs/latLng"
+        },
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "zoneIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "coveragePolicyId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "coveragePolygon": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/latLng"
+              }
+            }
+          ]
+        },
+        "fullDayButtonColor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveFrom": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       },
       "additionalProperties": false
     },
     "paymentWindow": {
       "type": "object",
-      "required": ["days", "startHour", "endHour"],
+      "required": [
+        "days",
+        "startHour",
+        "endHour"
+      ],
       "additionalProperties": false,
       "properties": {
         "days": {
@@ -263,70 +493,143 @@
             ]
           }
         },
-        "startHour": { "$ref": "#/$defs/timeOfDay" },
-        "endHour": { "$ref": "#/$defs/timeOfDay" }
+        "startHour": {
+          "$ref": "#/$defs/timeOfDay"
+        },
+        "endHour": {
+          "$ref": "#/$defs/timeOfDay"
+        }
       }
     },
     "seasonalWindow": {
       "type": "object",
       "properties": {
-        "id": { "type": "string" },
-        "label": { "type": "string" },
-        "effectiveFrom": { "type": "string" },
-        "effectiveTo": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "effectiveFrom": {
+          "type": "string"
+        },
+        "effectiveTo": {
+          "type": "string"
+        },
         "expandsPolygonIds": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false
     },
     "zone": {
       "type": "object",
-      "required": ["id", "cityId", "enabled", "color"],
+      "required": [
+        "id",
+        "cityId",
+        "enabled",
+        "color"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "legacyId": { "type": ["integer", "null"] },
-        "cityId": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "legacyId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "cityId": {
+          "type": "string"
+        },
         "enabled": {
           "type": "boolean",
           "description": "When false, the app must hide this zone (not shown on map or for purchase)."
         },
-        "color": { "type": "string" },
-        "locales": { "$ref": "#/$defs/localizedText" },
+        "color": {
+          "type": "string"
+        },
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        },
         "polygonIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Ids referencing top-level polygons[]."
         },
         "productIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Ids referencing top-level products[] (what can be bought in this zone)."
         },
         "paymentMethodIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Ids referencing top-level paymentMethods[] (how to pay)."
         },
         "paymentWindows": {
           "type": "array",
-          "items": { "$ref": "#/$defs/paymentWindow" }
+          "items": {
+            "$ref": "#/$defs/paymentWindow"
+          }
         },
         "workingDayOverrides": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Dates that use weekday payment windows."
         },
-        "eligibility": { "$ref": "#/$defs/eligibility" },
-        "fullDayOnly": { "type": "boolean" },
+        "eligibility": {
+          "$ref": "#/$defs/eligibility"
+        },
+        "fullDayOnly": {
+          "type": "boolean"
+        },
         "seasonalWindows": {
           "type": "array",
-          "items": { "$ref": "#/$defs/seasonalWindow" }
+          "items": {
+            "$ref": "#/$defs/seasonalWindow"
+          }
         },
-        "operatorId": { "type": ["string", "null"] },
-        "effectiveFrom": { "type": ["string", "null"] },
-        "effectiveTo": { "type": ["string", "null"] }
+        "operatorId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveFrom": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "holidayPolicy": {
+          "$ref": "#/$defs/holidayPolicy"
+        },
+        "closures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/closure"
+          },
+          "description": "Temporary zone-wide closures."
+        }
       },
       "additionalProperties": false
     },
@@ -334,59 +637,110 @@
       "type": "object",
       "description": "Any set field overrides the parent zone for this polygon.",
       "properties": {
-        "color": { "type": "string" },
-        "locales": { "$ref": "#/$defs/localizedText" },
+        "color": {
+          "type": "string"
+        },
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        },
         "productIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Ids referencing top-level products[]."
         },
         "paymentMethodIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Ids referencing top-level paymentMethods[]."
         },
         "paymentWindows": {
           "type": "array",
-          "items": { "$ref": "#/$defs/paymentWindow" }
+          "items": {
+            "$ref": "#/$defs/paymentWindow"
+          }
         },
-        "eligibility": { "$ref": "#/$defs/eligibility" },
-        "fullDayOnly": { "type": "boolean" },
+        "eligibility": {
+          "$ref": "#/$defs/eligibility"
+        },
+        "fullDayOnly": {
+          "type": "boolean"
+        },
         "enabled": {
           "type": "boolean",
           "description": "Override zone visibility for this polygon only."
+        },
+        "holidayPolicy": {
+          "$ref": "#/$defs/holidayPolicy"
         }
       },
       "additionalProperties": false
     },
     "polygon": {
       "type": "object",
-      "required": ["id", "zoneId", "enabled", "ring"],
+      "required": [
+        "id",
+        "zoneId",
+        "enabled",
+        "ring"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "zoneId": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "zoneId": {
+          "type": "string"
+        },
         "enabled": {
           "type": "boolean",
           "description": "When false, hide this polygon (zone may still show other polygons)."
         },
         "ring": {
           "type": "array",
-          "items": { "$ref": "#/$defs/latLng" },
+          "items": {
+            "$ref": "#/$defs/latLng"
+          },
           "description": "Polygon vertices as [lat, lon] pairs."
         },
         "ringTruncated": {
           "type": "boolean",
           "description": "True when `ring` is a shortened sample (examples / snippets). Prefer this over sentinel coordinates."
         },
-        "overrides": { "$ref": "#/$defs/polygonOverrides" },
-        "effectiveFrom": { "type": ["string", "null"] },
-        "effectiveTo": { "type": ["string", "null"] }
+        "overrides": {
+          "$ref": "#/$defs/polygonOverrides"
+        },
+        "effectiveFrom": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "closures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/closure"
+          },
+          "description": "Temporary polygon-level closures (required capability for lot/block closures)."
+        }
       },
       "additionalProperties": false
     },
     "pricingLadderStep": {
       "type": "object",
-      "required": ["stepIndex", "durationMinutes", "price"],
+      "required": [
+        "stepIndex",
+        "durationMinutes",
+        "price"
+      ],
       "additionalProperties": false,
       "description": "One pricing increment. Supports uneven lengths (e.g. 60 then 30 minutes). Prefer this over hour-index-only ladders.",
       "properties": {
@@ -400,55 +754,127 @@
           "minimum": 1,
           "description": "Length of this increment in minutes (60, 30, …). Not assumed to be one hour."
         },
-        "price": { "$ref": "#/$defs/money" }
+        "price": {
+          "$ref": "#/$defs/money"
+        }
       }
     },
     "nightRate": {
       "type": "object",
-      "required": ["startHour", "endHour", "price"],
+      "required": [
+        "startHour",
+        "endHour",
+        "price"
+      ],
       "additionalProperties": false,
       "properties": {
-        "startHour": { "$ref": "#/$defs/timeOfDay" },
-        "endHour": { "$ref": "#/$defs/timeOfDay" },
+        "startHour": {
+          "$ref": "#/$defs/timeOfDay"
+        },
+        "endHour": {
+          "$ref": "#/$defs/timeOfDay"
+        },
         "days": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "price": { "$ref": "#/$defs/money" }
+        "price": {
+          "$ref": "#/$defs/money"
+        }
       }
     },
     "seasonalPrice": {
       "type": "object",
-      "required": ["effectiveFrom", "effectiveTo", "price"],
+      "required": [
+        "effectiveFrom",
+        "effectiveTo",
+        "price"
+      ],
       "additionalProperties": false,
       "properties": {
-        "label": { "type": "string" },
-        "effectiveFrom": { "type": "string" },
-        "effectiveTo": { "type": "string" },
-        "price": { "$ref": "#/$defs/money" }
+        "label": {
+          "type": "string"
+        },
+        "effectiveFrom": {
+          "type": "string"
+        },
+        "effectiveTo": {
+          "type": "string"
+        },
+        "price": {
+          "$ref": "#/$defs/money"
+        }
       }
     },
     "productPricing": {
       "type": "object",
-      "required": ["mode"],
+      "required": [
+        "mode"
+      ],
       "additionalProperties": false,
       "properties": {
         "mode": {
           "type": "string",
-          "enum": ["per_hour", "per_minute", "fixed", "ladder"]
+          "enum": [
+            "per_hour",
+            "per_minute",
+            "fixed",
+            "ladder"
+          ]
         },
-        "baseDurationMinutes": { "type": ["integer", "null"] },
+        "baseDurationMinutes": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
         "ladder": {
           "type": "array",
-          "items": { "$ref": "#/$defs/pricingLadderStep" }
+          "items": {
+            "$ref": "#/$defs/pricingLadderStep"
+          }
         },
         "nightRates": {
           "type": "array",
-          "items": { "$ref": "#/$defs/nightRate" }
+          "items": {
+            "$ref": "#/$defs/nightRate"
+          }
         },
         "seasonalPrices": {
           "type": "array",
-          "items": { "$ref": "#/$defs/seasonalPrice" }
+          "items": {
+            "$ref": "#/$defs/seasonalPrice"
+          }
+        },
+        "byDay": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Day-keyed pricing overlays. If omitted, use default ladder/price. Keys are weekday names.",
+          "properties": {
+            "monday": {
+              "$ref": "#/$defs/dayPricingOverride"
+            },
+            "tuesday": {
+              "$ref": "#/$defs/dayPricingOverride"
+            },
+            "wednesday": {
+              "$ref": "#/$defs/dayPricingOverride"
+            },
+            "thursday": {
+              "$ref": "#/$defs/dayPricingOverride"
+            },
+            "friday": {
+              "$ref": "#/$defs/dayPricingOverride"
+            },
+            "saturday": {
+              "$ref": "#/$defs/dayPricingOverride"
+            },
+            "sunday": {
+              "$ref": "#/$defs/dayPricingOverride"
+            }
+          }
         }
       }
     },
@@ -457,63 +883,152 @@
       "additionalProperties": false,
       "properties": {
         "mode": {
-          "type": ["string", "null"],
-          "enum": ["calendar_day", "rolling_24h", null]
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "calendar_day",
+            "rolling_24h",
+            null
+          ]
         },
-        "durationMinutes": { "type": ["integer", "null"] },
-        "buttonColor": { "type": ["string", "null"] }
+        "durationMinutes": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "buttonColor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       }
     },
     "product": {
       "type": "object",
-      "required": ["id", "kind", "price", "pricing"],
+      "required": [
+        "id",
+        "kind",
+        "price",
+        "pricing"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "legacyId": { "type": ["integer", "null"] },
+        "id": {
+          "type": "string"
+        },
+        "legacyId": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
         "kind": {
           "type": "string",
-          "enum": ["timed", "full_day", "permit"]
+          "enum": [
+            "timed",
+            "full_day",
+            "permit"
+          ]
         },
-        "zoneIds": { "type": "array", "items": { "type": "string" } },
-        "coversZoneIds": { "type": "array", "items": { "type": "string" } },
-        "locales": { "$ref": "#/$defs/localizedText" },
-        "color": { "type": ["string", "null"] },
-        "price": { "$ref": "#/$defs/money" },
-        "pricing": { "$ref": "#/$defs/productPricing" },
-        "validity": { "$ref": "#/$defs/productValidity" },
+        "zoneIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "coversZoneIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "color": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "price": {
+          "$ref": "#/$defs/money"
+        },
+        "pricing": {
+          "$ref": "#/$defs/productPricing"
+        },
+        "validity": {
+          "$ref": "#/$defs/productValidity"
+        },
         "paymentMethodIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Ids referencing top-level paymentMethods[] (how this product can be paid)."
         },
         "ruleIds": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Ids referencing top-level rules[]."
         },
-        "eligibility": { "$ref": "#/$defs/eligibility" },
-        "effectiveFrom": { "type": ["string", "null"] },
-        "effectiveTo": { "type": ["string", "null"] }
+        "eligibility": {
+          "$ref": "#/$defs/eligibility"
+        },
+        "effectiveFrom": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       },
       "additionalProperties": false
     },
     "smsMessageSlot": {
       "type": "object",
-      "required": ["index", "durationMinutes"],
+      "required": [
+        "index",
+        "durationMinutes"
+      ],
       "additionalProperties": false,
       "properties": {
-        "index": { "type": "integer", "minimum": 1 },
-        "durationMinutes": { "type": "integer", "minimum": 1 },
+        "index": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "durationMinutes": {
+          "type": "integer",
+          "minimum": 1
+        },
         "sendWindow": {
           "oneOf": [
-            { "type": "null" },
+            {
+              "type": "null"
+            },
             {
               "type": "object",
               "additionalProperties": false,
               "properties": {
-                "relativeToSlotIndex": { "type": "integer" },
-                "fromMinutesBeforeEnd": { "type": "number" },
-                "toMinutesBeforeEnd": { "type": "number" }
+                "relativeToSlotIndex": {
+                  "type": "integer"
+                },
+                "fromMinutesBeforeEnd": {
+                  "type": "number"
+                },
+                "toMinutesBeforeEnd": {
+                  "type": "number"
+                }
               }
             }
           ]
@@ -522,33 +1037,58 @@
     },
     "paymentMethod": {
       "type": "object",
-      "required": ["id", "type", "enabled"],
+      "required": [
+        "id",
+        "type",
+        "enabled"
+      ],
       "properties": {
-        "id": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
         "type": {
           "type": "string",
           "description": "sms | webview_card | … unknown types ignored by older apps"
         },
-        "enabled": { "type": "boolean" },
+        "enabled": {
+          "type": "boolean"
+        },
         "sms": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "number": { "type": "string" },
-            "prefix": { "type": "string" },
+            "number": {
+              "type": "string"
+            },
+            "prefix": {
+              "type": "string"
+            },
             "messageSlots": {
               "type": "array",
-              "items": { "$ref": "#/$defs/smsMessageSlot" }
+              "items": {
+                "$ref": "#/$defs/smsMessageSlot"
+              }
             },
-            "maxDurationMinutes": { "type": ["integer", "null"] },
+            "maxDurationMinutes": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
             "cooldownAfterMax": {
               "oneOf": [
-                { "type": "null" },
+                {
+                  "type": "null"
+                },
                 {
                   "type": "object",
                   "properties": {
-                    "enabled": { "type": "boolean" },
-                    "resumeNextPaymentWindow": { "type": "boolean" }
+                    "enabled": {
+                      "type": "boolean"
+                    },
+                    "resumeNextPaymentWindow": {
+                      "type": "boolean"
+                    }
                   },
                   "additionalProperties": false
                 }
@@ -560,57 +1100,126 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "urlTemplate": { "type": "string" },
-            "returnUrlScheme": { "type": "string" },
-            "parameters": { "type": "object" }
+            "urlTemplate": {
+              "type": "string"
+            },
+            "returnUrlScheme": {
+              "type": "string"
+            },
+            "parameters": {
+              "type": "object"
+            }
           }
         },
-        "effectiveFrom": { "type": ["string", "null"] },
-        "effectiveTo": { "type": ["string", "null"] }
+        "effectiveFrom": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       },
       "additionalProperties": false
     },
     "rule": {
       "type": "object",
-      "required": ["id", "type"],
+      "required": [
+        "id",
+        "type"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "type": { "type": "string" },
-        "maxDurationMinutes": { "type": "integer" },
-        "enabled": { "type": "boolean" },
-        "resumeNextPaymentWindow": { "type": "boolean" },
-        "slotIndex": { "type": "integer" },
-        "relativeToSlotIndex": { "type": "integer" },
-        "fromMinutesBeforeEnd": { "type": "number" },
-        "toMinutesBeforeEnd": { "type": "number" },
-        "eligibility": { "$ref": "#/$defs/eligibility" },
-        "notes": { "type": "string" }
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "description": "Known: max_duration, cooldown_after_max, sms_slot_send_window, resident_only, seasonal_active, free_initial_minutes. Apps ignore unknown types."
+        },
+        "maxDurationMinutes": {
+          "type": "integer"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "resumeNextPaymentWindow": {
+          "type": "boolean"
+        },
+        "slotIndex": {
+          "type": "integer"
+        },
+        "relativeToSlotIndex": {
+          "type": "integer"
+        },
+        "fromMinutesBeforeEnd": {
+          "type": "number"
+        },
+        "toMinutesBeforeEnd": {
+          "type": "number"
+        },
+        "eligibility": {
+          "$ref": "#/$defs/eligibility"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "For type free_initial_minutes: unpaid minutes at the start of a stay."
+        }
       },
       "additionalProperties": true
     },
     "coveragePolicy": {
       "type": "object",
-      "required": ["id", "cityId", "onOverlap", "zones"],
+      "required": [
+        "id",
+        "cityId",
+        "onOverlap",
+        "zones"
+      ],
       "additionalProperties": false,
       "properties": {
-        "id": { "type": "string" },
-        "cityId": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
+        "cityId": {
+          "type": "string"
+        },
         "onOverlap": {
           "type": "string",
-          "enum": ["offer_highest_rank", "offer_all", "offer_none"]
+          "enum": [
+            "offer_highest_rank",
+            "offer_all",
+            "offer_none"
+          ]
         },
         "zones": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["zoneId", "rank"],
+            "required": [
+              "zoneId",
+              "rank"
+            ],
             "additionalProperties": false,
             "properties": {
-              "zoneId": { "type": "string" },
-              "rank": { "type": "integer" },
+              "zoneId": {
+                "type": "string"
+              },
+              "rank": {
+                "type": "integer"
+              },
               "coversZoneIds": {
                 "type": "array",
-                "items": { "type": "string" }
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -619,42 +1228,275 @@
     },
     "residentPermit": {
       "type": "object",
-      "required": ["id", "validZoneIds"],
+      "required": [
+        "id",
+        "validZoneIds"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "locales": { "$ref": "#/$defs/localizedText" },
-        "validZoneIds": { "type": "array", "items": { "type": "string" } },
-        "eligibility": { "$ref": "#/$defs/eligibility" },
-        "effectiveFrom": { "type": ["string", "null"] },
-        "effectiveTo": { "type": ["string", "null"] }
+        "id": {
+          "type": "string"
+        },
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "validZoneIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "eligibility": {
+          "$ref": "#/$defs/eligibility"
+        },
+        "effectiveFrom": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effectiveTo": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       },
       "additionalProperties": false
     },
     "fine": {
       "type": "object",
-      "required": ["id", "amount"],
+      "required": [
+        "id",
+        "amount"
+      ],
       "properties": {
-        "id": { "type": "string" },
-        "operatorId": { "type": ["string", "null"] },
-        "zoneIds": { "type": "array", "items": { "type": "string" } },
-        "amount": { "$ref": "#/$defs/money" },
+        "id": {
+          "type": "string"
+        },
+        "operatorId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "zoneIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "amount": {
+          "$ref": "#/$defs/money"
+        },
         "discount": {
           "oneOf": [
-            { "type": "null" },
+            {
+              "type": "null"
+            },
             {
               "type": "object",
               "properties": {
-                "amount": { "$ref": "#/$defs/money" },
-                "percent": { "type": "number" },
-                "periodDurationMinutes": { "type": "integer" }
+                "amount": {
+                  "$ref": "#/$defs/money"
+                },
+                "percent": {
+                  "type": "number"
+                },
+                "periodDurationMinutes": {
+                  "type": "integer"
+                }
               },
               "additionalProperties": false
             }
           ]
         },
-        "locales": { "$ref": "#/$defs/localizedText" }
+        "locales": {
+          "$ref": "#/$defs/localizedText"
+        }
       },
       "additionalProperties": false
+    },
+    "holidayBehavior": {
+      "type": "string",
+      "enum": [
+        "free",
+        "closed",
+        "weekday",
+        "sunday"
+      ],
+      "description": "free = not enforced / no payment; closed = not in service; weekday/sunday = use that week's paymentWindows."
+    },
+    "holiday": {
+      "type": "object",
+      "required": [
+        "id",
+        "date",
+        "locales",
+        "defaultBehavior"
+      ],
+      "additionalProperties": false,
+      "description": "Catalog holiday. Require countryId and/or cityId (cityId = municipal scope).",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "countryId": {
+          "type": "string",
+          "description": "National / country-scoped holiday when cityId is absent."
+        },
+        "cityId": {
+          "type": "string",
+          "description": "Municipal holiday scoped to this city."
+        },
+        "date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Calendar date YYYY-MM-DD in the country/city timezone."
+        },
+        "locales": {
+          "$ref": "#/$defs/localizedText",
+          "description": "User-facing holiday name (locales.*.name required for display)."
+        },
+        "defaultBehavior": {
+          "$ref": "#/$defs/holidayBehavior"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Back-office only note (not shown in-app)."
+        }
+      }
+    },
+    "holidayOverride": {
+      "type": "object",
+      "required": [
+        "holidayId",
+        "behavior"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "holidayId": {
+          "type": "string"
+        },
+        "behavior": {
+          "type": "string",
+          "enum": [
+            "free",
+            "closed",
+            "weekday",
+            "sunday",
+            "custom"
+          ]
+        },
+        "paymentWindows": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/paymentWindow"
+          },
+          "description": "Required when behavior is custom."
+        }
+      }
+    },
+    "holidayPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Zone or polygon holiday observe/dismiss/override. Polygon overrides win over zone.",
+      "properties": {
+        "observeCountryHolidays": {
+          "type": "boolean",
+          "description": "When true (default), apply matching country holidays unless dismissed."
+        },
+        "observeCityHolidays": {
+          "type": "boolean",
+          "description": "When true (default), apply matching city holidays unless dismissed."
+        },
+        "dismissHolidayIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Treat these holidays as normal calendar days."
+        },
+        "overrides": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/holidayOverride"
+          }
+        }
+      }
+    },
+    "closure": {
+      "type": "object",
+      "required": [
+        "id",
+        "closedFrom",
+        "closedTo"
+      ],
+      "additionalProperties": false,
+      "description": "Temporary closure window (construction, event). Polygon-level supported.",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "closedFrom": {
+          "type": "string",
+          "description": "ISO date or datetime when closure starts."
+        },
+        "closedTo": {
+          "type": "string",
+          "description": "ISO date or datetime when closure ends (must be >= closedFrom)."
+        },
+        "locales": {
+          "$ref": "#/$defs/localizedText",
+          "description": "Optional in-app reason (locales.*.name)."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Back-office only."
+        }
+      }
+    },
+    "dayPricingOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional per-weekday pricing overlay. When absent for a day, use default product pricing.",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "per_hour",
+            "per_minute",
+            "fixed",
+            "ladder"
+          ]
+        },
+        "baseDurationMinutes": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "ladder": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pricingLadderStep"
+          }
+        },
+        "price": {
+          "$ref": "#/$defs/money"
+        }
+      }
+    },
+    "weekdayKey": {
+      "type": "string",
+      "enum": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
+      ]
     }
   }
 }

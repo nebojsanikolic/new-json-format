@@ -19,7 +19,7 @@ python3 scripts/split_parking_config.py \
 ```
 delivery/
   manifest.json          # always fetched first (small)
-  shared.json            # locales, currencies, countries, operators
+  shared.json            # locales, currencies, countries, operators, country holidays
   cities/
     city-beograd.json
     city-podgorica.json
@@ -165,6 +165,7 @@ Always bump the city `version` string on **any** city content change so soft upd
 Rarely changing catalog:
 
 - `locales`, `currencies`, `countries`, `operators`
+- `holidays` — country-scoped only (no `cityId`)
 - Plus `schemaVersion`, `version`, `generatedAt`
 
 Operators live here (not duplicated in every city file). City zones still reference `operatorId`.
@@ -182,6 +183,7 @@ One city slice:
 | `zones`, `polygons` | Geography for this city. |
 | `products`, `paymentMethods`, `rules` | Commerce referenced by this city’s zones/products. |
 | `coveragePolicies`, `residentPermits`, `fines` | City-scoped policy / extras. |
+| `holidays` | City/municipal holidays (`cityId` set). Country holidays stay in `shared.json`. |
 
 Payment methods and rules are **included by reference** from the city’s zones/products (not the entire global arrays).
 

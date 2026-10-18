@@ -35,6 +35,7 @@ Companion docs: [schema.md](schema.md) (concepts) · [parking-config.schema.json
 | `coveragePolicies` | array | **R** | Multi-zone overlap / coverage policy. |
 | `residentPermits` | array | **R** | Resident permits (may be `[]`). |
 | `fines` | array | **R** | Fine amounts / discounts (may be `[]`). |
+| `holidays` | array | O | Country + city/municipal holidays (omit or `[]`). |
 
 ```json
 {
@@ -45,6 +46,7 @@ Companion docs: [schema.md](schema.md) (concepts) · [parking-config.schema.json
   "currencies": [],
   "countries": [],
   "operators": [],
+  "holidays": [],
   "cities": [],
   "zones": [],
   "polygons": [],
@@ -122,6 +124,8 @@ Optional on many entities. `null` / omitted = always active.
 Use to stage future prices, polygons, or seasonal products ahead of time.
 
 ### Locale map (`locales` on entities)
+
+**User-facing display strings** (names, descriptions, `infoNote`, holiday names, closure reasons, update blurbs) use locale maps for supported langs: `sr-Latn`, `sr-Cyrl`, `en`, `ru`. Do not ship bare strings for anything the mobile app shows. Back-office-only labels (e.g. `seasonalWindows[].label`, `rules[].notes`, `source.notes`) may stay plain strings.
 
 Object keyed by locale id. Values are objects with optional text fields:
 
@@ -255,6 +259,35 @@ Centralized operators for fine display, contacts, etc. Empty until back office f
 | `fullDayButtonColor` | string \| null | O | Suggested color for full-day CTA (e.g. Šabac). |
 | `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating. |
 
+### `holidays[]`
+
+Country and city/municipal holidays. Require `countryId` and/or `cityId`. Delivery: no `cityId` → `shared.json`; with `cityId` → that city’s slice.
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Unique holiday id. |
+| `countryId` | string | O* | Country scope (*required if no `cityId`). |
+| `cityId` | string | O* | Municipal scope (*required if no `countryId`; may combine with `countryId`). |
+| `date` | string | **R** | `YYYY-MM-DD` in local timezone. |
+| `locales` | locale map | **R** | In-app name (`locales.*.name` required non-empty). |
+| `defaultBehavior` | string | **R** | `"free"` \| `"closed"` \| `"weekday"` \| `"sunday"`. |
+| `notes` | string | O | Back-office only. |
+
+```json
+{
+  "id": "hol-rs-2027-01-01",
+  "countryId": "rs",
+  "date": "2027-01-01",
+  "locales": {
+    "sr-Latn": { "name": "Nova godina" },
+    "sr-Cyrl": { "name": "Нова година" },
+    "en": { "name": "New Year's Day" },
+    "ru": { "name": "Новый год" }
+  },
+  "defaultBehavior": "free"
+}
+```
+
 ---
 
 ## Geography layer
@@ -301,7 +334,30 @@ Centralized operators for fine display, contacts, etc. Empty until back office f
 | `fullDayOnly` | boolean | O | If true, zone only sells full-day products (still has color, polygons, cards). |
 | `seasonalWindows` | SeasonalWindow[] | O | Active date ranges; optional polygon expansion for events. |
 | `operatorId` | string \| null | O | Operator responsible for this zone. |
+| `holidayPolicy` | HolidayPolicy | O | Observe / dismiss / override catalog holidays. |
+| `closures` | Closure[] | O | Temporary zone-wide closures. |
 | `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating. |
+
+#### `holidayPolicy`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `observeCountryHolidays` | boolean | O | Default `true` — apply country holidays unless dismissed. |
+| `observeCityHolidays` | boolean | O | Default `true` — apply city holidays unless dismissed. |
+| `dismissHolidayIds` | string[] | O | Treat these holiday ids as normal calendar days. |
+| `overrides[]` | object | O | Per-holiday behavior override (`holidayId`, `behavior`, optional `paymentWindows` when `behavior` is `"custom"`). |
+
+Polygon `overrides.holidayPolicy` wins over zone.
+
+#### `closures[]` item
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Closure id. |
+| `closedFrom` | string | **R** | ISO date/datetime start. |
+| `closedTo` | string | **R** | ISO date/datetime end (`>= closedFrom`). |
+| `locales` | locale map | O | In-app reason (`locales.*.name`). |
+| `notes` | string | O | Back-office only. |
 
 #### `paymentWindows[]` item
 
@@ -343,6 +399,7 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | `ring` | LatLng[] | **R** | Vertices as `[lat, lon]` pairs; each coord rounded to **6 decimal places**. |
 | `ringTruncated` | boolean | O | `true` when `ring` is a shortened sample (examples only). Prefer this over sentinel coordinates. |
 | `overrides` | PolygonOverrides | O | Fields that **replace** the parent zone for this polygon only. Empty `{}` = inherit everything. |
+| `closures` | Closure[] | O | Temporary **polygon-level** closures (lot/block). |
 | `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating (e.g. staged boundary change). |
 
 #### Override rule
@@ -361,6 +418,7 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | `eligibility` | Eligibility | Different eligibility. |
 | `fullDayOnly` | boolean | Override full-day-only flag. |
 | `enabled` | boolean | Override visibility for this polygon. |
+| `holidayPolicy` | HolidayPolicy | Override zone holiday policy for this polygon. |
 
 ```json
 {
@@ -406,6 +464,24 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | `ladder` | LadderStep[] | O | Ordered uneven increments (not hour-index-only). Empty when `mode` is flat `per_hour` / `fixed`. |
 | `nightRates` | NightRate[] | O | Night period prices. |
 | `seasonalPrices` | SeasonalPrice[] | O | Summer/winter (etc.) price schedules. |
+| `byDay` | object | O | Day-keyed pricing overlays (`monday`…`sunday` → partial ladder/price). If omitted, use default pricing for all days. |
+
+```json
+"pricing": {
+  "mode": "ladder",
+  "ladder": [{ "stepIndex": 1, "durationMinutes": 60, "price": { "amount": 80, "currencyId": "rsd" } }],
+  "byDay": {
+    "saturday": {
+      "mode": "ladder",
+      "ladder": [{ "stepIndex": 1, "durationMinutes": 60, "price": { "amount": 100, "currencyId": "rsd" } }]
+    },
+    "sunday": {
+      "mode": "ladder",
+      "ladder": [{ "stepIndex": 1, "durationMinutes": 60, "price": { "amount": 100, "currencyId": "rsd" } }]
+    }
+  }
+}
+```
 
 ##### Ladder step (`pricing.ladder[]`)
 
@@ -620,6 +696,15 @@ Typed objects. Apps **skip unknown `type`** values and keep offering known produ
 | `sms_slot_send_window` | `slotIndex`, `relativeToSlotIndex`, `fromMinutesBeforeEnd`, `toMinutesBeforeEnd` | Restrict when slot N may be sent (mirror of SMS sendWindow as a rule). |
 | `resident_only` | `eligibility` | Shorthand resident restriction. |
 | `seasonal_active` | (use with seasonal windows) | Product/zone only active in windows. |
+| `free_initial_minutes` | `minutes` | First N minutes unpaid; then paid product applies. Older apps ignore unknown types. |
+
+```json
+{
+  "id": "rule-free-initial-prod-x",
+  "type": "free_initial_minutes",
+  "minutes": 15
+}
+```
 
 ```json
 {

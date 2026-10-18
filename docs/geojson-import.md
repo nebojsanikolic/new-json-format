@@ -60,6 +60,7 @@ Coverage policies / `coversZoneIds` are **not** seeded on import (leave absent u
 | `workingDayOverrides` | Not in GeoJSON |
 | Seasonal `fee:conditional` date ranges (`Jun 10-Sep 10`) | Not mapped to weekly windows yet |
 | `coversZoneIds` / resident permits | Intentionally absent until back office |
+| `holidays[]`, `holidayPolicy`, `closures[]`, `pricing.byDay`, `free_initial_minutes` | Catalog / zone fields — fill in Studio after import |
 
 ## Next step: publish as manifest + cities
 

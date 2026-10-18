@@ -67,5 +67,19 @@
         "website": "https://example.parking.local"
       }
     }
+  ],
+  "holidays": [
+    {
+      "id": "hol-rs-2027-01-01",
+      "countryId": "rs",
+      "date": "2027-01-01",
+      "locales": {
+        "sr-Latn": { "name": "Nova godina" },
+        "sr-Cyrl": { "name": "Нова година" },
+        "en": { "name": "New Year's Day" },
+        "ru": { "name": "Новый год" }
+      },
+      "defaultBehavior": "free"
+    }
   ]
 }

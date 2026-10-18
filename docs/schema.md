@@ -44,11 +44,12 @@ Human-readable **concept** guide to `parking-config.generated.json`.
 | `coveragePolicies` | Multi-zone overlap + expensive-covers-cheaper |
 | `residentPermits` | Permit → valid zones (hooks; empty from prod) |
 | `fines` | Fine amounts / discounts (hooks; empty from prod) |
+| `holidays` | Country + city holidays (optional; see [holidays-and-time-rules.md](holidays-and-time-rules.md)) |
 
 ## Layers
 
 ```
-catalog          countries · cities · operators · currencies · locales
+catalog          countries · cities · operators · currencies · locales · holidays
 geography        zones → polygons   (polygon.overrides.* wins over zone)
 commerce         products + rules + paymentMethods   (linked by id)
 ```

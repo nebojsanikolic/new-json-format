@@ -37,6 +37,14 @@ CITY_ARRAY_KEYS = (
 )
 
 
+def _split_holidays(config: dict[str, Any]) -> tuple[list[dict], list[dict]]:
+    """Country-scoped (no cityId) → shared; city-scoped → city slices."""
+    all_holidays = list(config.get("holidays") or [])
+    country = [h for h in all_holidays if not h.get("cityId")]
+    city = [h for h in all_holidays if h.get("cityId")]
+    return country, city
+
+
 def _utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -105,6 +113,9 @@ def split_config(
     for key in SHARED_KEYS:
         shared[key] = list(config.get(key) or [])
 
+    country_holidays, city_holidays = _split_holidays(config)
+    shared["holidays"] = country_holidays
+
     zones = list(config.get("zones") or [])
     zones_by_city: dict[str, list[dict[str, Any]]] = {}
     for zone in zones:
@@ -162,6 +173,10 @@ def split_config(
         city_ver = default_city_version
         force = force_update_all_cities or city_id in force_update_cities
 
+        holidays_for_city = [
+            h for h in city_holidays if h.get("cityId") == city_id
+        ]
+
         slice_obj: dict[str, Any] = {
             "cityId": city_id,
             "countryId": country_id,
@@ -177,6 +192,7 @@ def split_config(
             "coveragePolicies": city_coverage,
             "residentPermits": city_residents,
             "fines": city_fines,
+            "holidays": holidays_for_city,
         }
         cities_out[city_id] = slice_obj
 
