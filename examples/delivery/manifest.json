@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0.0",
+  "minAppVersion": "5.0.0",
+  "mainVersion": "1.0.0-example",
+  "forceUpdate": false,
+  "generatedAt": "2026-10-18T13:00:00Z",
+  "shared": {
+    "version": "2026.10.18.1",
+    "forceUpdate": false,
+    "url": "shared.json"
+  },
+  "cities": [
+    {
+      "cityId": "city-beograd",
+      "countryId": "rs",
+      "version": "2026.10.18.1",
+      "forceUpdate": true,
+      "url": "cities/city-beograd.json",
+      "checksum": "e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d"
+    }
+  ]
+}

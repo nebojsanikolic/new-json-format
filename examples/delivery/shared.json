@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "version": "2026.10.18.1",
+  "generatedAt": "2026-10-18T13:00:00Z",
+  "locales": [
+    {
+      "id": "sr-Latn",
+      "name": "Srpski (latinica)",
+      "sortOrder": 1
+    },
+    {
+      "id": "en",
+      "name": "English",
+      "sortOrder": 2
+    }
+  ],
+  "currencies": [
+    {
+      "id": "rsd",
+      "legacyId": 1,
+      "code": "RSD",
+      "symbol": "RSD",
+      "exchangeRate": 1.0,
+      "locales": {
+        "en": {
+          "name": "Serbian Dinar"
+        }
+      }
+    }
+  ],
+  "countries": [
+    {
+      "id": "rs",
+      "timezone": "Europe/Belgrade",
+      "defaultCurrencyId": "rsd",
+      "languageSortOrder": ["sr-Latn", "en"],
+      "locales": {
+        "en": {
+          "name": "Serbia"
+        },
+        "sr-Latn": {
+          "name": "Srbija"
+        }
+      },
+      "coveragePolygon": null,
+      "effectiveFrom": null,
+      "effectiveTo": null
+    }
+  ],
+  "operators": [
+    {
+      "id": "op-example-beograd",
+      "legacyId": null,
+      "locales": {
+        "sr-Latn": {
+          "name": "Primer parking Beograd"
+        },
+        "en": {
+          "name": "Example Parking Belgrade"
+        }
+      },
+      "contact": {
+        "email": "example@parking.local",
+        "website": "https://example.parking.local"
+      }
+    }
+  ]
+}

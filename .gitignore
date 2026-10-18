@@ -4,6 +4,10 @@ private/
 **/private/**
 *.from-geojson.json
 
+# Full delivery trees (manifest+cities with real polygons) stay local
+parking-config-delivery/
+**/parking-config-delivery/**
+
 # Python
 __pycache__/
 *.py[cod]

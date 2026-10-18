@@ -62,5 +62,23 @@ timed price, `coversZoneIds: []`.
 | Temporary lots without SMS/price | Zone + disabled SMS hook; fill numbers/prices later |
 | `coversZoneIds` / resident permits | Intentionally empty until back office |
 
+## Next step: publish as manifest + cities
+
+The GeoJSON import writes a **monolith**. For production CDN delivery, split it:
+
+```bash
+python3 scripts/split_parking_config.py \
+  -i ~/Downloads/parking-config.from-geojson.json \
+  -o ~/Downloads/parking-config-delivery \
+  --force-update-cities city-beograd
+```
+
+That emits `manifest.json`, `shared.json`, and `cities/{cityId}.json`.
+Keep the full delivery folder **local** (or private CDN) — do not commit full
+city polygon dumps to this public repo. Checked-in stub only:
+[`examples/delivery/`](../examples/delivery/).
+
+`forceUpdate` rules and layout: [delivery-manifest.md](delivery-manifest.md).
+
 Schema: [parking-config.schema.json](parking-config.schema.json).  
 Legacy production transform (different source): `scripts/transform.py`.

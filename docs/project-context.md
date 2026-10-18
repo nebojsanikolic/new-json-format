@@ -40,9 +40,11 @@ Three layers:
 - Project store `docs/` mirrors the same materials for Context.
 - Format tweaks (2026-10-18): payment/night hours as `"HH:mm"`; zone/polygon `enabled`; lat/lng rounded to 6 dp; id refs documented clearly.
 - Pricing ladders: `{ stepIndex, durationMinutes, price }` (uneven increments; replaces hour-index-only).
+- **Delivery (2026-10-18):** production = `manifest.json` + `shared.json` + `cities/{cityId}.json` with per-city `version` and `forceUpdate` (hard refresh when SMS/price/rules change). Docs: [delivery-manifest.md](delivery-manifest.md). Script: `scripts/split_parking_config.py`. Monolith kept for tools.
 - Next (product/app): wire cutover, back-office editor, fill coverage `coversZoneIds` and multi-slot SMS windows that were previously hard-coded.
 
 ## Related
 
 - Requirements: [requirements.md](requirements.md)
+- Delivery: [delivery-manifest.md](delivery-manifest.md)
 - Legacy shape: [legacy-schema.json](legacy-schema.json)

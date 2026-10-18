@@ -1,0 +1,178 @@
+{
+  "cityId": "city-beograd",
+  "countryId": "rs",
+  "version": "2026.10.18.1",
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-10-18T13:00:00Z",
+  "city": {
+    "id": "city-beograd",
+    "legacyId": null,
+    "countryId": "rs",
+    "timezone": "Europe/Belgrade",
+    "shortName": "BG",
+    "center": {
+      "latitude": 44.817600,
+      "longitude": 20.456900
+    },
+    "locales": {
+      "sr-Latn": {
+        "name": "Beograd"
+      },
+      "en": {
+        "name": "Belgrade"
+      }
+    },
+    "zoneIds": ["zone-beograd-example-1"],
+    "coveragePolicyId": "coverage-beograd",
+    "coveragePolygon": null,
+    "fullDayButtonColor": null,
+    "effectiveFrom": null,
+    "effectiveTo": null
+  },
+  "zones": [
+    {
+      "id": "zone-beograd-example-1",
+      "legacyId": null,
+      "cityId": "city-beograd",
+      "enabled": true,
+      "color": "#E53935",
+      "locales": {
+        "sr-Latn": {
+          "name": "Zona 1 (primer)"
+        },
+        "en": {
+          "name": "Zone 1 (example)"
+        }
+      },
+      "polygonIds": ["poly-beograd-example-1"],
+      "productIds": ["product-beograd-example-timed"],
+      "paymentMethodIds": ["pay-sms-beograd-example-1"],
+      "paymentWindows": [
+        {
+          "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+          "startHour": "07:00",
+          "endHour": "21:00"
+        }
+      ],
+      "workingDayOverrides": [],
+      "eligibility": null,
+      "fullDayOnly": false,
+      "seasonalWindows": [],
+      "operatorId": "op-example-beograd",
+      "effectiveFrom": null,
+      "effectiveTo": null
+    }
+  ],
+  "polygons": [
+    {
+      "id": "poly-beograd-example-1",
+      "zoneId": "zone-beograd-example-1",
+      "enabled": true,
+      "ring": [
+        { "latitude": 44.818000, "longitude": 20.456000 },
+        { "latitude": 44.818000, "longitude": 20.457000 },
+        { "latitude": 44.817000, "longitude": 20.457000 },
+        { "latitude": 44.817000, "longitude": 20.456000 },
+        { "latitude": 44.818000, "longitude": 20.456000 }
+      ],
+      "overrides": null,
+      "effectiveFrom": null,
+      "effectiveTo": null
+    }
+  ],
+  "products": [
+    {
+      "id": "product-beograd-example-timed",
+      "legacyId": null,
+      "kind": "timed",
+      "zoneIds": ["zone-beograd-example-1"],
+      "coversZoneIds": [],
+      "locales": {
+        "sr-Latn": {
+          "name": "Sat vremena"
+        },
+        "en": {
+          "name": "One hour"
+        }
+      },
+      "color": "#E53935",
+      "price": {
+        "amount": 80.0,
+        "currencyId": "rsd"
+      },
+      "pricing": {
+        "baseDurationMinutes": 60,
+        "ladder": [],
+        "nightRates": []
+      },
+      "validity": null,
+      "paymentMethodIds": ["pay-sms-beograd-example-1"],
+      "ruleIds": ["rule-max-duration-180"],
+      "eligibility": null,
+      "effectiveFrom": null,
+      "effectiveTo": null
+    }
+  ],
+  "paymentMethods": [
+    {
+      "id": "pay-sms-beograd-example-1",
+      "type": "sms",
+      "enabled": true,
+      "sms": {
+        "number": "9000",
+        "prefix": "BG",
+        "messageSlots": [
+          {
+            "index": 1,
+            "durationMinutes": 60,
+            "sendWindow": null
+          }
+        ],
+        "maxDurationMinutes": 180,
+        "cooldownAfterMax": null
+      },
+      "effectiveFrom": null,
+      "effectiveTo": null
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule-max-duration-180",
+      "type": "max_duration",
+      "maxDurationMinutes": 180,
+      "notes": "Example stub — not production pricing"
+    }
+  ],
+  "coveragePolicies": [
+    {
+      "id": "coverage-beograd",
+      "cityId": "city-beograd",
+      "onOverlap": "offer_highest_rank",
+      "zones": [
+        {
+          "zoneId": "zone-beograd-example-1",
+          "rank": 80000,
+          "coversZoneIds": []
+        }
+      ]
+    }
+  ],
+  "residentPermits": [],
+  "fines": [
+    {
+      "id": "fine-beograd-example-1",
+      "operatorId": "op-example-beograd",
+      "zoneIds": ["zone-beograd-example-1"],
+      "amount": {
+        "amount": 5000.0,
+        "currencyId": "rsd"
+      },
+      "discount": null,
+      "locales": {
+        "en": {
+          "name": "Example fine"
+        }
+      }
+    }
+  ]
+}

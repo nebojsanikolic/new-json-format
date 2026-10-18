@@ -716,11 +716,31 @@ Generated data ranks zones by price; `coversZoneIds` is empty until back office 
 
 | Mechanism | Behavior |
 | --- | --- |
-| `dataVersion` | Compare to cached version; fetch/replace when newer. |
+| `dataVersion` | Monolith revision for cache / “is this newer?” when using a single file. |
 | `minAppVersion` | If app &lt; this, refuse config (prompt update). |
 | Unknown `rules[].type` | Ignore that rule; keep product if still usable. |
 | Unknown `paymentMethods[].type` | Hide that payment path. |
 | Unknown `eligibility.type` | Treat as not matching / hide offer (safer than granting access). |
+
+### Production delivery (manifest + shared + cities)
+
+Apps in production should fetch **`manifest.json`**, then **`shared.json`** and
+per-city files — not the full monolith on every launch. See
+**[delivery-manifest.md](delivery-manifest.md)** for the full contract.
+
+| Flag | Behavior |
+| --- | --- |
+| `cities[].forceUpdate: true` | Hard refresh that city **before** using it (e.g. SMS/price/rules changed). Do not keep serving stale cache for parking in that city. |
+| `cities[].forceUpdate: false` | Soft update; refresh in background. |
+| `shared.forceUpdate` | Hard vs soft refresh of locales / currencies / countries / operators. |
+| Manifest root `forceUpdate` | Global/schema refresh and/or app gate via `minAppVersion`. |
+
+Bump each city `version` on any city content change. Set `forceUpdate: true`
+when payment/SMS/price/rules would make old data wrong or illegal; leave
+`false` for pure map/cosmetic tweaks if desired.
+
+Split a monolith with `scripts/split_parking_config.py`. Tiny sample:
+[`examples/delivery/`](../examples/delivery/).
 
 ---
 
@@ -753,7 +773,10 @@ Generated data ranks zones by price; `coversZoneIds` is empty until back office 
 | --- | --- |
 | [schema.md](schema.md) | Concept guide |
 | [parking-config.schema.json](parking-config.schema.json) | JSON Schema |
-| [../data/parking-config.generated.json](../data/parking-config.generated.json) | Full generated config |
+| [delivery-manifest.md](delivery-manifest.md) | Manifest + shared + per-city delivery + `forceUpdate` |
+| [geojson-import.md](geojson-import.md) | Local GeoJSON → monolith (confidential) |
+| [../data/parking-config.generated.json](../data/parking-config.generated.json) | Full generated config (monolith) |
 | [../examples/belgrade-snippet.json](../examples/belgrade-snippet.json) | Belgrade excerpt |
+| [../examples/delivery/](../examples/delivery/) | Minimal manifest delivery stub |
 | [requirements.md](requirements.md) | Product requirements |
 | [project-context.md](project-context.md) | Locked decisions |
