@@ -1,120 +1,101 @@
-# New JSON format
+# Parking config format
 
-Rule-data parking configuration for Nebojša Nikolić’s parking app.
+Remote **rule-data** for Serbia / Montenegro parking apps — zones, prices, SMS, hours, polygons — shipped as JSON so cities can update **without** a full force-refresh of every file.
 
-This repo defines a **new remote-config JSON shape** to replace today’s flat `zonesData_v2` file. After one cutover (force-update is OK), new parking rules can ship via config without hard-coding them in the app — except brand-new engine capabilities that need a newer app version.
+This repo is the **schema, docs, and CLI**. Editing UI lives in a separate private studio (`parking-config-studio`).
 
-There is **no legacy-format compatibility**. Field names are written for a back-office editor (non-developers), not for matching old keys.
+No legacy-key compatibility. Names are for back-office editors, not for mirroring old `zonesData_v2` keys.
 
-## Start here
+---
 
-| Read this | For |
+## Why
+
+| Before | After |
 | --- | --- |
-| [`docs/field-reference.md`](docs/field-reference.md) | **Full field reference** — every parameter for teammates |
-| [`docs/delivery-manifest.md`](docs/delivery-manifest.md) | **Production delivery** — manifest + shared + per-city + `forceUpdate` |
-| [`docs/schema.md`](docs/schema.md) | Concept guide (layers, inheritance, mapping) |
-| [`docs/parking-config.schema.json`](docs/parking-config.schema.json) | Machine JSON Schema |
-| [`data/parking-config.generated.json`](data/parking-config.generated.json) | Full transformed production data (monolith / tools) |
-| [`examples/delivery/`](examples/delivery/) | Tiny sample delivery package (`forceUpdate` demo) |
-| [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) | Small Belgrade excerpt (polygons truncated) |
-| [`docs/project-context.md`](docs/project-context.md) | Locked design decisions |
-| [`docs/requirements.md`](docs/requirements.md) | Product requirements list |
-| [`docs/geojson-import.md`](docs/geojson-import.md) | Import from local GeoJSON (confidential polygons) |
+| One flat file for all cities | Small `manifest.json` → `shared.json` + only changed city files |
+| App update for every rule tweak | Config publish; app update only for new engine capabilities |
+| Opaque legacy keys | Explicit products, payment methods, money, locales |
 
-## Architecture (three layers)
+---
+
+## Paths
+
+| Goal | Go here |
+| --- | --- |
+| Every field | [`docs/field-reference.md`](docs/field-reference.md) |
+| CDN / `forceUpdate` / checksums | [`docs/delivery-manifest.md`](docs/delivery-manifest.md) |
+| Concepts (layers, inheritance) | [`docs/schema.md`](docs/schema.md) |
+| Machine schema | [`docs/parking-config.schema.json`](docs/parking-config.schema.json) |
+| GeoJSON → config (local, confidential) | [`docs/geojson-import.md`](docs/geojson-import.md) |
+| Tiny delivery stub | [`examples/delivery/`](examples/delivery/) |
+| Readable city excerpt | [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) |
+
+---
+
+## Shape (sketch)
 
 ```
 catalog      countries · cities · operators · currencies · locales
-geography    zones → polygons     (polygon.overrides.* beats the zone)
-commerce     products + rules + paymentMethods
+geography    zones → polygons     (polygon.overrides.* wins over zone)
+commerce     products · paymentMethods · rules
 ```
 
-- **Products** describe *what* is sold (duration, price, eligibility, validity).
-- **Payment methods** describe *how* to pay, by `type`:
-  - `sms` — live today (number, prefix, `messageSlots`, send windows, cooldown)
-  - `webview_card` — ready structurally; add a method + app support later **without reshaping** products or zones
-- Zones/products hold **`productIds` / `paymentMethodIds`** — string ids pointing at those top-level arrays (references, not nested payloads).
-- **Hours** use `"HH:mm"` strings (`"07:00"`, `"24:00"` for end-of-day). Zones have **`enabled`** (`false` = hide in app). Coordinates are **`[lat, lon]`** arrays (lat-first), rounded to **6 decimal places**.
-- **Money** is always `{ "amount": number, "currencyId": string }`.
-- **Locales** are maps (`sr-Latn`, `en`, …); grammatical cases nest under the locale.
-- **Versioning:** monolith uses `dataVersion` + `minAppVersion` (+ optional `schemaVersion`). Production CDN delivery uses **manifest + shared + cities** with explicit **`schemaVersion`** (envelope), `mainVersion` / city / shared content versions, **`forceUpdate`**, and **`checksum` / `contentHash`** as `sha256:<hex>` of file bytes (see below).
+Products = *what* is sold. Payment methods = *how* (today: `sms`; `webview_card` ready structurally). Zones link by id arrays — no nested payloads.
 
-## Production delivery layout
+---
 
-```
-manifest.json              # small — always fetched first
-shared.json                # locales, currencies, countries, operators
-cities/
-  city-beograd.json        # city + zones, polygons, products, payments, rules, …
-  city-….json
+## Compact examples
+
+Coordinates are **`[lat, lon]`** (lat-first, 6 dp) — not GeoJSON lon-first, not `{ latitude, longitude }` objects. Truncated samples use `"ringTruncated": true` (no sentinel vertex).
+
+```json
+"ring": [[44.814512, 20.45659], [44.814231, 20.457672]],
+"ringTruncated": true
 ```
 
-- **`forceUpdate: true`** on a city → app must download that city file before relying on it (SMS/price/payment/rules changed). Do not keep serving stale cache for that city.
-- **`forceUpdate: false`** → soft / background refresh.
-- Manifest root **`forceUpdate`** → global/schema refresh and/or app gate via `minAppVersion`.
-
-Full contract: [`docs/delivery-manifest.md`](docs/delivery-manifest.md).  
-Sample (fake Belgrade stub only): [`examples/delivery/`](examples/delivery/).
-
-```bash
-python3 scripts/split_parking_config.py \
-  -i ~/Downloads/parking-config.from-geojson.json \
-  -o ~/Downloads/parking-config-delivery \
-  --force-update-cities city-beograd
+```json
+"price": { "amount": 80, "currencyId": "rsd" }
 ```
 
-The **monolith** remains optional for tools and transforms; production delivery is the split package.
-
-## Repo layout
-
-```
-README.md
-data/
-  parking-config.generated.json   # full new-format config from production (monolith)
-  zonesData_v2.source.json        # snapshot of production input
-docs/
-  delivery-manifest.md            # CDN delivery + forceUpdate semantics
-  field-reference.md
-  schema.md
-  parking-config.schema.json
-  geojson-import.md
-  project-context.md
-  requirements.md
-  legacy-schema.json
-examples/
-  belgrade-snippet.json
-  delivery/                       # minimal manifest + shared + city stub
-scripts/
-  transform.py                    # regenerates generated JSON + Belgrade example
-  geojson_to_parking_config.py    # local GeoJSON → parking-config monolith
-  split_parking_config.py         # monolith → manifest + shared + cities
-private/                          # gitignored — local GeoJSON / import outputs only
+```json
+"ladder": [
+  { "stepIndex": 1, "durationMinutes": 60, "price": { "amount": 80, "currencyId": "rsd" } },
+  { "stepIndex": 2, "durationMinutes": 30, "price": { "amount": 40, "currencyId": "rsd" } }
+]
 ```
 
-**Confidential:** Source GeoJSON (Serbia/Montenegro) and full city polygon dumps must **not** be committed. Keep under `private/` (gitignored) or outside the repo (e.g. `~/Downloads`).
+Manifest integrity (exact UTF-8 file bytes):
 
-## How the generated file was produced
-
-1. Production source:  
-   https://raw.githubusercontent.com/nebojsanikolic/jsonHost/refs/heads/main/zonesData_v2.json  
-   (snapshot also stored as `data/zonesData_v2.source.json`)
-2. Transform: `python3 scripts/transform.py`
-3. Output: `data/parking-config.generated.json`  
-   (~98 cities, 211 zones, polygons, timed + full-day products, SMS payment methods, coverage policy stubs)
-
-Features not present in production (night rates, filled price ladders, seasonal overlays, resident permits, fines, live webview card, explicit `coversZoneIds`) are **hooks in the schema** — empty arrays, disabled example payment method, or documented for back office to fill. Ladder shape when used: `{ "stepIndex", "durationMinutes", "price" }` (uneven increments OK; see field reference).
-
-## Regenerate locally
-
-```bash
-python3 scripts/transform.py
+```json
+"checksum": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d",
+"contentHash": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d"
 ```
 
-Python 3.10+. Overwrites `data/parking-config.generated.json` and `examples/belgrade-snippet.json`.
+Also: hours as `"HH:mm"` / `"24:00"` · locales as maps (`sr-Latn`, `en`, …) · envelope `schemaVersion` separate from `mainVersion` / city / shared content versions.
 
-### From local GeoJSON (confidential)
+---
 
-Keep GeoJSON and full import output **out of git** (`private/`, `*.geojson` are ignored). See [`docs/geojson-import.md`](docs/geojson-import.md).
+## Delivery
+
+```
+manifest.json          ← always fetched first
+shared.json            ← locales, currencies, countries, operators
+cities/{cityId}.json   ← one city slice
+```
+
+- City `forceUpdate: true` → download before parking in that city (price / SMS / rules).
+- `false` → soft / background refresh.
+- Root `forceUpdate` → global / schema gate (+ `minAppVersion` when needed).
+
+Details: [`docs/delivery-manifest.md`](docs/delivery-manifest.md).
+
+---
+
+## CLI
+
+Python 3.10+. Keep source GeoJSON and full polygon dumps **out of git** (`private/`, `*.geojson`).
+
+**GeoJSON → monolith** (local paths only):
 
 ```bash
 python3 scripts/geojson_to_parking_config.py \
@@ -123,18 +104,44 @@ python3 scripts/geojson_to_parking_config.py \
   -o ~/Downloads/parking-config.from-geojson.json
 ```
 
-Then split for delivery (local folder only):
+**Monolith → delivery package:**
 
 ```bash
 python3 scripts/split_parking_config.py \
   -i ~/Downloads/parking-config.from-geojson.json \
-  -o ~/Downloads/parking-config-delivery
+  -o ~/Downloads/parking-config-delivery \
+  --force-update-cities city-beograd
 ```
 
-## Review tips
+**Regenerate checked-in transform** (from `data/zonesData_v2.source.json`):
 
-1. Architecture overview above → then [`docs/field-reference.md`](docs/field-reference.md) for every field.
-2. Delivery + `forceUpdate`: [`docs/delivery-manifest.md`](docs/delivery-manifest.md) and [`examples/delivery/`](examples/delivery/).
-3. Open [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) for a readable city excerpt.
-4. Spot-check the full monolith against [`docs/parking-config.schema.json`](docs/parking-config.schema.json).
-5. Concepts + production mapping: [`docs/schema.md`](docs/schema.md); legacy shape: [`docs/legacy-schema.json`](docs/legacy-schema.json).
+```bash
+python3 scripts/transform.py
+```
+
+---
+
+## Studio (separate repo)
+
+**Parking Config Studio** (private) — map editor, Validate, Publish wizard, folder/ZIP export.  
+This repo stays the source of truth for **format + scripts + docs**; the studio consumes and emits the same shape.
+
+---
+
+## Repo map
+
+| Path | Role |
+| --- | --- |
+| `docs/` | Field reference, delivery contract, schema |
+| `scripts/` | Transform, GeoJSON import, split for CDN |
+| `data/` | Generated monolith + source snapshot |
+| `examples/` | Snippet + minimal delivery stub |
+| `private/` | Gitignored local GeoJSON / outputs |
+
+---
+
+## Status notes
+
+- Cutover from `zonesData_v2` is one-time (force-update OK).
+- Schema hooks (night rates, seasonal overlays, `coversZoneIds`, webview card, …) may be empty until back office fills them — see field reference.
+- Full polygons are confidential; only truncated samples ship in examples.
