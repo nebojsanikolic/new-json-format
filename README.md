@@ -33,6 +33,7 @@ No legacy-key compatibility. Names are for back-office editors, not for mirrorin
 | Tiny delivery stub | [`examples/delivery/`](examples/delivery/) |
 | Client-resolve fixtures | [`examples/client-resolve/`](examples/client-resolve/) |
 | Readable city excerpt | [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) |
+| Open questions (before ship) | [§ Open questions](#open-questions-before-ship) |
 
 ---
 
@@ -149,8 +150,19 @@ This repo stays the source of truth for **format + scripts + docs**; the studio 
 
 ---
 
+## Open questions (before ship)
+
+Decisions still open before production cutover — not a backlog dump. No new schema fields until these land.
+
+- **Residential subzones / “don’t nag to pay”** — In Belgrade (and similar), some areas are residential subzones. Users with a residential ticket get notifications when they enter that zone, but they shouldn’t need to buy on-street parking there. Open: how should data + app treat this? (polygon with `residents` eligibility vs separate zone vs future `purchaseLocation` / suppress pay prompts when an active resident permit covers the area.) **Do not implement a field yet** — product + app decision first. Related: [enums.md](docs/enums.md) (`EligibilityType`) · [evaluation-order.md](docs/evaluation-order.md) · [holidays-and-time-rules.md](docs/holidays-and-time-rules.md) (domain: public on-street).
+- **Dev / prod distribution rail + CI validate gate** — Studio publish → separate dev/prod destinations; CI re-Validates + checks checksums on push (block on failure). Encrypt/sign later. Ops plan lives outside this schema repo.
+- **Signed manifest / CDN encryption** — Deferred; needed for hardened prod delivery, not blocking format freeze.
+- **`checksum` vs `contentHash`** — Both currently carry the same `sha256:<hex>` digest ([delivery-manifest.md](docs/delivery-manifest.md)). Prefer **`checksum`** as the one clients verify; keep or drop `contentHash` once apps agree.
+- **Coverage `coversZoneIds` + SMS `sendWindow`** — Schema ready; fill in studio where business needs them (not seeded on GeoJSON import).
+- **Client-resolve fixtures vs real Belgrade residential** — Optional follow-up golden case once the residential-subzone model is decided ([examples/client-resolve/](examples/client-resolve/)).
+
 ## Status notes
 
 - Cutover from `zonesData_v2` is one-time (force-update OK).
-- Schema hooks (night rates, seasonal overlays, `coversZoneIds`, webview card, …) may be empty until back office fills them — see field reference.
+- Night rates, seasonal overlays, webview card, etc. may stay empty until back office fills them — see [field-reference.md](docs/field-reference.md).
 - Full polygons are confidential; only truncated samples ship in examples.

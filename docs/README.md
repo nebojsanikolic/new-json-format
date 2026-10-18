@@ -15,4 +15,4 @@
 | [requirements.md](requirements.md) | Product requirements |
 | [legacy-schema.json](legacy-schema.json) | Old `zonesData_v2` shape |
 
-Landing: [../README.md](../README.md) · Delivery stub: [../examples/delivery/](../examples/delivery/) · Resolve fixtures: [../examples/client-resolve/](../examples/client-resolve/) · Monolith: [../data/parking-config.generated.json](../data/parking-config.generated.json)
+Landing: [../README.md](../README.md) (includes [Open questions before ship](../README.md#open-questions-before-ship)) · Delivery stub: [../examples/delivery/](../examples/delivery/) · Resolve fixtures: [../examples/client-resolve/](../examples/client-resolve/) · Monolith: [../data/parking-config.generated.json](../data/parking-config.generated.json)
