@@ -108,8 +108,9 @@ def round_coord(value: Any) -> float:
     return round(float(value), 6)
 
 
-def lat_lng(latitude: Any, longitude: Any) -> dict[str, float]:
-    return {"latitude": round_coord(latitude), "longitude": round_coord(longitude)}
+def lat_lng(latitude: Any, longitude: Any) -> list[float]:
+    """Storage point as [lat, lon] (lat-first; not GeoJSON order)."""
+    return [round_coord(latitude), round_coord(longitude)]
 
 
 def normalize_hhmm(value: str) -> str:
@@ -201,7 +202,7 @@ def parse_fee_conditional(raw: Any) -> list[dict[str, Any]]:
     return windows
 
 
-def parse_city_center(raw: Any) -> dict[str, float] | None:
+def parse_city_center(raw: Any) -> list[float] | None:
     if not raw:
         return None
     parts = [p.strip() for p in str(raw).split(",")]
@@ -210,7 +211,7 @@ def parse_city_center(raw: Any) -> dict[str, float] | None:
     return lat_lng(parts[0], parts[1])
 
 
-def ring_from_geometry(geometry: dict[str, Any] | None) -> list[dict[str, float]]:
+def ring_from_geometry(geometry: dict[str, Any] | None) -> list[list[float]]:
     if not geometry:
         return []
     gtype = geometry.get("type")
@@ -221,11 +222,11 @@ def ring_from_geometry(geometry: dict[str, Any] | None) -> list[dict[str, float]
         outer = coords[0][0]
     else:
         return []
-    ring: list[dict[str, float]] = []
+    ring: list[list[float]] = []
     for pt in outer:
         if len(pt) < 2:
             continue
-        # GeoJSON is [lng, lat]
+        # GeoJSON is [lng, lat] → storage [lat, lon]
         ring.append(lat_lng(pt[1], pt[0]))
     return ring
 
@@ -452,10 +453,9 @@ def transform_geojson_files(
             except (TypeError, ValueError):
                 legacy_city_id = None
 
-            center = parse_city_center(sample.get("city_coordinate")) or {
-                "latitude": 0.0,
-                "longitude": 0.0,
-            }
+            center = parse_city_center(sample.get("city_coordinate")) or lat_lng(
+                0.0, 0.0
+            )
 
             zone_ids: list[str] = []
             zone_price_for_rank: dict[str, float] = {}
@@ -876,8 +876,9 @@ def make_sample(config: dict[str, Any], city_ids: list[str]) -> dict[str, Any]:
         clipped = dict(p)
         if len(ring) > 8:
             clipped["ring"] = ring[:3] + ring[-1:]
-            clipped["_ringTruncated"] = True
-            clipped["_ringPointCount"] = len(ring)
+            clipped["ringTruncated"] = True
+            clipped.pop("_ringTruncated", None)
+            clipped.pop("_ringPointCount", None)
         polygons.append(clipped)
     product_ids = {pid for z in zones for pid in (z.get("productIds") or [])}
     products = [p for p in config["products"] if p["id"] in product_ids]

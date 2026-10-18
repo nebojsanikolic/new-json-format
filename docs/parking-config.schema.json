@@ -99,20 +99,12 @@
       }
     },
     "latLng": {
-      "type": "object",
-      "required": ["latitude", "longitude"],
-      "additionalProperties": false,
-      "description": "WGS84 coordinate. Store rounded to 6 decimal places.",
-      "properties": {
-        "latitude": {
-          "type": "number",
-          "description": "WGS84 latitude, rounded to 6 decimal places."
-        },
-        "longitude": {
-          "type": "number",
-          "description": "WGS84 longitude, rounded to 6 decimal places."
-        }
-      }
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "WGS84 point as [latitude, longitude] (lat-first, mobile-friendly — not GeoJSON lon-first). Rounded to 6 decimal places.",
+      "items": { "type": "number" },
+      "examples": [[44.814512, 20.45659]]
     },
     "timeOfDay": {
       "type": "string",
@@ -379,7 +371,12 @@
         },
         "ring": {
           "type": "array",
-          "items": { "$ref": "#/$defs/latLng" }
+          "items": { "$ref": "#/$defs/latLng" },
+          "description": "Polygon vertices as [lat, lon] pairs."
+        },
+        "ringTruncated": {
+          "type": "boolean",
+          "description": "True when `ring` is a shortened sample (examples / snippets). Prefer this over sentinel coordinates."
         },
         "overrides": { "$ref": "#/$defs/polygonOverrides" },
         "effectiveFrom": { "type": ["string", "null"] },

@@ -82,18 +82,15 @@ Used **everywhere** money appears. Never a bare number with a sibling currency s
 { "amount": 80.0, "currencyId": "rsd" }
 ```
 
-### LatLng
+### LatLng (`[lat, lon]`)
 
-| Field | Type | R/O | Meaning |
-| --- | --- | --- | --- |
-| `latitude` | number | **R** | WGS84 latitude, **rounded to 6 decimal places**. |
-| `longitude` | number | **R** | WGS84 longitude, **rounded to 6 decimal places**. |
+A point is a **2-element array**: `[latitude, longitude]` (lat-first — mobile-friendly, **not** GeoJSON’s lon-first). Both numbers **rounded to 6 decimal places**.
 
 ```json
-{ "latitude": 44.814512, "longitude": 20.456590 }
+[44.814512, 20.45659]
 ```
 
-Always round when writing config (back office + transform). Do not store full GPS float noise.
+Used for `city.center`, `coveragePolygon`, and every `polygons[].ring` vertex. Do **not** use `{ "latitude", "longitude" }` objects (verbose key repetition). Always round when writing config.
 
 ### Time of day (`HH:mm`)
 
@@ -343,7 +340,8 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | `id` | string | **R** | Polygon id. |
 | `zoneId` | string | **R** | Parent zone. |
 | `enabled` | boolean | **R** | When `false`, hide this polygon (other polygons of the zone may still show). Production transform sets `true`. |
-| `ring` | LatLng[] | **R** | Closed ring; each point rounded to **6 decimal places**. |
+| `ring` | LatLng[] | **R** | Vertices as `[lat, lon]` pairs; each coord rounded to **6 decimal places**. |
+| `ringTruncated` | boolean | O | `true` when `ring` is a shortened sample (examples only). Prefer this over sentinel coordinates. |
 | `overrides` | PolygonOverrides | O | Fields that **replace** the parent zone for this polygon only. Empty `{}` = inherit everything. |
 | `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating (e.g. staged boundary change). |
 
@@ -369,7 +367,7 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
   "id": "poly-beograd-zona-1-0",
   "zoneId": "zone-beograd-zona-1",
   "enabled": true,
-  "ring": [{ "latitude": 44.814512, "longitude": 20.456590 }],
+  "ring": [[44.814512, 20.45659], [44.8141, 20.4572]],
   "overrides": {},
   "effectiveFrom": null,
   "effectiveTo": null

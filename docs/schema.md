@@ -123,7 +123,7 @@ Hours use **`HH:mm` strings** (`"07:00"`, `"22:00"`). Use `"24:00"` for end-of-d
 
 Zones (and polygons) have **`enabled`**. When `false`, the app must hide them. Production transform sets `enabled: true` for all.
 
-Coordinates (city centers, polygon rings) are **rounded to 6 decimal places**.
+Coordinates are **`[latitude, longitude]`** arrays (lat-first), rounded to **6 decimal places**. Not GeoJSON lon-first; not `{ latitude, longitude }` objects.
 
 ## Polygons
 
@@ -132,12 +132,14 @@ Coordinates (city centers, polygon rings) are **rounded to 6 decimal places**.
   "id": "poly-…",
   "zoneId": "zone-…",
   "enabled": true,
-  "ring": [{ "latitude": 44.814512, "longitude": 20.456590 }],
+  "ring": [[44.814512, 20.45659], [44.8141, 20.4572]],
   "overrides": {},
   "effectiveFrom": null,
   "effectiveTo": null
 }
 ```
+
+Sample/truncated rings set `"ringTruncated": true` on the polygon (no sentinel vertex).
 
 `overrides` may repeat any zone-level commercial/geo field. Empty object = inherit everything from the zone.
 

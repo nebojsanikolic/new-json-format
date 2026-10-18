@@ -33,7 +33,10 @@
       "id": "rs",
       "timezone": "Europe/Belgrade",
       "defaultCurrencyId": "rsd",
-      "languageSortOrder": ["sr-Latn", "en"],
+      "languageSortOrder": [
+        "sr-Latn",
+        "en"
+      ],
       "locales": {
         "en": {
           "name": "Serbia"

@@ -105,11 +105,9 @@ def round_coord(value: Any) -> float:
     return round(float(value), 6)
 
 
-def lat_lng(latitude: Any, longitude: Any) -> dict[str, float]:
-    return {
-        "latitude": round_coord(latitude),
-        "longitude": round_coord(longitude),
-    }
+def lat_lng(latitude: Any, longitude: Any) -> list[float]:
+    """Storage point as [lat, lon] (lat-first; not GeoJSON order)."""
+    return [round_coord(latitude), round_coord(longitude)]
 
 
 def payment_windows_from_hours(parking_hours: dict[str, Any] | None) -> list[dict[str, Any]]:
@@ -679,18 +677,11 @@ def belgrade_snippet(config: dict[str, Any]) -> dict[str, Any]:
     for p in config["polygons"]:
         if p["id"] in polygon_ids:
             ring = p["ring"]
-            polygons.append(
-                {
-                    **p,
-                    "ring": ring[:3]
-                    + (
-                        [{"latitude": 0.0, "longitude": 0.0, "_truncated": True}]
-                        if len(ring) > 3
-                        else []
-                    ),
-                    "_ringPointCount": len(ring),
-                }
-            )
+            clipped = {**p, "ring": ring[:3] if len(ring) > 3 else list(ring)}
+            if len(ring) > 3:
+                clipped["ringTruncated"] = True
+            clipped.pop("_ringPointCount", None)
+            polygons.append(clipped)
 
     product_ids = {pid for z in zones for pid in z["productIds"]}
     products = [p for p in config["products"] if p["id"] in product_ids]
