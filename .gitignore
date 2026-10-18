@@ -1,0 +1,14 @@
+# Confidential / local-only GeoJSON and generated outputs
+private/
+*.geojson
+**/private/**
+*.from-geojson.json
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+.venv/
+venv/
+.env
+.DS_Store

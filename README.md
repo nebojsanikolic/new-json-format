@@ -17,6 +17,7 @@ There is **no legacy-format compatibility**. Field names are written for a back-
 | [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) | Small Belgrade excerpt (polygons truncated) |
 | [`docs/project-context.md`](docs/project-context.md) | Locked design decisions |
 | [`docs/requirements.md`](docs/requirements.md) | Product requirements list |
+| [`docs/geojson-import.md`](docs/geojson-import.md) | Import from local GeoJSON (confidential polygons) |
 
 ## Architecture (three layers)
 
@@ -53,6 +54,8 @@ examples/
   belgrade-snippet.json
 scripts/
   transform.py                    # regenerates generated JSON + Belgrade example
+  geojson_to_parking_config.py    # local GeoJSON → parking-config (see docs/geojson-import.md)
+private/                          # gitignored — local GeoJSON / import outputs only
 ```
 
 ## How the generated file was produced
@@ -73,6 +76,17 @@ python3 scripts/transform.py
 ```
 
 Python 3.10+. Overwrites `data/parking-config.generated.json` and `examples/belgrade-snippet.json`.
+
+### From local GeoJSON (confidential)
+
+Keep GeoJSON and full import output **out of git** (`private/`, `*.geojson` are ignored). See [`docs/geojson-import.md`](docs/geojson-import.md).
+
+```bash
+python3 scripts/geojson_to_parking_config.py \
+  --rs ~/Downloads/ParkingZonesWithUUID.geojson \
+  --me ~/Downloads/parkingZonesMontenegroUUID.geojson \
+  -o ~/Downloads/parking-config.from-geojson.json
+```
 
 ## Review tips
 
