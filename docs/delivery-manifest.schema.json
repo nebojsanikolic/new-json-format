@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/nebojsanikolic/new-json-format/docs/delivery-manifest.schema.json",
+  "title": "ParkingConfigDeliveryManifest",
+  "description": "CDN manifest.json: shared + countries index + cities. Full country objects remain in shared.json (v1).",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "minAppVersion",
+    "mainVersion",
+    "forceUpdate",
+    "generatedAt",
+    "shared",
+    "countries",
+    "cities"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "string" },
+    "minAppVersion": { "type": "string" },
+    "mainVersion": { "type": "string" },
+    "forceUpdate": { "type": "boolean" },
+    "updateDescription": {
+      "oneOf": [
+        { "type": "string" },
+        { "$ref": "#/$defs/updateDescriptionLocales" }
+      ]
+    },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "shared": { "$ref": "#/$defs/sharedEntry" },
+    "countries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/countryEntry" }
+    },
+    "cities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/cityEntry" }
+    },
+    "source": { "type": "object" },
+    "forcedExport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["at", "errorCount"],
+      "properties": {
+        "at": { "type": "string", "format": "date-time" },
+        "errorCount": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "$defs": {
+    "localeId": {
+      "type": "string",
+      "enum": ["sr-Latn", "sr-Cyrl", "en", "ru"]
+    },
+    "updateDescriptionLocales": {
+      "type": "object",
+      "required": ["sr-Latn", "sr-Cyrl", "en", "ru"],
+      "additionalProperties": false,
+      "properties": {
+        "sr-Latn": { "type": "string" },
+        "sr-Cyrl": { "type": "string" },
+        "en": { "type": "string" },
+        "ru": { "type": "string" }
+      }
+    },
+    "localesMapName": {
+      "type": "object",
+      "required": ["sr-Latn", "sr-Cyrl", "en", "ru"],
+      "additionalProperties": false,
+      "properties": {
+        "sr-Latn": {
+          "type": "object",
+          "properties": { "name": { "type": "string" } }
+        },
+        "sr-Cyrl": {
+          "type": "object",
+          "properties": { "name": { "type": "string" } }
+        },
+        "en": {
+          "type": "object",
+          "properties": { "name": { "type": "string" } }
+        },
+        "ru": {
+          "type": "object",
+          "properties": { "name": { "type": "string" } }
+        }
+      }
+    },
+    "checksum": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "sharedEntry": {
+      "type": "object",
+      "required": ["version", "forceUpdate", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "type": "string" },
+        "forceUpdate": { "type": "boolean" },
+        "url": { "type": "string" },
+        "checksum": { "$ref": "#/$defs/checksum" },
+        "contentHash": { "$ref": "#/$defs/checksum" },
+        "updateDescription": {
+          "oneOf": [
+            { "type": "string" },
+            { "$ref": "#/$defs/updateDescriptionLocales" }
+          ]
+        },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "countryEntry": {
+      "type": "object",
+      "required": [
+        "countryId",
+        "timezone",
+        "locales",
+        "version",
+        "forceUpdate",
+        "url"
+      ],
+      "additionalProperties": false,
+      "description": "Country index. v1: full objects in shared.json; version/forceUpdate/url mirror shared.",
+      "properties": {
+        "countryId": { "type": "string" },
+        "timezone": { "type": "string" },
+        "locales": { "$ref": "#/$defs/localesMapName" },
+        "version": { "type": "string" },
+        "forceUpdate": { "type": "boolean" },
+        "url": { "type": "string" },
+        "checksum": { "$ref": "#/$defs/checksum" },
+        "contentHash": { "$ref": "#/$defs/checksum" },
+        "updateDescription": {
+          "oneOf": [
+            { "type": "string" },
+            { "$ref": "#/$defs/updateDescriptionLocales" }
+          ]
+        },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "cityEntry": {
+      "type": "object",
+      "required": ["cityId", "countryId", "version", "forceUpdate", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "cityId": { "type": "string" },
+        "countryId": { "type": "string" },
+        "version": { "type": "string" },
+        "forceUpdate": { "type": "boolean" },
+        "url": { "type": "string" },
+        "checksum": { "$ref": "#/$defs/checksum" },
+        "contentHash": { "$ref": "#/$defs/checksum" },
+        "updateDescription": {
+          "oneOf": [
+            { "type": "string" },
+            { "$ref": "#/$defs/updateDescriptionLocales" }
+          ]
+        },
+        "updatedAt": { "type": "string" }
+      }
+    }
+  }
+}

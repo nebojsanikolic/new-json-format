@@ -26,7 +26,7 @@ No legacy-key compatibility. Names are for back-office editors, not for mirrorin
 | Resolve offer (algorithm) | [`docs/client-resolve.md`](docs/client-resolve.md) |
 | Precedence cheat sheet | [`docs/evaluation-order.md`](docs/evaluation-order.md) |
 | Closed string enums | [`docs/enums.md`](docs/enums.md) |
-| CDN / `forceUpdate` / checksums | [`docs/delivery-manifest.md`](docs/delivery-manifest.md) |
+| CDN / countries index / checksums | [`docs/delivery-manifest.md`](docs/delivery-manifest.md) |
 | Concepts (layers, inheritance) | [`docs/schema.md`](docs/schema.md) |
 | Machine schema | [`docs/parking-config.schema.json`](docs/parking-config.schema.json) |
 | GeoJSON → config (local, confidential) | [`docs/geojson-import.md`](docs/geojson-import.md) |
@@ -88,8 +88,8 @@ Also: hours as `"HH:mm"` / `"24:00"` · locales as complete maps (`sr-Latn`/`sr-
 ## Delivery
 
 ```
-manifest.json          ← always fetched first
-shared.json            ← locales, currencies, countries, operators
+manifest.json          ← always fetched first (includes countries[] index)
+shared.json            ← client, locales, currencies, countries, operators
 cities/{cityId}.json   ← one city slice
 ```
 

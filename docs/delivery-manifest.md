@@ -42,8 +42,10 @@ path as `manifest.json` (e.g. `https://cdn.example/parking/v1/`).
 | `updateDescription` | string \| locale map | Optional whole-delivery notice. Locale map must include **all four** keys: `sr-Latn`, `sr-Cyrl`, `en`, `ru`. |
 | `generatedAt` | string | ISO-8601 UTC when this delivery was built. |
 | `shared` | object | Pointer to `shared.json` (see below). |
+| `countries` | array | Country **index** for the app (see below). Full country objects stay in `shared.json` (v1). |
 | `cities` | array | One entry per city file (see below). |
 | `source` | object | Optional provenance copied from the monolith. |
+| `forcedExport` | object | Optional studio stamp when exported despite Validate errors (`at`, `errorCount`). |
 
 ### Integrity: `checksum` / `contentHash`
 
@@ -65,6 +67,22 @@ CDN HTTP `ETag` headers and HMAC signing are **backend/ops** concerns (not writt
 | `url` | string | Relative path (`shared.json`). |
 | `checksum` / `contentHash` | string | `sha256:<hex>` of `shared.json` bytes. |
 | `updateDescription` | string \| locale map | Optional “what’s new” for shared. |
+| `updatedAt` | string | Optional ISO-8601 UTC. |
+
+### Country entry (index)
+
+v1 keeps heavy country data (and optional `coveragePolygon`) inside **`shared.json`**. The manifest still lists every country so the app can show a country list and decide updates without parsing shared first.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `countryId` | string | Stable id (`rs`, `me`, …). |
+| `timezone` | string | IANA timezone (also on the full country in shared). |
+| `locales` | LocalesMap | Display names — all four keys (`sr-Latn` / `sr-Cyrl` / `en` / `ru`). |
+| `version` | string | Content stamp. **v1: same as `shared.version`** (countries change with shared). |
+| `forceUpdate` | boolean | **v1: same as `shared.forceUpdate`**. |
+| `url` | string | Where full objects live. **v1: always `shared.json`**. Future: `countries/{id}.json` if split. |
+| `checksum` / `contentHash` | string | When `url` is `shared.json`, same digest as the shared entry. |
+| `updateDescription` | string \| locale map | Optional “what’s new” for that country. |
 | `updatedAt` | string | Optional ISO-8601 UTC. |
 
 ### City entry
@@ -101,6 +119,23 @@ Example:
     "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
     "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
   },
+  "countries": [
+    {
+      "countryId": "rs",
+      "timezone": "Europe/Belgrade",
+      "locales": {
+        "sr-Latn": { "name": "Srbija" },
+        "sr-Cyrl": { "name": "Srbija" },
+        "en": { "name": "Serbia" },
+        "ru": { "name": "Srbija" }
+      },
+      "version": "2026.10.18.1",
+      "forceUpdate": false,
+      "url": "shared.json",
+      "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
+      "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
+    }
+  ],
   "cities": [
     {
       "cityId": "city-beograd",
@@ -115,6 +150,7 @@ Example:
 }
 ```
 
+Machine schema: [`delivery-manifest.schema.json`](delivery-manifest.schema.json).  
 Tiny checked-in sample: [`examples/delivery/`](../examples/delivery/).
 
 ---
@@ -202,9 +238,10 @@ Payment methods and rules are **included by reference** from the city’s zones/
 1. GET `manifest.json`.
 2. If `minAppVersion` > app → prompt update / gate.
 3. If `forceUpdate` (main) → refresh shared + all cities needed for the user’s context before use.
-4. Compare `shared.version` (and `shared.forceUpdate`) → fetch `shared.json` if needed.
-5. For each city the user may use: if local version ≠ manifest version, or `forceUpdate`, fetch that city URL (blocking when forced).
-6. Verify `checksum` / `contentHash` (`sha256:<hex>`) against the downloaded file bytes.
+4. Use `manifest.countries[]` for the country list / timezone labels; compare `countries[].version` / `forceUpdate` (v1 mirrors shared) → fetch `shared.json` when shared (or any country pointing at it) needs refresh.
+5. Compare `shared.version` (and `shared.forceUpdate`) → fetch `shared.json` if needed.
+6. For each city the user may use: if local version ≠ manifest version, or `forceUpdate`, fetch that city URL (blocking when forced).
+7. Verify `checksum` (`sha256:<hex>`) against the downloaded file bytes (prefer `checksum` over `contentHash`).
 
 ---
 

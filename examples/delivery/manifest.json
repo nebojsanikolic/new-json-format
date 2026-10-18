@@ -11,6 +11,31 @@
     "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
     "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
   },
+  "countries": [
+    {
+      "countryId": "rs",
+      "timezone": "Europe/Belgrade",
+      "locales": {
+        "sr-Latn": {
+          "name": "Srbija"
+        },
+        "sr-Cyrl": {
+          "name": "Srbija"
+        },
+        "en": {
+          "name": "Serbia"
+        },
+        "ru": {
+          "name": "Srbija"
+        }
+      },
+      "version": "2026.10.18.1",
+      "forceUpdate": false,
+      "url": "shared.json",
+      "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
+      "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
+    }
+  ],
   "cities": [
     {
       "cityId": "city-beograd",

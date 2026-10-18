@@ -41,6 +41,8 @@ DEFAULT_CLIENT = {
     "localeFallback": ["sr-Latn", "en", "sr-Cyrl", "ru"],
 }
 
+LOCALE_IDS = ("sr-Latn", "sr-Cyrl", "en", "ru")
+
 
 def _resolve_client(config: dict[str, Any]) -> dict[str, Any]:
     raw = config.get("client") or {}
@@ -50,6 +52,21 @@ def _resolve_client(config: dict[str, Any]) -> dict[str, Any]:
         "supportedLocales": list(supported),
         "localeFallback": list(fallback),
     }
+
+
+def _complete_locales_map(partial: dict[str, Any] | None) -> dict[str, Any]:
+    src = dict(partial or {})
+    fallback: dict[str, Any] = {}
+    for lid in ("sr-Latn", "en", "sr-Cyrl", "ru"):
+        if src.get(lid):
+            fallback = dict(src[lid])
+            break
+    if not fallback:
+        for entry in src.values():
+            if entry:
+                fallback = dict(entry)
+                break
+    return {lid: dict(src.get(lid) or fallback) for lid in LOCALE_IDS}
 
 
 def _split_holidays(config: dict[str, Any]) -> tuple[list[dict], list[dict]]:
@@ -223,6 +240,25 @@ def split_config(
 
     manifest_cities.sort(key=lambda c: c["cityId"])
 
+    # v1: full country objects stay in shared.json; manifest lists an index.
+    manifest_countries: list[dict[str, Any]] = []
+    for country in config.get("countries") or []:
+        cid = country.get("id")
+        if not cid:
+            continue
+        entry: dict[str, Any] = {
+            "countryId": cid,
+            "timezone": country.get("timezone") or "",
+            "locales": _complete_locales_map(country.get("locales")),
+            "version": shared_version,
+            "forceUpdate": force_update_shared,
+            "url": "shared.json",
+        }
+        if force_update_shared:
+            entry["updatedAt"] = _utc_now()
+        manifest_countries.append(entry)
+    manifest_countries.sort(key=lambda c: c["countryId"])
+
     manifest: dict[str, Any] = {
         "schemaVersion": schema_version,
         "minAppVersion": config.get("minAppVersion") or "5.0.0",
@@ -234,6 +270,7 @@ def split_config(
             "forceUpdate": force_update_shared,
             "url": "shared.json",
         },
+        "countries": manifest_countries,
         "cities": manifest_cities,
     }
     if config.get("source"):
@@ -261,6 +298,10 @@ def write_delivery(
         digest = _sha256_checksum(shared_raw)
         manifest["shared"]["checksum"] = digest
         manifest["shared"]["contentHash"] = digest
+        for entry in manifest.get("countries") or []:
+            if entry.get("url") == "shared.json":
+                entry["checksum"] = digest
+                entry["contentHash"] = digest
 
     checksum_by_city: dict[str, str] = {}
     for city_id, slice_obj in cities.items():
