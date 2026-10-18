@@ -849,13 +849,16 @@ Generated data ranks zones by price; `coversZoneIds` is empty until back office 
 ### Production delivery (manifest + shared + cities)
 
 Apps in production should fetch **`manifest.json`**, then **`shared.json`** and
-per-city files — not the full monolith on every launch. See
-**[delivery-manifest.md](delivery-manifest.md)** for the full contract.
+per-city files — not the full monolith on every launch. The manifest includes a
+**`countries[]` index** (id, timezone, locales, version, forceUpdate, url → shared)
+so apps can list countries without parsing shared first; full country objects stay
+in `shared.json` (v1). See **[delivery-manifest.md](delivery-manifest.md)**.
 
 | Flag | Behavior |
 | --- | --- |
 | `cities[].forceUpdate: true` | Hard refresh that city **before** using it (e.g. SMS/price/rules changed). Do not keep serving stale cache for parking in that city. |
 | `cities[].forceUpdate: false` | Soft update; refresh in background. |
+| `countries[].forceUpdate` / `version` | v1 mirrors `shared` (countries live in shared). |
 | `shared.forceUpdate` | Hard vs soft refresh of locales / currencies / countries / operators. |
 | Manifest root `forceUpdate` | Global/schema refresh and/or app gate via `minAppVersion`. |
 
