@@ -102,10 +102,22 @@
       "type": "object",
       "required": ["latitude", "longitude"],
       "additionalProperties": false,
+      "description": "WGS84 coordinate. Store rounded to 6 decimal places.",
       "properties": {
-        "latitude": { "type": "number" },
-        "longitude": { "type": "number" }
+        "latitude": {
+          "type": "number",
+          "description": "WGS84 latitude, rounded to 6 decimal places."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "WGS84 longitude, rounded to 6 decimal places."
+        }
       }
+    },
+    "timeOfDay": {
+      "type": "string",
+      "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$|^24:00$",
+      "description": "Clock time as HH:mm (24-hour). Use \"24:00\" for end-of-day midnight."
     },
     "effectiveDating": {
       "effectiveFrom": { "type": ["string", "null"] },
@@ -259,8 +271,8 @@
             ]
           }
         },
-        "startHour": { "type": "number", "minimum": 0, "maximum": 24 },
-        "endHour": { "type": "number", "minimum": 0, "maximum": 24 }
+        "startHour": { "$ref": "#/$defs/timeOfDay" },
+        "endHour": { "$ref": "#/$defs/timeOfDay" }
       }
     },
     "seasonalWindow": {
@@ -279,16 +291,32 @@
     },
     "zone": {
       "type": "object",
-      "required": ["id", "cityId", "color"],
+      "required": ["id", "cityId", "enabled", "color"],
       "properties": {
         "id": { "type": "string" },
         "legacyId": { "type": ["integer", "null"] },
         "cityId": { "type": "string" },
+        "enabled": {
+          "type": "boolean",
+          "description": "When false, the app must hide this zone (not shown on map or for purchase)."
+        },
         "color": { "type": "string" },
         "locales": { "$ref": "#/$defs/localizedText" },
-        "polygonIds": { "type": "array", "items": { "type": "string" } },
-        "productIds": { "type": "array", "items": { "type": "string" } },
-        "paymentMethodIds": { "type": "array", "items": { "type": "string" } },
+        "polygonIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ids referencing top-level polygons[]."
+        },
+        "productIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ids referencing top-level products[] (what can be bought in this zone)."
+        },
+        "paymentMethodIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ids referencing top-level paymentMethods[] (how to pay)."
+        },
         "paymentWindows": {
           "type": "array",
           "items": { "$ref": "#/$defs/paymentWindow" }
@@ -316,23 +344,39 @@
       "properties": {
         "color": { "type": "string" },
         "locales": { "$ref": "#/$defs/localizedText" },
-        "productIds": { "type": "array", "items": { "type": "string" } },
-        "paymentMethodIds": { "type": "array", "items": { "type": "string" } },
+        "productIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ids referencing top-level products[]."
+        },
+        "paymentMethodIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ids referencing top-level paymentMethods[]."
+        },
         "paymentWindows": {
           "type": "array",
           "items": { "$ref": "#/$defs/paymentWindow" }
         },
         "eligibility": { "$ref": "#/$defs/eligibility" },
-        "fullDayOnly": { "type": "boolean" }
+        "fullDayOnly": { "type": "boolean" },
+        "enabled": {
+          "type": "boolean",
+          "description": "Override zone visibility for this polygon only."
+        }
       },
       "additionalProperties": false
     },
     "polygon": {
       "type": "object",
-      "required": ["id", "zoneId", "ring"],
+      "required": ["id", "zoneId", "enabled", "ring"],
       "properties": {
         "id": { "type": "string" },
         "zoneId": { "type": "string" },
+        "enabled": {
+          "type": "boolean",
+          "description": "When false, hide this polygon (zone may still show other polygons)."
+        },
         "ring": {
           "type": "array",
           "items": { "$ref": "#/$defs/latLng" }
@@ -357,8 +401,8 @@
       "required": ["startHour", "endHour", "price"],
       "additionalProperties": false,
       "properties": {
-        "startHour": { "type": "number" },
-        "endHour": { "type": "number" },
+        "startHour": { "$ref": "#/$defs/timeOfDay" },
+        "endHour": { "$ref": "#/$defs/timeOfDay" },
         "days": {
           "type": "array",
           "items": { "type": "string" }
@@ -430,8 +474,16 @@
         "price": { "$ref": "#/$defs/money" },
         "pricing": { "$ref": "#/$defs/productPricing" },
         "validity": { "$ref": "#/$defs/productValidity" },
-        "paymentMethodIds": { "type": "array", "items": { "type": "string" } },
-        "ruleIds": { "type": "array", "items": { "type": "string" } },
+        "paymentMethodIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ids referencing top-level paymentMethods[] (how this product can be paid)."
+        },
+        "ruleIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ids referencing top-level rules[]."
+        },
         "eligibility": { "$ref": "#/$defs/eligibility" },
         "effectiveFrom": { "type": ["string", "null"] },
         "effectiveTo": { "type": ["string", "null"] }

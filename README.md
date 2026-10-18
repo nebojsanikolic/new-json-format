@@ -30,6 +30,8 @@ commerce     products + rules + paymentMethods
 - **Payment methods** describe *how* to pay, by `type`:
   - `sms` — live today (number, prefix, `messageSlots`, send windows, cooldown)
   - `webview_card` — ready structurally; add a method + app support later **without reshaping** products or zones
+- Zones/products hold **`productIds` / `paymentMethodIds`** — string ids pointing at those top-level arrays (references, not nested payloads).
+- **Hours** use `"HH:mm"` strings (`"07:00"`, `"24:00"` for end-of-day). Zones have **`enabled`** (`false` = hide in app). Coordinates are rounded to **6 decimal places**.
 - **Money** is always `{ "amount": number, "currencyId": string }`.
 - **Locales** are maps (`sr-Latn`, `en`, …); grammatical cases nest under the locale.
 - **Versioning:** `dataVersion` (cache freshness) + `minAppVersion`. Unknown rule/payment `type` values are ignored by older apps.

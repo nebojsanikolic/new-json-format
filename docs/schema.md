@@ -110,15 +110,20 @@ Optional `effectiveFrom` / `effectiveTo` (ISO date or datetime) on zones, polygo
 
 Back-office fields include:
 
+- `enabled` — required boolean; `false` = hide zone in the app
 - `color`, multilingual `locales` (name, description, `infoNote`)
-- `paymentWindows[]` — split windows per weekday set (replaces flat weekday/saturday/sunday)
+- `paymentWindows[]` — split windows per weekday set; times as `HH:mm`
 - `workingDayOverrides[]` — calendar dates that use weekday hours (from legacy `working_days_override`)
-- `productIds`, `paymentMethodIds`, `polygonIds`
+- `productIds`, `paymentMethodIds`, `polygonIds` — **id references** into top-level `products` / `paymentMethods` / `polygons` (not nested objects): products = what you buy, payment methods = how you pay
 - `eligibility` — `{ "type": "public" }` or `{ "type": "residents", ... }` hooks
 - `fullDayOnly` — zone only sells full-day products (still has color, cards, polygons)
 - `seasonalWindows[]` — active date ranges for seasonal / event zones
 
-Hours use hour numbers `0–24` (legacy used `24` for midnight end). Closed day = empty windows for that day set (legacy `start`/`end` null).
+Hours use **`HH:mm` strings** (`"07:00"`, `"22:00"`). Use `"24:00"` for end-of-day midnight. Closed day = empty windows for that day set (legacy `start`/`end` null).
+
+Zones (and polygons) have **`enabled`**. When `false`, the app must hide them. Production transform sets `enabled: true` for all.
+
+Coordinates (city centers, polygon rings) are **rounded to 6 decimal places**.
 
 ## Polygons
 
@@ -126,7 +131,8 @@ Hours use hour numbers `0–24` (legacy used `24` for midnight end). Closed day 
 {
   "id": "poly-…",
   "zoneId": "zone-…",
-  "ring": [{ "latitude": 44.8, "longitude": 20.4 }],
+  "enabled": true,
+  "ring": [{ "latitude": 44.814512, "longitude": 20.456590 }],
   "overrides": {},
   "effectiveFrom": null,
   "effectiveTo": null

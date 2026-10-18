@@ -81,6 +81,37 @@ def resolve_currency_id(
     return country_default
 
 
+def hour_to_hhmm(value: Any) -> str:
+    """Convert legacy hour number (7, 7.5, 24) to HH:mm. Supports end-of-day 24:00."""
+    if isinstance(value, str) and ":" in value:
+        return value
+    n = float(value)
+    if n >= 24:
+        return "24:00"
+    if n < 0:
+        n = 0.0
+    hours = int(n)
+    minutes = int(round((n - hours) * 60))
+    if minutes == 60:
+        hours += 1
+        minutes = 0
+    if hours >= 24:
+        return "24:00"
+    return f"{hours:02d}:{minutes:02d}"
+
+
+def round_coord(value: Any) -> float:
+    """Store lat/lng with exactly 6 decimal places (as a number)."""
+    return round(float(value), 6)
+
+
+def lat_lng(latitude: Any, longitude: Any) -> dict[str, float]:
+    return {
+        "latitude": round_coord(latitude),
+        "longitude": round_coord(longitude),
+    }
+
+
 def payment_windows_from_hours(parking_hours: dict[str, Any] | None) -> list[dict[str, Any]]:
     if not parking_hours:
         return []
@@ -95,8 +126,8 @@ def payment_windows_from_hours(parking_hours: dict[str, Any] | None) -> list[dic
         windows.append(
             {
                 "days": days,
-                "startHour": float(start),
-                "endHour": float(end),
+                "startHour": hour_to_hhmm(start),
+                "endHour": hour_to_hhmm(end),
             }
         )
 
@@ -313,12 +344,9 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
                         {
                             "id": poly_id,
                             "zoneId": zone_id,
+                            "enabled": True,
                             "ring": [
-                                {
-                                    "latitude": float(p["latitude"]),
-                                    "longitude": float(p["longitude"]),
-                                }
-                                for p in ring
+                                lat_lng(p["latitude"], p["longitude"]) for p in ring
                             ],
                             "overrides": {},
                             "effectiveFrom": None,
@@ -424,6 +452,7 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
                         "id": zone_id,
                         "legacyId": z_legacy,
                         "cityId": city_id,
+                        "enabled": True,
                         "color": raw_zone.get("color") or "#888888",
                         "locales": zone_locales(raw_zone),
                         "polygonIds": polygon_ids,
@@ -587,10 +616,10 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
                     "countryId": country_id,
                     "timezone": country_tz,
                     "shortName": raw_city.get("city_short_name") or "",
-                    "center": {
-                        "latitude": float(center.get("latitude") or 0),
-                        "longitude": float(center.get("longitude") or 0),
-                    },
+                    "center": lat_lng(
+                        center.get("latitude") or 0,
+                        center.get("longitude") or 0,
+                    ),
                     "locales": city_locales(raw_city),
                     "zoneIds": zone_ids,
                     "coveragePolicyId": policy_id,
@@ -652,7 +681,12 @@ def belgrade_snippet(config: dict[str, Any]) -> dict[str, Any]:
             polygons.append(
                 {
                     **p,
-                    "ring": ring[:3] + ([{"latitude": 0, "longitude": 0, "_truncated": True}] if len(ring) > 3 else []),
+                    "ring": ring[:3]
+                    + (
+                        [{"latitude": 0.0, "longitude": 0.0, "_truncated": True}]
+                        if len(ring) > 3
+                        else []
+                    ),
                     "_ringPointCount": len(ring),
                 }
             )

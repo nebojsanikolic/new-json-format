@@ -86,8 +86,32 @@ Used **everywhere** money appears. Never a bare number with a sibling currency s
 
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
-| `latitude` | number | **R** | WGS84 latitude. |
-| `longitude` | number | **R** | WGS84 longitude. |
+| `latitude` | number | **R** | WGS84 latitude, **rounded to 6 decimal places**. |
+| `longitude` | number | **R** | WGS84 longitude, **rounded to 6 decimal places**. |
+
+```json
+{ "latitude": 44.814512, "longitude": 20.456590 }
+```
+
+Always round when writing config (back office + transform). Do not store full GPS float noise.
+
+### Time of day (`HH:mm`)
+
+All clock fields (`startHour`, `endHour` on payment windows and night rates) use **strings**, not decimal numbers.
+
+| Format | Meaning |
+| --- | --- |
+| `"07:00"` | 07:00 local time |
+| `"14:30"` | 14:30 (half hours supported) |
+| `"24:00"` | End of calendar day / midnight end (allowed for end times) |
+
+Pattern: `HH:mm` with `00:00`–`23:59`, plus `"24:00"` for end-of-day.
+
+```json
+{ "days": ["monday"], "startHour": "07:00", "endHour": "22:00" }
+```
+
+**Do not** use decimals like `7.0` or `22.5` — use `"07:00"` / `"22:30"`.
 
 ### Effective dating
 
@@ -238,6 +262,29 @@ Centralized operators for fine display, contacts, etc. Empty until back office f
 
 ## Geography layer
 
+### Id references (important)
+
+`productIds`, `paymentMethodIds`, `polygonIds`, `ruleIds`, `zoneIds`, etc. are **arrays of string ids** that point at other top-level arrays. They are **not** nested full objects.
+
+| Field on zone / product | Points to | Meaning |
+| --- | --- | --- |
+| `zone.productIds` | top-level `products[]` | **What** you can buy in this zone (timed ticket, full-day, …) |
+| `zone.paymentMethodIds` | top-level `paymentMethods[]` | **How** you can pay (SMS number, later webview card, …) |
+| `zone.polygonIds` | top-level `polygons[]` | Map shapes for this zone |
+| `product.paymentMethodIds` | top-level `paymentMethods[]` | Which payment channels can buy **this** product |
+| `product.ruleIds` | top-level `rules[]` | Rules attached to the product |
+| `product.zoneIds` | top-level `zones[]` | Zones the product applies to |
+
+```json
+// zone (references only)
+"productIds": ["prod-timed-beograd-zona-1"],
+"paymentMethodIds": ["pay-sms-beograd-zona-1"]
+
+// resolve elsewhere in the same file
+"products": [ { "id": "prod-timed-beograd-zona-1", ... } ],
+"paymentMethods": [ { "id": "pay-sms-beograd-zona-1", "type": "sms", ... } ]
+```
+
 ### `zones[]`
 
 | Field | Type | R/O | Meaning |
@@ -245,11 +292,12 @@ Centralized operators for fine display, contacts, etc. Empty until back office f
 | `id` | string | **R** | Zone id. |
 | `legacyId` | integer \| null | O | Old zone `id`. |
 | `cityId` | string | **R** | Parent city. |
+| `enabled` | boolean | **R** | When `false`, the app **must not show** this zone (hidden on map and purchase UI). Production transform sets `true` for all zones. |
 | `color` | string | **R** | Map / card color (hex). |
 | `locales` | locale map | O | Zone name, description, `infoNote`. |
-| `polygonIds` | string[] | O | Polygons that make up this zone. |
-| `productIds` | string[] | O | Products offered in this zone. |
-| `paymentMethodIds` | string[] | O | Payment methods attached at zone level (products also list their own). |
+| `polygonIds` | string[] | O | Ids → `polygons[]`. |
+| `productIds` | string[] | O | Ids → `products[]` (**what** can be bought). |
+| `paymentMethodIds` | string[] | O | Ids → `paymentMethods[]` (**how** to pay). |
 | `paymentWindows` | PaymentWindow[] | O | When payment / enforcement applies (split windows supported). |
 | `workingDayOverrides` | string[] | O | Calendar dates that use **weekday** windows (from legacy `working_days_override`). |
 | `eligibility` | Eligibility | O | Who may park / buy here. |
@@ -263,8 +311,8 @@ Centralized operators for fine display, contacts, etc. Empty until back office f
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
 | `days` | string[] | **R** | `monday` … `sunday`. |
-| `startHour` | number | **R** | Start hour `0–24` (legacy used `24` for midnight end). |
-| `endHour` | number | **R** | End hour `0–24`. |
+| `startHour` | string (`HH:mm`) | **R** | Start time, e.g. `"07:00"`. |
+| `endHour` | string (`HH:mm`) | **R** | End time, e.g. `"22:00"` or `"24:00"` for midnight end. |
 
 Closed day = no window for that day (legacy `start`/`end` null).
 
@@ -273,8 +321,8 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 ```json
 {
   "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
-  "startHour": 7,
-  "endHour": 22
+  "startHour": "07:00",
+  "endHour": "22:00"
 }
 ```
 
@@ -294,7 +342,8 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | --- | --- | --- | --- |
 | `id` | string | **R** | Polygon id. |
 | `zoneId` | string | **R** | Parent zone. |
-| `ring` | LatLng[] | **R** | Closed ring coordinates (order as produced; app closes if needed). |
+| `enabled` | boolean | **R** | When `false`, hide this polygon (other polygons of the zone may still show). Production transform sets `true`. |
+| `ring` | LatLng[] | **R** | Closed ring; each point rounded to **6 decimal places**. |
 | `overrides` | PolygonOverrides | O | Fields that **replace** the parent zone for this polygon only. Empty `{}` = inherit everything. |
 | `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating (e.g. staged boundary change). |
 
@@ -308,17 +357,19 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | --- | --- | --- |
 | `color` | string | Override map color. |
 | `locales` | locale map | Override name/description/notes. |
-| `productIds` | string[] | Different products for this polygon. |
-| `paymentMethodIds` | string[] | Different payment methods. |
-| `paymentWindows` | PaymentWindow[] | Different hours. |
+| `productIds` | string[] | Ids → `products[]` for this polygon only. |
+| `paymentMethodIds` | string[] | Ids → `paymentMethods[]` for this polygon only. |
+| `paymentWindows` | PaymentWindow[] | Different hours (`HH:mm`). |
 | `eligibility` | Eligibility | Different eligibility. |
 | `fullDayOnly` | boolean | Override full-day-only flag. |
+| `enabled` | boolean | Override visibility for this polygon. |
 
 ```json
 {
   "id": "poly-beograd-zona-1-0",
   "zoneId": "zone-beograd-zona-1",
-  "ring": [{ "latitude": 44.81, "longitude": 20.46 }],
+  "enabled": true,
+  "ring": [{ "latitude": 44.814512, "longitude": 20.456590 }],
   "overrides": {},
   "effectiveFrom": null,
   "effectiveTo": null
@@ -336,15 +387,15 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | `id` | string | **R** | Product id. |
 | `legacyId` | integer \| null | O | Old zone id or daily ticket id. |
 | `kind` | string | **R** | `"timed"` \| `"full_day"` \| `"permit"`. |
-| `zoneIds` | string[] | O | Zones this product applies to. |
-| `coversZoneIds` | string[] | O | Cheaper zones also covered by this (expensive) ticket. |
+| `zoneIds` | string[] | O | Ids → `zones[]` this product applies to. |
+| `coversZoneIds` | string[] | O | Ids → cheaper `zones[]` also covered by this ticket. |
 | `locales` | locale map | O | Product name / description. |
 | `color` | string \| null | O | Card / button color. |
 | `price` | Money | **R** | List / base price. |
 | `pricing` | ProductPricing | **R** | How price scales (hour, minute, ladder, fixed). |
 | `validity` | ProductValidity | O | Duration / full-day validity mode. |
-| `paymentMethodIds` | string[] | O | Which payment channels can buy this. |
-| `ruleIds` | string[] | O | Attached typed rules. |
+| `paymentMethodIds` | string[] | O | Ids → `paymentMethods[]` (**how** this product can be paid). |
+| `ruleIds` | string[] | O | Ids → `rules[]` attached to this product. |
 | `eligibility` | Eligibility | O | Who may buy. |
 | `effectiveFrom` / `effectiveTo` | string \| null | O | Scheduled price/product changes. |
 
@@ -369,8 +420,8 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
-| `startHour` | number | **R** | Night window start. |
-| `endHour` | number | **R** | Night window end. |
+| `startHour` | string (`HH:mm`) | **R** | Night window start, e.g. `"22:00"`. |
+| `endHour` | string (`HH:mm`) | **R** | Night window end, e.g. `"06:00"` or `"24:00"`. |
 | `days` | string[] | O | Limit to certain weekdays. |
 | `price` | Money | **R** | Night price. |
 
@@ -647,7 +698,10 @@ Generated data ranks zones by price; `coversZoneIds` is empty until back office 
 | `cities` / `montenegro_cities` | `countries` + `cities[]` |
 | city name / cases | `city.locales` |
 | `Zones[]` | `zones[]` + `polygons[]` + timed `products[]` + SMS `paymentMethods[]` |
-| `parking_hours` | `zone.paymentWindows` |
+| `parking_hours` (numeric hours) | `zone.paymentWindows` with `HH:mm` strings (`7` → `"07:00"`, `24` → `"24:00"`) |
+| zone / polygon visibility | `enabled: true` (all from prod) |
+| coordinates | rounded to 6 decimal places |
+
 | `value` | `pricing.baseDurationMinutes` + `sms.messageSlots[0].durationMinutes` |
 | `restriction` / `restriction_time` | `rules` `max_duration` + `sms.maxDurationMinutes` + cooldown |
 | `daily_tickets[]` | `products` with `kind: "full_day"` |

@@ -50,6 +50,7 @@
       "id": "zone-beograd-zona-a",
       "legacyId": 111,
       "cityId": "city-beograd",
+      "enabled": true,
       "color": "#802DA6",
       "locales": {
         "sr-Latn": {
@@ -87,22 +88,22 @@
             "thursday",
             "friday"
           ],
-          "startHour": 7.0,
-          "endHour": 22.0
+          "startHour": "07:00",
+          "endHour": "22:00"
         },
         {
           "days": [
             "saturday"
           ],
-          "startHour": 7.0,
-          "endHour": 22.0
+          "startHour": "07:00",
+          "endHour": "22:00"
         },
         {
           "days": [
             "sunday"
           ],
-          "startHour": 7.0,
-          "endHour": 14.0
+          "startHour": "07:00",
+          "endHour": "14:00"
         }
       ],
       "workingDayOverrides": [],
@@ -120,6 +121,7 @@
       "id": "zone-beograd-zona-b",
       "legacyId": 116,
       "cityId": "city-beograd",
+      "enabled": true,
       "color": "#F9F6EE",
       "locales": {
         "sr-Latn": {
@@ -160,22 +162,22 @@
             "thursday",
             "friday"
           ],
-          "startHour": 7.0,
-          "endHour": 22.0
+          "startHour": "07:00",
+          "endHour": "22:00"
         },
         {
           "days": [
             "saturday"
           ],
-          "startHour": 7.0,
-          "endHour": 22.0
+          "startHour": "07:00",
+          "endHour": "22:00"
         },
         {
           "days": [
             "sunday"
           ],
-          "startHour": 7.0,
-          "endHour": 14.0
+          "startHour": "07:00",
+          "endHour": "14:00"
         }
       ],
       "workingDayOverrides": [],
@@ -193,6 +195,7 @@
       "id": "zone-beograd-zona-1",
       "legacyId": 112,
       "cityId": "city-beograd",
+      "enabled": true,
       "color": "#FF3932",
       "locales": {
         "sr-Latn": {
@@ -233,22 +236,22 @@
             "thursday",
             "friday"
           ],
-          "startHour": 7.0,
-          "endHour": 22.0
+          "startHour": "07:00",
+          "endHour": "22:00"
         },
         {
           "days": [
             "saturday"
           ],
-          "startHour": 7.0,
-          "endHour": 22.0
+          "startHour": "07:00",
+          "endHour": "22:00"
         },
         {
           "days": [
             "sunday"
           ],
-          "startHour": 7.0,
-          "endHour": 14.0
+          "startHour": "07:00",
+          "endHour": "14:00"
         }
       ],
       "workingDayOverrides": [],
@@ -266,6 +269,7 @@
       "id": "zone-beograd-zona-2",
       "legacyId": 113,
       "cityId": "city-beograd",
+      "enabled": true,
       "color": "#FFC100",
       "locales": {
         "sr-Latn": {
@@ -306,15 +310,15 @@
             "thursday",
             "friday"
           ],
-          "startHour": 7.0,
-          "endHour": 21.0
+          "startHour": "07:00",
+          "endHour": "21:00"
         },
         {
           "days": [
             "saturday"
           ],
-          "startHour": 7.0,
-          "endHour": 14.0
+          "startHour": "07:00",
+          "endHour": "14:00"
         }
       ],
       "workingDayOverrides": [],
@@ -332,6 +336,7 @@
       "id": "zone-beograd-zona-3",
       "legacyId": 115,
       "cityId": "city-beograd",
+      "enabled": true,
       "color": "#557C55",
       "locales": {
         "sr-Latn": {
@@ -372,15 +377,15 @@
             "thursday",
             "friday"
           ],
-          "startHour": 7.0,
-          "endHour": 21.0
+          "startHour": "07:00",
+          "endHour": "21:00"
         },
         {
           "days": [
             "saturday"
           ],
-          "startHour": 7.0,
-          "endHour": 14.0
+          "startHour": "07:00",
+          "endHour": "14:00"
         }
       ],
       "workingDayOverrides": [],
@@ -398,6 +403,7 @@
       "id": "zone-beograd-opste-parkiraliste",
       "legacyId": 114,
       "cityId": "city-beograd",
+      "enabled": true,
       "color": "#007AFF",
       "locales": {
         "sr-Latn": {
@@ -440,15 +446,15 @@
             "thursday",
             "friday"
           ],
-          "startHour": 8.0,
-          "endHour": 21.0
+          "startHour": "08:00",
+          "endHour": "21:00"
         },
         {
           "days": [
             "saturday"
           ],
-          "startHour": 8.0,
-          "endHour": 14.0
+          "startHour": "08:00",
+          "endHour": "14:00"
         }
       ],
       "workingDayOverrides": [],
@@ -467,22 +473,23 @@
     {
       "id": "poly-beograd-zona-a-0",
       "zoneId": "zone-beograd-zona-a",
+      "enabled": true,
       "ring": [
         {
-          "latitude": 44.81451224195,
-          "longitude": 20.45658980598
+          "latitude": 44.814512,
+          "longitude": 20.45659
         },
         {
-          "latitude": 44.81423079047,
-          "longitude": 20.45767184474
+          "latitude": 44.814231,
+          "longitude": 20.457672
         },
         {
-          "latitude": 44.81400651983,
-          "longitude": 20.45827981002
+          "latitude": 44.814007,
+          "longitude": 20.45828
         },
         {
-          "latitude": 0,
-          "longitude": 0,
+          "latitude": 0.0,
+          "longitude": 0.0,
           "_truncated": true
         }
       ],
@@ -494,22 +501,23 @@
     {
       "id": "poly-beograd-zona-b-0",
       "zoneId": "zone-beograd-zona-b",
+      "enabled": true,
       "ring": [
         {
-          "latitude": 44.81411733452,
-          "longitude": 20.47305795472
+          "latitude": 44.814117,
+          "longitude": 20.473058
         },
         {
-          "latitude": 44.81426346647,
-          "longitude": 20.47319302535
+          "latitude": 44.814263,
+          "longitude": 20.473193
         },
         {
-          "latitude": 44.814571608,
-          "longitude": 20.47248531104
+          "latitude": 44.814572,
+          "longitude": 20.472485
         },
         {
-          "latitude": 0,
-          "longitude": 0,
+          "latitude": 0.0,
+          "longitude": 0.0,
           "_truncated": true
         }
       ],
@@ -521,22 +529,23 @@
     {
       "id": "poly-beograd-zona-1-0",
       "zoneId": "zone-beograd-zona-1",
+      "enabled": true,
       "ring": [
         {
-          "latitude": 44.81581461734,
-          "longitude": 20.46249336477
+          "latitude": 44.815815,
+          "longitude": 20.462493
         },
         {
-          "latitude": 44.8156654315,
-          "longitude": 20.46414169728
+          "latitude": 44.815665,
+          "longitude": 20.464142
         },
         {
-          "latitude": 44.81628000544,
-          "longitude": 20.46414151929
+          "latitude": 44.81628,
+          "longitude": 20.464142
         },
         {
-          "latitude": 0,
-          "longitude": 0,
+          "latitude": 0.0,
+          "longitude": 0.0,
           "_truncated": true
         }
       ],
@@ -548,22 +557,23 @@
     {
       "id": "poly-beograd-zona-2-0",
       "zoneId": "zone-beograd-zona-2",
+      "enabled": true,
       "ring": [
         {
-          "latitude": 44.80831282161,
-          "longitude": 20.46339117679
+          "latitude": 44.808313,
+          "longitude": 20.463391
         },
         {
-          "latitude": 44.80773826538,
-          "longitude": 20.46263962716
+          "latitude": 44.807738,
+          "longitude": 20.46264
         },
         {
-          "latitude": 44.80789811394,
-          "longitude": 20.46240091055
+          "latitude": 44.807898,
+          "longitude": 20.462401
         },
         {
-          "latitude": 0,
-          "longitude": 0,
+          "latitude": 0.0,
+          "longitude": 0.0,
           "_truncated": true
         }
       ],
@@ -575,22 +585,23 @@
     {
       "id": "poly-beograd-zona-3-0",
       "zoneId": "zone-beograd-zona-3",
+      "enabled": true,
       "ring": [
         {
-          "latitude": 44.81492815725,
-          "longitude": 20.42690724
+          "latitude": 44.814928,
+          "longitude": 20.426907
         },
         {
-          "latitude": 44.81504285372,
-          "longitude": 20.42701424116
+          "latitude": 44.815043,
+          "longitude": 20.427014
         },
         {
-          "latitude": 44.81522593287,
-          "longitude": 20.42662426695
+          "latitude": 44.815226,
+          "longitude": 20.426624
         },
         {
-          "latitude": 0,
-          "longitude": 0,
+          "latitude": 0.0,
+          "longitude": 0.0,
           "_truncated": true
         }
       ],
@@ -602,22 +613,23 @@
     {
       "id": "poly-beograd-opste-parkiraliste-0",
       "zoneId": "zone-beograd-opste-parkiraliste",
+      "enabled": true,
       "ring": [
         {
-          "latitude": 44.82441816624,
-          "longitude": 20.41900679335
+          "latitude": 44.824418,
+          "longitude": 20.419007
         },
         {
-          "latitude": 44.8243482898,
-          "longitude": 20.41915745546
+          "latitude": 44.824348,
+          "longitude": 20.419157
         },
         {
-          "latitude": 44.82496942452,
-          "longitude": 20.41973010709
+          "latitude": 44.824969,
+          "longitude": 20.41973
         },
         {
-          "latitude": 0,
-          "longitude": 0,
+          "latitude": 0.0,
+          "longitude": 0.0,
           "_truncated": true
         }
       ],
