@@ -1,18 +1,14 @@
-# Docs index
+# Docs
 
-Team-facing documentation for the parking rule-data JSON format.
+| Doc | Use when |
+| --- | --- |
+| [field-reference.md](field-reference.md) | Looking up a field (types, required, examples) |
+| [delivery-manifest.md](delivery-manifest.md) | CDN layout, `forceUpdate`, checksums |
+| [geojson-import.md](geojson-import.md) | Local GeoJSON → monolith |
+| [schema.md](schema.md) | Layers, inheritance, payment channels |
+| [parking-config.schema.json](parking-config.schema.json) | Machine validation |
+| [project-context.md](project-context.md) | Locked decisions |
+| [requirements.md](requirements.md) | Product requirements |
+| [legacy-schema.json](legacy-schema.json) | Old `zonesData_v2` shape |
 
-| Doc | Audience | Contents |
-| --- | --- | --- |
-| [field-reference.md](field-reference.md) | Teammates reviewing / editing | **Every field** — type, required/optional, meaning, examples |
-| [delivery-manifest.md](delivery-manifest.md) | App / CDN / publish | Manifest + shared + per-city files + `forceUpdate` |
-| [geojson-import.md](geojson-import.md) | Local import | GeoJSON → monolith (confidential polygons) |
-| [schema.md](schema.md) | Engineers / product | Concepts: layers, inheritance, payment channels, mapping |
-| [parking-config.schema.json](parking-config.schema.json) | Tooling / validation | JSON Schema |
-| [project-context.md](project-context.md) | Everyone | Locked design decisions + status |
-| [requirements.md](requirements.md) | Product | Functional requirements list |
-| [legacy-schema.json](legacy-schema.json) | Migration reference | Old `zonesData_v2` shape |
-
-Repo landing page: [../README.md](../README.md).  
-Full generated config (monolith): [../data/parking-config.generated.json](../data/parking-config.generated.json).  
-Sample delivery stub: [../examples/delivery/](../examples/delivery/).
+Landing: [../README.md](../README.md) · Delivery stub: [../examples/delivery/](../examples/delivery/) · Monolith: [../data/parking-config.generated.json](../data/parking-config.generated.json)
