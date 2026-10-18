@@ -37,19 +37,18 @@ Optional: `--data-version`, `--min-app-version`.
 | `city_id`, `is_in`, `city_short_name`, `city_coordinate` | `cities[]` (+ `countryId` from file) |
 | `zone_id`, `colour`, names/descriptions/`info_note:*` | `zones[]` (`enabled: true`) |
 | `polygon_id` + geometry ring | `polygons[]` (`enabled: true`, coords @ 6 dp) |
-| `fee:conditional` | `zones[].paymentWindows` (`HH:mm`) |
+| `fee:conditional` | `zones[].paymentWindows` (`HH:mm`). Supports `yes @ Mo-Fr 07:00-21:00` and parenthesized forms like `yes @ (Fr-Su 06:00-14:00)`. Days outside the windows stay free. |
 | `base_rate` / `base_unit` | timed `products[].price` + `pricing` |
 | `extension_rate(_2)` / `extension_unit(_2)` / `special_extension_*` | `pricing.ladder[]` (`stepIndex`, `durationMinutes`, `price`) |
-| `daily_rate` + `payment:sms:daily` | `products` `kind: full_day` |
-| `payment:sms` / `sms_prefix` | `paymentMethods[].sms.number` / `.prefix` |
+| `daily_rate` + `payment:sms:daily` | `products` `kind: full_day` + SMS method. Zone may be `fullDayOnly` with **polygons** (first-class). |
+| `payment:sms` / `sms_prefix` | Timed `paymentMethods[].sms.number` / `.prefix` (omitted when only daily SMS exists — no null stub) |
 | `maxstay` / `cooldown_period` | `rules` + SMS max/cooldown |
 | `operator` + `contact:*` | `operators[]` + `zone.operatorId` |
 | `fine` / `fine:discount` | `fines[]` when parseable |
 
 Money is always `{ amount, currencyId }`. Default currency: `rsd` (RS), `eur` (ME).
 
-Coverage policy design is unchanged: per-city `offer_highest_rank`, rank from
-timed price, `coversZoneIds: []`.
+Coverage policies / `coversZoneIds` are **not** seeded on import (leave absent until back office).
 
 ## Manual fill / known gaps
 
@@ -59,8 +58,8 @@ timed price, `coversZoneIds: []`.
 | SMS `sendWindow` (e.g. Belgrade 4th slot) | Not in GeoJSON — slots get `sendWindow: null` |
 | City `cases` / preposition | Not in GeoJSON |
 | `workingDayOverrides` | Not in GeoJSON |
-| Temporary lots without SMS/price | Zone + disabled SMS hook; fill numbers/prices later |
-| `coversZoneIds` / resident permits | Intentionally empty until back office |
+| Seasonal `fee:conditional` date ranges (`Jun 10-Sep 10`) | Not mapped to weekly windows yet |
+| `coversZoneIds` / resident permits | Intentionally absent until back office |
 
 ## Next step: publish as manifest + cities
 

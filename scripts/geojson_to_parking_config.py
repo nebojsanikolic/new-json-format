@@ -87,8 +87,10 @@ MONEY_RE = re.compile(
     r"^\s*(?P<amount>\d+(?:[.,]\d+)?)\s*(?P<code>[A-Za-z€$]*)?\s*$"
 )
 DURATION_RE = re.compile(r"^\s*(?P<n>\d+)\s*minutes?\s*$", re.I)
+# Optional parentheses: yes @ (Fr-Su 06:00-14:00)
 FEE_CHUNK_RE = re.compile(
-    r"yes\s*@\s*(?P<days>[A-Za-z\-]+)\s+(?P<start>\d{1,2}:\d{2})\s*-\s*(?P<end>\d{1,2}:\d{2})",
+    r"yes\s*@\s*\(?\s*(?P<days>[A-Za-z]{2}(?:\s*-\s*[A-Za-z]{2})?)\s+"
+    r"(?P<start>\d{1,2}:\d{2})\s*-\s*(?P<end>\d{1,2}:\d{2})\s*\)?",
     re.I,
 )
 PERCENT_RE = re.compile(r"(?P<p>\d+)\s*%")
@@ -165,7 +167,7 @@ def clean_sms_prefix(raw: Any) -> str:
 
 
 def expand_day_token(token: str) -> list[str]:
-    token = token.strip().lower()
+    token = re.sub(r"\s+", "", token.strip().lower())
     if "-" in token:
         start_s, end_s = token.split("-", 1)
         start = DAY_ALIAS.get(start_s[:2])
@@ -393,7 +395,7 @@ def transform_geojson_files(
     products_out: list[dict[str, Any]] = []
     payment_methods_out: list[dict[str, Any]] = []
     rules_out: list[dict[str, Any]] = []
-    coverage_policies: list[dict[str, Any]] = []
+    # coveragePolicies intentionally empty — filled in back office only
     fines_out: list[dict[str, Any]] = []
 
     payment_methods_out.append(
@@ -619,7 +621,6 @@ def transform_geojson_files(
                             "legacyId": legacy_zone_id,
                             "kind": "timed",
                             "zoneIds": [zone_id],
-                            "coversZoneIds": [],
                             "locales": zone_locales_from_props(props),
                             "color": props.get("colour"),
                             "price": base_price
@@ -647,26 +648,7 @@ def transform_geojson_files(
                             "effectiveTo": None,
                         }
                     )
-                else:
-                    # Hook placeholders for temporary lots without SMS/price
-                    pay_id = ids.unique(f"pay-sms-{city_slug}-{z_slug}")
-                    payment_method_ids.append(pay_id)
-                    payment_methods_out.append(
-                        {
-                            "id": pay_id,
-                            "type": "sms",
-                            "enabled": False,
-                            "sms": {
-                                "number": None,
-                                "prefix": "",
-                                "messageSlots": [],
-                                "maxDurationMinutes": None,
-                                "cooldownAfterMax": None,
-                            },
-                            "effectiveFrom": None,
-                            "effectiveTo": None,
-                        }
-                    )
+                # Daily-only lots: do not invent a stub timed SMS with null number.
 
                 # Full-day product (per zone when daily_rate / daily SMS present)
                 daily_money = parse_money(props.get("daily_rate"), default_currency)
@@ -709,7 +691,6 @@ def transform_geojson_files(
                             "legacyId": legacy_zone_id,
                             "kind": "full_day",
                             "zoneIds": [zone_id],
-                            "coversZoneIds": [],
                             "locales": {
                                 "sr-Latn": {
                                     "name": f"Celodnevna — {z_name}",
@@ -817,31 +798,7 @@ def transform_geojson_files(
                     }
                 )
 
-            # Coverage policy (unchanged design)
-            ranked = sorted(
-                zone_price_for_rank.items(), key=lambda kv: kv[1], reverse=True
-            )
-            coverage_zone_entries = []
-            for rank_index, (zid, price) in enumerate(ranked):
-                coverage_zone_entries.append(
-                    {
-                        "zoneId": zid,
-                        "rank": int(round(price * 1000)) + (len(ranked) - rank_index),
-                        "coversZoneIds": [],
-                    }
-                )
-            policy_id = None
-            if coverage_zone_entries:
-                policy_id = ids.unique(f"coverage-{city_slug}")
-                coverage_policies.append(
-                    {
-                        "id": policy_id,
-                        "cityId": city_id,
-                        "onOverlap": "offer_highest_rank",
-                        "zones": coverage_zone_entries,
-                    }
-                )
-
+            # Do not invent coveragePolicies / coversZoneIds — leave absent.
             cities_out.append(
                 {
                     "id": city_id,
@@ -852,7 +809,7 @@ def transform_geojson_files(
                     "center": center,
                     "locales": city_locales_from_props(sample),
                     "zoneIds": zone_ids,
-                    "coveragePolicyId": policy_id,
+                    "coveragePolicyId": None,
                     "coveragePolygon": None,
                     "fullDayButtonColor": None,
                     "effectiveFrom": None,
@@ -885,7 +842,7 @@ def transform_geojson_files(
             "notes": (
                 "GeoJSON import: "
                 + "; ".join(source_notes)
-                + ". SMS sendWindow / city cases / coversZoneIds need manual fill."
+                + ". SMS sendWindow / city cases / coverage (coversZoneIds) left for manual fill — not seeded."
             ),
         },
         "locales": LOCALE_CATALOG,
@@ -898,7 +855,7 @@ def transform_geojson_files(
         "products": products_out,
         "paymentMethods": payment_methods_out,
         "rules": rules_out,
-        "coveragePolicies": coverage_policies,
+        "coveragePolicies": [],
         "residentPermits": [],
         "fines": fines_out,
     }
