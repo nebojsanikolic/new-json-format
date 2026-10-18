@@ -1,7 +1,7 @@
 # Field reference — parking config
 
 Complete parameter list for teammates reviewing or editing the format.  
-Companion docs: [schema.md](schema.md) (concepts) · [parking-config.schema.json](parking-config.schema.json) (machine schema) · [../README.md](../README.md).
+Companion docs: [schema.md](schema.md) (concepts) · [enums.md](enums.md) (closed string enums) · [parking-config.schema.json](parking-config.schema.json) (machine schema) · [../README.md](../README.md).
 
 **Conventions used below**
 
@@ -192,7 +192,7 @@ Used on: currencies, countries, operators, cities, zones, `polygon.overrides`, p
 
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
-| `type` | string | **R** | Who may use this zone/product. Known: `"public"`, `"residents"`. Future hooks (e.g. `"vehicle_class"`) allowed; older apps ignore unknown types. |
+| `type` | EligibilityType | **R** | Closed enum: `"public"` \| `"residents"`. See [enums.md](enums.md). |
 | `notes` | string | O | Back-office note. |
 | *(extra)* | any | O | Extension fields for future eligibility kinds. |
 
@@ -465,7 +465,7 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | --- | --- | --- | --- |
 | `id` | string | **R** | Product id. |
 | `legacyId` | integer \| null | O | Old zone id or daily ticket id. |
-| `kind` | string | **R** | `"timed"` \| `"full_day"` \| `"permit"`. |
+| `kind` | ProductKind | **R** | `"timed"` \| `"full_day"` \| `"permit"`. See [enums.md](enums.md). |
 | `zoneIds` | string[] | O | Ids → `zones[]` this product applies to. |
 | `coversZoneIds` | string[] | O | Ids → cheaper `zones[]` also covered by this ticket. |
 | `locales` | locale map | O | Product name / description. |
@@ -482,7 +482,7 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
-| `mode` | string | **R** | `"per_hour"` \| `"per_minute"` \| `"fixed"` \| `"ladder"`. Use `"ladder"` when increments differ in length and/or price. |
+| `mode` | PricingMode | **R** | `"per_hour"` \| `"per_minute"` \| `"fixed"` \| `"ladder"`. See [enums.md](enums.md). |
 | `baseDurationMinutes` | integer \| null | O | Default minutes for a single flat unit (legacy `value` / daily `interval`). With a ladder, prefer each step’s `durationMinutes`. |
 | `ladder` | LadderStep[] | O | Ordered uneven increments (not hour-index-only). Empty when `mode` is flat `per_hour` / `fixed`. |
 | `nightRates` | NightRate[] | O | Night period prices. |
@@ -613,7 +613,7 @@ Channel-agnostic. Products/zones reference methods by id. Adding card = new meth
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
 | `id` | string | **R** | Payment method id. |
-| `type` | string | **R** | `"sms"` \| `"webview_card"` \| future. Unknown types ignored by older apps. |
+| `type` | PaymentMethodType | **R** | `"sms"` \| `"webview_card"`. See [enums.md](enums.md). |
 | `enabled` | boolean | **R** | Soft switch; disabled methods are not offered. |
 | `sms` | object | O | Present when `type` is `sms`. |
 | `webviewCard` | object | O | Present when `type` is `webview_card`. |
@@ -708,7 +708,7 @@ Typed objects. Apps **skip unknown `type`** values and keep offering known produ
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
 | `id` | string | **R** | Rule id (referenced from `product.ruleIds`). |
-| `type` | string | **R** | Rule kind (see table). |
+| `type` | RuleType | **R** | Closed enum of known kinds (see [enums.md](enums.md)). Studio rejects unknown; apps ignore unknown at runtime. |
 | `notes` | string | O | Back-office explanation. |
 | *(type-specific)* | … | O | See below; extra properties allowed for forward compatibility. |
 
@@ -719,7 +719,7 @@ Typed objects. Apps **skip unknown `type`** values and keep offering known produ
 | `sms_slot_send_window` | `slotIndex`, `relativeToSlotIndex`, `fromMinutesBeforeEnd`, `toMinutesBeforeEnd` | Restrict when slot N may be sent (mirror of SMS sendWindow as a rule). |
 | `resident_only` | `eligibility` | Shorthand resident restriction. |
 | `seasonal_active` | (use with seasonal windows) | Product/zone only active in windows. |
-| `free_initial_minutes` | `minutes` | First N minutes unpaid; then paid product applies. Older apps ignore unknown types. |
+| `free_initial_minutes` | `minutes` | First N minutes unpaid; then paid product applies. |
 
 ```json
 {
@@ -746,7 +746,7 @@ Single policy model for multi-zone locations and “expensive covers cheaper”.
 | --- | --- | --- | --- |
 | `id` | string | **R** | Policy id. |
 | `cityId` | string | **R** | City this policy applies to. |
-| `onOverlap` | string | **R** | UX when GPS hits 2+ zones: `"offer_highest_rank"` \| `"offer_all"` \| `"offer_none"`. |
+| `onOverlap` | CoverageOnOverlap | **R** | `"offer_highest_rank"` \| `"offer_all"` \| `"offer_none"`. See [enums.md](enums.md). |
 | `zones` | array | **R** | Per-zone rank + coverage list. |
 
 #### `zones[]` item

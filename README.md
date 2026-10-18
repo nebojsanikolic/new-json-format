@@ -40,7 +40,8 @@ geography    zones → polygons     (polygon.overrides.* wins over zone)
 commerce     products · paymentMethods · rules
 ```
 
-Holidays, closures, `pricing.byDay`, and `free_initial_minutes`: [docs/holidays-and-time-rules.md](docs/holidays-and-time-rules.md).
+Holidays, closures, `pricing.byDay`, and `free_initial_minutes`: [docs/holidays-and-time-rules.md](docs/holidays-and-time-rules.md).  
+Closed string enums (Swift/Kotlin): [docs/enums.md](docs/enums.md).
 
 Products = *what* is sold. Payment methods = *how* (today: `sms`; `webview_card` ready structurally). Zones link by id arrays — no nested payloads.
 

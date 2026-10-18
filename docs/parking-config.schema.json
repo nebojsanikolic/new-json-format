@@ -204,8 +204,7 @@
       ],
       "properties": {
         "type": {
-          "type": "string",
-          "description": "public | residents | vehicle_class | … unknown types ignored by older apps"
+          "$ref": "#/$defs/eligibilityType"
         },
         "notes": {
           "type": "string"
@@ -222,7 +221,7 @@
       "additionalProperties": false,
       "properties": {
         "id": {
-          "type": "string"
+          "$ref": "#/$defs/localeId"
         },
         "name": {
           "type": "string"
@@ -286,7 +285,7 @@
         "languageSortOrder": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/localeId"
           }
         },
         "locales": {
@@ -436,16 +435,7 @@
         "days": {
           "type": "array",
           "items": {
-            "type": "string",
-            "enum": [
-              "monday",
-              "tuesday",
-              "wednesday",
-              "thursday",
-              "friday",
-              "saturday",
-              "sunday"
-            ]
+            "$ref": "#/$defs/weekdayKey"
           }
         },
         "startHour": {
@@ -732,7 +722,7 @@
         "days": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/weekdayKey"
           }
         },
         "price": {
@@ -771,13 +761,7 @@
       "additionalProperties": false,
       "properties": {
         "mode": {
-          "type": "string",
-          "enum": [
-            "per_hour",
-            "per_minute",
-            "fixed",
-            "ladder"
-          ]
+          "$ref": "#/$defs/pricingMode"
         },
         "baseDurationMinutes": {
           "type": [
@@ -838,14 +822,13 @@
       "additionalProperties": false,
       "properties": {
         "mode": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "enum": [
-            "calendar_day",
-            "rolling_24h",
-            null
+          "oneOf": [
+            {
+              "$ref": "#/$defs/validityMode"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "durationMinutes": {
@@ -881,12 +864,7 @@
           ]
         },
         "kind": {
-          "type": "string",
-          "enum": [
-            "timed",
-            "full_day",
-            "permit"
-          ]
+          "$ref": "#/$defs/productKind"
         },
         "zoneIds": {
           "type": "array",
@@ -1002,8 +980,7 @@
           "type": "string"
         },
         "type": {
-          "type": "string",
-          "description": "sms | webview_card | … unknown types ignored by older apps"
+          "$ref": "#/$defs/paymentMethodType"
         },
         "enabled": {
           "type": "boolean"
@@ -1092,8 +1069,7 @@
           "type": "string"
         },
         "type": {
-          "type": "string",
-          "description": "Known: max_duration, cooldown_after_max, sms_slot_send_window, resident_only, seasonal_active, free_initial_minutes. Apps ignore unknown types."
+          "$ref": "#/$defs/ruleType"
         },
         "maxDurationMinutes": {
           "type": "integer"
@@ -1147,12 +1123,7 @@
           "type": "string"
         },
         "onOverlap": {
-          "type": "string",
-          "enum": [
-            "offer_highest_rank",
-            "offer_all",
-            "offer_none"
-          ]
+          "$ref": "#/$defs/coverageOnOverlap"
         },
         "zones": {
           "type": "array",
@@ -1279,7 +1250,7 @@
         "weekday",
         "sunday"
       ],
-      "description": "free = not enforced / no payment; closed = not in service; weekday/sunday = use that week's paymentWindows."
+      "description": "Catalog holiday defaultBehavior."
     },
     "holiday": {
       "type": "object",
@@ -1333,14 +1304,7 @@
           "type": "string"
         },
         "behavior": {
-          "type": "string",
-          "enum": [
-            "free",
-            "closed",
-            "weekday",
-            "sunday",
-            "custom"
-          ]
+          "$ref": "#/$defs/holidayOverrideBehavior"
         },
         "paymentWindows": {
           "type": "array",
@@ -1416,13 +1380,7 @@
       "description": "Optional per-weekday pricing overlay. When absent for a day, use default product pricing.",
       "properties": {
         "mode": {
-          "type": "string",
-          "enum": [
-            "per_hour",
-            "per_minute",
-            "fixed",
-            "ladder"
-          ]
+          "$ref": "#/$defs/pricingMode"
         },
         "baseDurationMinutes": {
           "type": [
@@ -1451,7 +1409,8 @@
         "friday",
         "saturday",
         "sunday"
-      ]
+      ],
+      "description": "ISO weekday name (lowercase English)."
     },
     "localeId": {
       "type": "string",
@@ -1558,6 +1517,79 @@
           "type": "string"
         }
       }
+    },
+    "productKind": {
+      "type": "string",
+      "enum": [
+        "timed",
+        "full_day",
+        "permit"
+      ],
+      "description": "What the product sells."
+    },
+    "paymentMethodType": {
+      "type": "string",
+      "enum": [
+        "sms",
+        "webview_card"
+      ],
+      "description": "How the product/zone can be paid. New types require schema + app support."
+    },
+    "pricingMode": {
+      "type": "string",
+      "enum": [
+        "per_hour",
+        "per_minute",
+        "fixed",
+        "ladder"
+      ]
+    },
+    "validityMode": {
+      "type": "string",
+      "enum": [
+        "calendar_day",
+        "rolling_24h"
+      ],
+      "description": "Full-day / permit validity semantics."
+    },
+    "holidayOverrideBehavior": {
+      "type": "string",
+      "enum": [
+        "free",
+        "closed",
+        "weekday",
+        "sunday",
+        "custom"
+      ],
+      "description": "Per-zone/polygon holiday override. custom requires paymentWindows."
+    },
+    "coverageOnOverlap": {
+      "type": "string",
+      "enum": [
+        "offer_highest_rank",
+        "offer_all",
+        "offer_none"
+      ]
+    },
+    "eligibilityType": {
+      "type": "string",
+      "enum": [
+        "public",
+        "residents"
+      ],
+      "description": "Who may use the zone/product. Closed set for v1 (no vehicle_class yet)."
+    },
+    "ruleType": {
+      "type": "string",
+      "enum": [
+        "max_duration",
+        "cooldown_after_max",
+        "sms_slot_send_window",
+        "resident_only",
+        "seasonal_active",
+        "free_initial_minutes"
+      ],
+      "description": "Known rule kinds. Studio Validate errors on unknown; apps ignore unknown at runtime. New kinds = schema bump."
     }
   }
 }

@@ -259,7 +259,7 @@ One policy model per city (or subset):
 
 ## Residents, fines, operators
 
-- `eligibility.type`: `public` | `residents` | future hooks (`vehicle_class`, …).
+- `eligibility.type`: closed enum `public` | `residents` (see [enums.md](enums.md)).
 - `residentPermits[]` — permit id, holder rules, `validZoneIds`.
 - `operators[]` / `fines[]` — centralized fine display, discount amount or %, discount period duration.
 
