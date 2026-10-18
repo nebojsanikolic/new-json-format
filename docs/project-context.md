@@ -39,6 +39,7 @@ Three layers:
   - JSON Schema: [`docs/parking-config.schema.json`](https://github.com/nebojsanikolic/new-json-format/blob/main/docs/parking-config.schema.json)
 - Project store `docs/` mirrors the same materials for Context.
 - Format tweaks (2026-10-18): payment/night hours as `"HH:mm"`; zone/polygon `enabled`; lat/lng rounded to 6 dp; id refs documented clearly.
+- Pricing ladders: `{ stepIndex, durationMinutes, price }` (uneven increments; replaces hour-index-only).
 - Next (product/app): wire cutover, back-office editor, fill coverage `coversZoneIds` and multi-slot SMS windows that were previously hard-coded.
 
 ## Related

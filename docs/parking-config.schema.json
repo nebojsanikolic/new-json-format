@@ -389,10 +389,20 @@
     },
     "pricingLadderStep": {
       "type": "object",
-      "required": ["hourIndex", "price"],
+      "required": ["stepIndex", "durationMinutes", "price"],
       "additionalProperties": false,
+      "description": "One pricing increment. Supports uneven lengths (e.g. 60 then 30 minutes). Prefer this over hour-index-only ladders.",
       "properties": {
-        "hourIndex": { "type": "integer", "minimum": 1 },
+        "stepIndex": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "1-based ordinal of this ladder step (1 = first purchase increment)."
+        },
+        "durationMinutes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Length of this increment in minutes (60, 30, …). Not assumed to be one hour."
+        },
         "price": { "$ref": "#/$defs/money" }
       }
     },

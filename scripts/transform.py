@@ -640,7 +640,8 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
             "notes": (
                 "Transformed from production zonesData_v2. "
                 "Empty arrays (operators, residentPermits, fines) and empty "
-                "pricing ladders/nightRates/seasonalWindows are intentional hooks. "
+                "Empty pricing.ladder[] (use stepIndex+durationMinutes+price when filled), "
+                "nightRates/seasonalWindows are intentional hooks. "
                 "pay-webview-card-example is disabled structural sample."
             ),
         },

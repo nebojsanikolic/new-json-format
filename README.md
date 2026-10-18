@@ -64,7 +64,7 @@ scripts/
 3. Output: `data/parking-config.generated.json`  
    (~98 cities, 211 zones, polygons, timed + full-day products, SMS payment methods, coverage policy stubs)
 
-Features not present in production (night rates, price ladders, seasonal overlays, resident permits, fines, live webview card, explicit `coversZoneIds`) are **hooks in the schema** — empty arrays, disabled example payment method, or documented for back office to fill.
+Features not present in production (night rates, filled price ladders, seasonal overlays, resident permits, fines, live webview card, explicit `coversZoneIds`) are **hooks in the schema** — empty arrays, disabled example payment method, or documented for back office to fill. Ladder shape when used: `{ "stepIndex", "durationMinutes", "price" }` (uneven increments OK; see field reference).
 
 ## Regenerate locally
 

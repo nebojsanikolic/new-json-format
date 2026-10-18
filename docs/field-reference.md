@@ -403,18 +403,53 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
-| `mode` | string | **R** | `"per_hour"` \| `"per_minute"` \| `"fixed"` \| `"ladder"`. |
-| `baseDurationMinutes` | integer \| null | O | Minutes granted by one purchase unit (from legacy `value`, or daily `interval`). |
-| `ladder` | LadderStep[] | O | Different price for 1st, 2nd, 3rd… hour. |
+| `mode` | string | **R** | `"per_hour"` \| `"per_minute"` \| `"fixed"` \| `"ladder"`. Use `"ladder"` when increments differ in length and/or price. |
+| `baseDurationMinutes` | integer \| null | O | Default minutes for a single flat unit (legacy `value` / daily `interval`). With a ladder, prefer each step’s `durationMinutes`. |
+| `ladder` | LadderStep[] | O | Ordered uneven increments (not hour-index-only). Empty when `mode` is flat `per_hour` / `fixed`. |
 | `nightRates` | NightRate[] | O | Night period prices. |
 | `seasonalPrices` | SeasonalPrice[] | O | Summer/winter (etc.) price schedules. |
 
-##### Ladder step
+##### Ladder step (`pricing.ladder[]`)
+
+Supports **uneven** increments (e.g. 1 hour, then 30 minutes). Do **not** assume each step is one hour.
 
 | Field | Type | R/O | Meaning |
 | --- | --- | --- | --- |
-| `hourIndex` | integer | **R** | 1-based hour index. |
-| `price` | Money | **R** | Price for that hour. |
+| `stepIndex` | integer | **R** | 1-based ordinal (1 = first increment, 2 = second, …). Replaces old `hourIndex`. |
+| `durationMinutes` | integer | **R** | Length of **this** increment in minutes (`60`, `30`, …). |
+| `price` | Money | **R** | Price for this increment. |
+
+Prices live on the **product** ladder (channel-agnostic). SMS `messageSlots[].durationMinutes` should normally **align** with the matching ladder step’s `durationMinutes`, but payment methods do not carry price.
+
+```json
+"pricing": {
+  "mode": "ladder",
+  "baseDurationMinutes": null,
+  "ladder": [
+    {
+      "stepIndex": 1,
+      "durationMinutes": 60,
+      "price": { "amount": 80, "currencyId": "rsd" }
+    },
+    {
+      "stepIndex": 2,
+      "durationMinutes": 30,
+      "price": { "amount": 50, "currencyId": "rsd" }
+    }
+  ],
+  "nightRates": [],
+  "seasonalPrices": []
+}
+```
+
+Aligned SMS slots (same durations; price stays on the product):
+
+```json
+"messageSlots": [
+  { "index": 1, "durationMinutes": 60, "sendWindow": null },
+  { "index": 2, "durationMinutes": 30, "sendWindow": null }
+]
+```
 
 ##### Night rate
 

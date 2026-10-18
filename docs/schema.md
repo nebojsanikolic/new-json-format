@@ -153,9 +153,9 @@ Important fields:
 
 - `price` — structured money (list / base price)
 - `pricing.mode` — `per_hour` | `per_minute` | `fixed` | `ladder`
-- `pricing.baseDurationMinutes` — minutes granted by one purchase unit (from legacy `value`)
-- `pricing.ladder[]` — nth-hour prices when differing
-- `pricing.nightRates[]` — night windows + prices
+- `pricing.baseDurationMinutes` — minutes for a flat unit (legacy `value`); with ladders, use each step’s duration
+- `pricing.ladder[]` — uneven increments: `{ stepIndex, durationMinutes, price }` (not hour-index-only; e.g. 60 min then 30 min). SMS `messageSlots[].durationMinutes` should align; price stays on the product
+- `pricing.nightRates[]` — night windows + prices (`HH:mm`)
 - `pricing.seasonalPrices[]` — summer/winter etc.
 - `validity.mode` — for full-day: `calendar_day` | `rolling_24h`
 - `validity.buttonColor` — full-day button color
@@ -287,7 +287,7 @@ Fresh stable string ids (`city-beograd`, `zone-beograd-zona-1`, `rsd`, …). Opt
 
 Documented in schema, empty or example-disabled in data:
 
-- Night rates, per-hour ladders beyond flat price, per-minute mode instances
+- Night rates, filled ladders beyond flat `per_hour` (structure supports uneven `stepIndex` + `durationMinutes`), per-minute mode instances
 - Seasonal / event overlays, seasonal pricing schedules
 - Multi-slot SMS send windows (Belgrade 4th SMS rule)
 - Explicit coverage graphs / multi-zone UX beyond price-ranked stubs
