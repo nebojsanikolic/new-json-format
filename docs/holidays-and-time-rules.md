@@ -2,7 +2,7 @@
 
 Status: **accepted** (schema + Studio Catalog/inspector). Items #8–#12 are **not** in schema. There is **no grace-minutes field** — see [Outside payment windows](#outside-payment-windows-public-on-street).
 
-Supported in-app locale keys for display strings: `sr-Latn`, `sr-Cyrl`, `en`, `ru`.
+Shared `LocalesMap` contract: **all four** keys required on every in-app locales object — `sr-Latn`, `sr-Cyrl`, `en`, `ru` (no partial maps).
 
 ## Country + city holidays
 
@@ -29,7 +29,9 @@ Top-level `holidays[]`. Scope with `countryId` and/or `cityId` (municipal when `
     "date": "2027-04-16",
     "locales": {
       "sr-Latn": { "name": "Dan Beograda" },
-      "en": { "name": "Belgrade Day" }
+      "sr-Cyrl": { "name": "Дан Београда" },
+      "en": { "name": "Belgrade Day" },
+      "ru": { "name": "День Белграда" }
     },
     "defaultBehavior": "free"
   }
@@ -120,7 +122,7 @@ Polygon-level `closures[]` is required for lot/block closures.
 | Zone / city / country / product / operator / fine `locales` | Already locale maps |
 | Holiday `locales.name` | Required locale map |
 | Closure reason | `locales.name` |
-| Manifest `updateDescription` | Locale map of strings (`sr-Latn`…`ru`) preferred |
+| Manifest `updateDescription` | When a locale→string map, **all four** keys required |
 | Zone `infoNote` | Under `locales.*.infoNote` |
 | `seasonalWindows[].label`, `rules[].notes`, `eligibility.notes`, `source.notes` | Back-office plain strings OK |
 

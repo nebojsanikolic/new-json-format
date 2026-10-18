@@ -48,6 +48,8 @@ Optional: `--data-version`, `--min-app-version`.
 
 Money is always `{ amount, currencyId }`. Default currency: `rsd` (RS), `eur` (ME).
 
+Every entity `locales` map always emits **all four** keys (`sr-Latn`, `sr-Cyrl`, `en`, `ru`); missing languages are filled from `sr-Latn`/`en`. Extra GeoJSON names (`sk`, `hu`) go into `alternativeNames`, not as locale keys.
+
 Coverage policies / `coversZoneIds` are **not** seeded on import (leave absent until back office).
 
 ## Manual fill / known gaps

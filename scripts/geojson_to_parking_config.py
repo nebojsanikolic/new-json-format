@@ -32,12 +32,54 @@ DAY_ALIAS = {
 }
 DAY_ORDER = {d: i for i, d in enumerate(ALL_DAYS)}
 
+LOCALE_IDS = ("sr-Latn", "sr-Cyrl", "en", "ru")
+
 LOCALE_CATALOG = [
     {"id": "sr-Latn", "name": "Srpski (latinica)", "sortOrder": 1},
     {"id": "sr-Cyrl", "name": "Srpski (ćirilica)", "sortOrder": 2},
     {"id": "en", "name": "English", "sortOrder": 3},
     {"id": "ru", "name": "Русский", "sortOrder": 4},
 ]
+
+
+def complete_locales_map(partial: dict[str, Any] | None) -> dict[str, Any]:
+    """Ensure all four supported locale keys exist (shared LocalesMap contract)."""
+    src = dict(partial or {})
+    extras: list[str] = []
+    for key in list(src.keys()):
+        if key not in LOCALE_IDS:
+            name = (src[key] or {}).get("name")
+            if isinstance(name, str) and name.strip():
+                extras.append(name.strip())
+            del src[key]
+
+    fallback: dict[str, Any] = {}
+    for lid in ("sr-Latn", "en", "sr-Cyrl", "ru"):
+        if src.get(lid):
+            fallback = dict(src[lid])
+            break
+    if not fallback:
+        for entry in src.values():
+            if entry:
+                fallback = dict(entry)
+                break
+
+    out: dict[str, Any] = {}
+    for lid in LOCALE_IDS:
+        out[lid] = dict(src.get(lid) or fallback)
+    if extras:
+        alts = list(out["sr-Latn"].get("alternativeNames") or [])
+        for name in extras:
+            if name not in alts:
+                alts.append(name)
+        out["sr-Latn"]["alternativeNames"] = alts
+    return out
+
+
+def empty_locales_map(name: str = "") -> dict[str, Any]:
+    entry = {"name": name} if name else {}
+    return {lid: dict(entry) for lid in LOCALE_IDS}
+
 
 COUNTRY_META = {
     "rs": {
@@ -71,7 +113,12 @@ CURRENCY_SEED = [
         "code": "RSD",
         "symbol": "RSD",
         "exchangeRate": 1.0,
-        "locales": {"en": {"name": "Serbian Dinar"}},
+        "locales": {
+            "sr-Latn": {"name": "Srpski dinar"},
+            "sr-Cyrl": {"name": "Српски динар"},
+            "en": {"name": "Serbian Dinar"},
+            "ru": {"name": "Сербский динар"},
+        },
     },
     {
         "id": "eur",
@@ -79,7 +126,12 @@ CURRENCY_SEED = [
         "code": "EUR",
         "symbol": "€",
         "exchangeRate": 117.0,
-        "locales": {"en": {"name": "Euro"}},
+        "locales": {
+            "sr-Latn": {"name": "Evro"},
+            "sr-Cyrl": {"name": "Евро"},
+            "en": {"name": "Euro"},
+            "ru": {"name": "Евро"},
+        },
     },
 ]
 
@@ -270,7 +322,7 @@ def zone_locales_from_props(props: dict[str, Any]) -> dict[str, Any]:
     # Prefer info_rate:en as English note when info_note:en missing
     if "en" in locales and "infoNote" not in locales["en"] and props.get("info_rate:en"):
         locales["en"]["infoNote"] = str(props["info_rate:en"])
-    return locales
+    return complete_locales_map(locales)
 
 
 def city_locales_from_props(props: dict[str, Any]) -> dict[str, Any]:
@@ -282,7 +334,7 @@ def city_locales_from_props(props: dict[str, Any]) -> dict[str, Any]:
     ru = props.get("is_in:ru-RU") or props.get("city_name_ru")
     if ru:
         locales["ru"] = {"name": str(ru)}
-    return locales
+    return complete_locales_map(locales)
 
 
 def infer_full_day_validity(props: dict[str, Any]) -> str:
@@ -502,10 +554,7 @@ def transform_geojson_files(
                         operators_by_key[op_key] = {
                             "id": op_id,
                             "legacyId": None,
-                            "locales": {
-                                "sr-Latn": {"name": op_name},
-                                "en": {"name": op_name},
-                            },
+                            "locales": empty_locales_map(op_name),
                             "contact": contact or None,
                         }
                     operator_id = operators_by_key[op_key]["id"]
@@ -524,10 +573,7 @@ def transform_geojson_files(
                     overrides: dict[str, Any] = {}
                     sub = p.get("parking:zone:subzone") or p.get("podzona")
                     if sub:
-                        overrides["locales"] = {
-                            "sr-Latn": {"name": f"{z_name} ({sub})"},
-                            "en": {"name": f"{z_name} ({sub})"},
-                        }
+                        overrides["locales"] = empty_locales_map(f"{z_name} ({sub})")
                     polygons_out.append(
                         {
                             "id": poly_id,
@@ -691,26 +737,30 @@ def transform_geojson_files(
                             "legacyId": legacy_zone_id,
                             "kind": "full_day",
                             "zoneIds": [zone_id],
-                            "locales": {
-                                "sr-Latn": {
-                                    "name": f"Celodnevna — {z_name}",
-                                    "description": str(
-                                        props.get("info_note:sr-Latn") or ""
-                                    ),
-                                },
-                                "en": {
-                                    "name": f"Full day — {z_name}",
-                                    "description": str(
-                                        props.get("info_note:en")
-                                        or props.get("info_rate:en")
-                                        or ""
-                                    ),
-                                },
-                                "ru": {
-                                    "name": f"Дневной — {z_name}",
-                                    "description": str(props.get("info_note:ru") or ""),
-                                },
-                            },
+                            "locales": complete_locales_map(
+                                {
+                                    "sr-Latn": {
+                                        "name": f"Celodnevna — {z_name}",
+                                        "description": str(
+                                            props.get("info_note:sr-Latn") or ""
+                                        ),
+                                    },
+                                    "en": {
+                                        "name": f"Full day — {z_name}",
+                                        "description": str(
+                                            props.get("info_note:en")
+                                            or props.get("info_rate:en")
+                                            or ""
+                                        ),
+                                    },
+                                    "ru": {
+                                        "name": f"Дневной — {z_name}",
+                                        "description": str(
+                                            props.get("info_note:ru") or ""
+                                        ),
+                                    },
+                                }
+                            ),
                             "color": props.get("colour"),
                             "price": daily_money
                             or {"amount": 0, "currencyId": default_currency},
@@ -759,10 +809,7 @@ def transform_geojson_files(
                             "zoneIds": [zone_id],
                             "amount": fine_money,
                             "discount": discount,
-                            "locales": {
-                                "sr-Latn": {"name": f"Kazna — {z_name}"},
-                                "en": {"name": f"Fine — {z_name}"},
-                            },
+                            "locales": empty_locales_map(f"Kazna — {z_name}"),
                         }
                     )
 

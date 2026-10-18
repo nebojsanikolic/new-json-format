@@ -195,52 +195,7 @@
       }
     },
     "localizedText": {
-      "type": "object",
-      "description": "Locale map. Keys are locale ids (sr-Latn, en, …).",
-      "additionalProperties": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "infoNote": {
-            "type": "string"
-          },
-          "preposition": {
-            "type": "string"
-          },
-          "alternativeNames": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "cases": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "genitive": {
-                "type": "string"
-              },
-              "dative": {
-                "type": "string"
-              },
-              "accusative": {
-                "type": "string"
-              },
-              "locative": {
-                "type": "string"
-              },
-              "instrumental": {
-                "type": "string"
-              }
-            }
-          }
-        }
-      }
+      "$ref": "#/$defs/localesMap"
     },
     "eligibility": {
       "type": "object",
@@ -307,7 +262,7 @@
           "description": "Rate vs base currency (legacy base = RSD)."
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         }
       }
     },
@@ -335,7 +290,7 @@
           }
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         },
         "coveragePolygon": {
           "oneOf": [
@@ -381,7 +336,7 @@
           ]
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         },
         "contact": {
           "type": "object",
@@ -421,7 +376,7 @@
           "$ref": "#/$defs/latLng"
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         },
         "zoneIds": {
           "type": "array",
@@ -554,7 +509,7 @@
           "type": "string"
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         },
         "polygonIds": {
           "type": "array",
@@ -641,7 +596,7 @@
           "type": "string"
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         },
         "productIds": {
           "type": "array",
@@ -946,7 +901,7 @@
           }
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         },
         "color": {
           "type": [
@@ -1237,7 +1192,7 @@
           "type": "string"
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         },
         "validZoneIds": {
           "type": "array",
@@ -1311,7 +1266,7 @@
           ]
         },
         "locales": {
-          "$ref": "#/$defs/localizedText"
+          "$ref": "#/$defs/localesMap"
         }
       },
       "additionalProperties": false
@@ -1354,7 +1309,7 @@
           "description": "Calendar date YYYY-MM-DD in the country/city timezone."
         },
         "locales": {
-          "$ref": "#/$defs/localizedText",
+          "$ref": "#/$defs/localesMap",
           "description": "User-facing holiday name (locales.*.name required for display)."
         },
         "defaultBehavior": {
@@ -1446,7 +1401,7 @@
           "description": "ISO date or datetime when closure ends (must be >= closedFrom)."
         },
         "locales": {
-          "$ref": "#/$defs/localizedText",
+          "$ref": "#/$defs/localesMap",
           "description": "Optional in-app reason (locales.*.name)."
         },
         "notes": {
@@ -1497,6 +1452,112 @@
         "saturday",
         "sunday"
       ]
+    },
+    "localeId": {
+      "type": "string",
+      "enum": [
+        "sr-Latn",
+        "sr-Cyrl",
+        "en",
+        "ru"
+      ],
+      "description": "Supported in-app locale id. All four are always required on LocalesMap."
+    },
+    "localeStrings": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Strings for one locale. Which fields are used depends on the entity (holiday may only set name).",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "infoNote": {
+          "type": "string"
+        },
+        "preposition": {
+          "type": "string"
+        },
+        "alternativeNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cases": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "genitive": {
+              "type": "string"
+            },
+            "dative": {
+              "type": "string"
+            },
+            "accusative": {
+              "type": "string"
+            },
+            "locative": {
+              "type": "string"
+            },
+            "instrumental": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "localesMap": {
+      "type": "object",
+      "description": "Shared in-app locales contract: Record<LocaleId, LocaleStrings>. All four keys required; no other locale keys.",
+      "required": [
+        "sr-Latn",
+        "sr-Cyrl",
+        "en",
+        "ru"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "sr-Latn": {
+          "$ref": "#/$defs/localeStrings"
+        },
+        "sr-Cyrl": {
+          "$ref": "#/$defs/localeStrings"
+        },
+        "en": {
+          "$ref": "#/$defs/localeStrings"
+        },
+        "ru": {
+          "$ref": "#/$defs/localeStrings"
+        }
+      }
+    },
+    "updateDescriptionLocales": {
+      "type": "object",
+      "description": "Manifest updateDescription when provided as a locale map: all four keys required (locale → string).",
+      "required": [
+        "sr-Latn",
+        "sr-Cyrl",
+        "en",
+        "ru"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "sr-Latn": {
+          "type": "string"
+        },
+        "sr-Cyrl": {
+          "type": "string"
+        },
+        "en": {
+          "type": "string"
+        },
+        "ru": {
+          "type": "string"
+        }
+      }
     }
   }
 }

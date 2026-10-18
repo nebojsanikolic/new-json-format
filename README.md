@@ -73,7 +73,7 @@ Manifest integrity (exact UTF-8 file bytes):
 "contentHash": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d"
 ```
 
-Also: hours as `"HH:mm"` / `"24:00"` · locales as maps (`sr-Latn`, `en`, …) · envelope `schemaVersion` separate from `mainVersion` / city / shared content versions.
+Also: hours as `"HH:mm"` / `"24:00"` · locales as complete maps (`sr-Latn`/`sr-Cyrl`/`en`/`ru` — all four required) · envelope `schemaVersion` separate from `mainVersion` / city / shared content versions.
 
 ---
 

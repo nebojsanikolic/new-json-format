@@ -9,9 +9,19 @@
       "sortOrder": 1
     },
     {
+      "id": "sr-Cyrl",
+      "name": "Srpski (ćirilica)",
+      "sortOrder": 2
+    },
+    {
       "id": "en",
       "name": "English",
-      "sortOrder": 2
+      "sortOrder": 3
+    },
+    {
+      "id": "ru",
+      "name": "Русский",
+      "sortOrder": 4
     }
   ],
   "currencies": [
@@ -22,7 +32,16 @@
       "symbol": "RSD",
       "exchangeRate": 1.0,
       "locales": {
+        "sr-Latn": {
+          "name": "Serbian Dinar"
+        },
+        "sr-Cyrl": {
+          "name": "Serbian Dinar"
+        },
         "en": {
+          "name": "Serbian Dinar"
+        },
+        "ru": {
           "name": "Serbian Dinar"
         }
       }
@@ -35,13 +54,21 @@
       "defaultCurrencyId": "rsd",
       "languageSortOrder": [
         "sr-Latn",
-        "en"
+        "sr-Cyrl",
+        "en",
+        "ru"
       ],
       "locales": {
+        "sr-Latn": {
+          "name": "Srbija"
+        },
+        "sr-Cyrl": {
+          "name": "Srbija"
+        },
         "en": {
           "name": "Serbia"
         },
-        "sr-Latn": {
+        "ru": {
           "name": "Srbija"
         }
       },
@@ -58,8 +85,14 @@
         "sr-Latn": {
           "name": "Primer parking Beograd"
         },
+        "sr-Cyrl": {
+          "name": "Primer parking Beograd"
+        },
         "en": {
           "name": "Example Parking Belgrade"
+        },
+        "ru": {
+          "name": "Primer parking Beograd"
         }
       },
       "contact": {
@@ -74,10 +107,18 @@
       "countryId": "rs",
       "date": "2027-01-01",
       "locales": {
-        "sr-Latn": { "name": "Nova godina" },
-        "sr-Cyrl": { "name": "Нова година" },
-        "en": { "name": "New Year's Day" },
-        "ru": { "name": "Новый год" }
+        "sr-Latn": {
+          "name": "Nova godina"
+        },
+        "sr-Cyrl": {
+          "name": "Нова година"
+        },
+        "en": {
+          "name": "New Year's Day"
+        },
+        "ru": {
+          "name": "Новый год"
+        }
       },
       "defaultBehavior": "free"
     }

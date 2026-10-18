@@ -70,7 +70,7 @@ Never a bare number with a sibling currency string. Decimals are explicit. Excha
 
 ### Locales
 
-Maps keyed by locale id (`sr-Latn`, `sr-Cyrl`, `en`, `ru`), not parallel `name_en` fields. Grammatical cases nest under the locale:
+Shared contract `LocalesMap` = `Record<"sr-Latn"|"sr-Cyrl"|"en"|"ru", LocaleStrings>`. **All four keys are always required** (no partial maps). Per-locale fields may vary by entity. Schema `$defs.localesMap`.
 
 ```json
 "locales": {
@@ -83,10 +83,11 @@ Maps keyed by locale id (`sr-Latn`, `sr-Cyrl`, `en`, `ru`), not parallel `name_e
       "accusative": "Beograd",
       "locative": "Beogradu",
       "instrumental": "Beogradom"
-    },
-    "alternativeNames": []
+    }
   },
-  "en": { "name": "Belgrade" }
+  "sr-Cyrl": { "name": "Београд" },
+  "en": { "name": "Belgrade" },
+  "ru": { "name": "Белград" }
 }
 ```
 

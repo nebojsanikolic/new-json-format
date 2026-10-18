@@ -18,8 +18,14 @@
       "sr-Latn": {
         "name": "Beograd"
       },
+      "sr-Cyrl": {
+        "name": "Beograd"
+      },
       "en": {
         "name": "Belgrade"
+      },
+      "ru": {
+        "name": "Beograd"
       }
     },
     "zoneIds": [
@@ -42,8 +48,14 @@
         "sr-Latn": {
           "name": "Zona 1 (primer)"
         },
+        "sr-Cyrl": {
+          "name": "Zona 1 (primer)"
+        },
         "en": {
           "name": "Zone 1 (example)"
+        },
+        "ru": {
+          "name": "Zona 1 (primer)"
         }
       },
       "polygonIds": [
@@ -122,8 +134,14 @@
         "sr-Latn": {
           "name": "Sat vremena"
         },
+        "sr-Cyrl": {
+          "name": "Sat vremena"
+        },
         "en": {
           "name": "One hour"
+        },
+        "ru": {
+          "name": "Sat vremena"
         }
       },
       "color": "#E53935",
@@ -206,7 +224,16 @@
       },
       "discount": null,
       "locales": {
+        "sr-Latn": {
+          "name": "Example fine"
+        },
+        "sr-Cyrl": {
+          "name": "Example fine"
+        },
         "en": {
+          "name": "Example fine"
+        },
+        "ru": {
           "name": "Example fine"
         }
       }
@@ -219,10 +246,18 @@
       "cityId": "city-beograd",
       "date": "2027-04-16",
       "locales": {
-        "sr-Latn": { "name": "Dan Beograda" },
-        "sr-Cyrl": { "name": "Дан Београда" },
-        "en": { "name": "Belgrade Day" },
-        "ru": { "name": "День Белграда" }
+        "sr-Latn": {
+          "name": "Dan Beograda"
+        },
+        "sr-Cyrl": {
+          "name": "Дан Београда"
+        },
+        "en": {
+          "name": "Belgrade Day"
+        },
+        "ru": {
+          "name": "День Белграда"
+        }
       },
       "defaultBehavior": "free"
     }

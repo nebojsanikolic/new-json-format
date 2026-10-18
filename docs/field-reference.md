@@ -123,15 +123,34 @@ Optional on many entities. `null` / omitted = always active.
 
 Use to stage future prices, polygons, or seasonal products ahead of time.
 
-### Locale map (`locales` on entities)
+### Locales map (`locales` on entities) — shared contract
 
-**User-facing display strings** (names, descriptions, `infoNote`, holiday names, closure reasons, update blurbs) use locale maps for supported langs: `sr-Latn`, `sr-Cyrl`, `en`, `ru`. Do not ship bare strings for anything the mobile app shows. Back-office-only labels (e.g. `seasonalWindows[].label`, `rules[].notes`, `source.notes`) may stay plain strings.
+**One decoder model** for every in-app localized object:
 
-Object keyed by locale id. Values are objects with optional text fields:
+```ts
+type LocaleId = "sr-Latn" | "sr-Cyrl" | "en" | "ru";
+type LocaleStrings = {
+  name?: string;
+  description?: string;
+  infoNote?: string;
+  preposition?: string;
+  alternativeNames?: string[];
+  cases?: { genitive?: string; dative?: string; accusative?: string; locative?: string; instrumental?: string };
+};
+type LocalesMap = Record<LocaleId, LocaleStrings>; // all four keys always required
+```
 
-| Field | Type | R/O | Meaning |
+Swift-friendly: `[LocaleId: LocaleStrings]` with `LocaleId` limited to those four raw values.
+
+**Illegal:** missing `sr-Cyrl` or `ru`, or only `sr-Latn`+`en`. Schema + Studio Validate reject partial maps. Extra keys (`sk`, `hu`, …) are also illegal — put aliases in `alternativeNames`.
+
+Per-locale **fields** may differ by entity (holiday may only set `name`; zone may set `name` + `description` + `infoNote`) — but the **four locale keys are always required**.
+
+Back-office-only labels (`seasonalWindows[].label`, `rules[].notes`, `source.notes`, `eligibility.notes`) may stay plain strings.
+
+| Field under each locale | Type | R/O | Meaning |
 | --- | --- | --- | --- |
-| `name` | string | O | Display name in that locale. |
+| `name` | string | O* | Display name (*required non-empty for holidays; expected for cities/zones). |
 | `description` | string | O | Longer description. |
 | `infoNote` | string | O | Extra info note (e.g. zone tip). |
 | `preposition` | string | O | Grammar helper for city phrases. |
@@ -161,9 +180,13 @@ Object keyed by locale id. Values are objects with optional text fields:
       "instrumental": "Beogradom"
     }
   },
-  "en": { "name": "Belgrade" }
+  "sr-Cyrl": { "name": "Београд" },
+  "en": { "name": "Belgrade" },
+  "ru": { "name": "Белград" }
 }
 ```
+
+Used on: currencies, countries, operators, cities, zones, `polygon.overrides`, products, resident permits, fines, holidays, closure reasons.
 
 ### Eligibility
 

@@ -39,7 +39,7 @@ path as `manifest.json` (e.g. `https://cdn.example/parking/v1/`).
 | `minAppVersion` | string | App must be ≥ this to consume this delivery. Raise when the engine needs a new capability. |
 | `mainVersion` | string | Revision of this **publish** (content stamp; often mirrors monolith `dataVersion`). |
 | `forceUpdate` | boolean | **Main / global** force flag (see semantics below). |
-| `updateDescription` | string \| locale map | Optional whole-delivery notice. Prefer `{ "sr-Latn", "sr-Cyrl", "en", "ru" }`. |
+| `updateDescription` | string \| locale map | Optional whole-delivery notice. Locale map must include **all four** keys: `sr-Latn`, `sr-Cyrl`, `en`, `ru`. |
 | `generatedAt` | string | ISO-8601 UTC when this delivery was built. |
 | `shared` | object | Pointer to `shared.json` (see below). |
 | `cities` | array | One entry per city file (see below). |
@@ -75,7 +75,7 @@ CDN HTTP `ETag` headers and HMAC signing are **backend/ops** concerns (not writt
 | `countryId` | string | Country id (`rs`, `me`, …). |
 | `version` | string | City file revision. **Bump on any content change** for that city. |
 | `forceUpdate` | boolean | Hard vs soft update for this city (see below). |
-| `updateDescription` | string \| locale map | Prefer `{ "sr-Latn", "sr-Cyrl", "en", "ru" }`. |
+| `updateDescription` | string \| locale map | When a map, all four locale keys required. |
 | `updatedAt` | string | Optional ISO-8601 UTC. |
 | `url` | string | Relative path, e.g. `cities/city-beograd.json`. |
 | `checksum` / `contentHash` | string | `sha256:<hex>` of the city file bytes. |
