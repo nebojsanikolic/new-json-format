@@ -1,6 +1,6 @@
 # Holidays & time rules (accepted)
 
-Status: **accepted** (schema + Studio Catalog/inspector). Grace minutes (#5) and items #8–#12 are **not** in schema.
+Status: **accepted** (schema + Studio Catalog/inspector). Items #8–#12 are **not** in schema. There is **no grace-minutes field** — see [Outside payment windows](#outside-payment-windows-public-on-street).
 
 Supported in-app locale keys for display strings: `sr-Latn`, `sr-Cyrl`, `en`, `ru`.
 
@@ -124,9 +124,15 @@ Polygon-level `closures[]` is required for lot/block closures.
 | Zone `infoNote` | Under `locales.*.infoNote` |
 | `seasonalWindows[].label`, `rules[].notes`, `eligibility.notes`, `source.notes` | Back-office plain strings OK |
 
+## Outside payment windows (public on-street)
+
+This config is for **public** spaces run by local parking services (not closed garages / private lots).
+
+If collection runs until **21:00**, the car may stay until the **next** `paymentWindows` open (e.g. next morning). Time outside windows is simply not collected — no separate “grace minutes” field.
+
 ## Explicitly not in schema
 
-- Grace after window end (#5) — explain only; no field
+- Short grace after window end (#5) — **not needed** for this domain (overnight until next window is free by `paymentWindows`)
 - Pay window ≠ enforcement window (#8)
 - Payment method by date (#9)
 - Vehicle constraints beyond residents (#10)

@@ -328,7 +328,7 @@ Country and city/municipal holidays. Require `countryId` and/or `cityId`. Delive
 | `polygonIds` | string[] | O | Ids → `polygons[]`. |
 | `productIds` | string[] | O | Ids → `products[]` (**what** can be bought). |
 | `paymentMethodIds` | string[] | O | Ids → `paymentMethods[]` (**how** to pay). |
-| `paymentWindows` | PaymentWindow[] | O | When payment / enforcement applies (split windows supported). |
+| `paymentWindows` | PaymentWindow[] | O | When collection / paid parking applies (split windows supported). Outside these windows = not collected; car may stay until the next window opens (no grace field). |
 | `workingDayOverrides` | string[] | O | Calendar dates that use **weekday** windows (from legacy `working_days_override`). |
 | `eligibility` | Eligibility | O | Who may park / buy here. |
 | `fullDayOnly` | boolean | O | If true, zone only sells full-day products (still has color, polygons, cards). |

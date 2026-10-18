@@ -20,6 +20,8 @@ Replace the current flat parking JSON with a **rule-data** format so new rules a
 | Locales | Maps per locale id; grammatical cases nested under locale |
 | Coverage | Single policy model for multi-zone overlap + expensive-covers-cheaper |
 | Effective dating | `effectiveFrom` / `effectiveTo` where values can change on a schedule |
+| Domain | Public on-street / open lots run by local parking services — not private garages |
+| After paid hours | Car may remain until the next payment window starts; outside `paymentWindows` = not collected (no short grace field) |
 
 ## Architecture
 
