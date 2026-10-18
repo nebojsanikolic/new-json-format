@@ -10,7 +10,8 @@ There is **no legacy-format compatibility**. Field names are written for a back-
 
 | Read this | For |
 | --- | --- |
-| [`docs/schema.md`](docs/schema.md) | Human-readable format guide |
+| [`docs/field-reference.md`](docs/field-reference.md) | **Full field reference** — every parameter for teammates |
+| [`docs/schema.md`](docs/schema.md) | Concept guide (layers, inheritance, mapping) |
 | [`docs/parking-config.schema.json`](docs/parking-config.schema.json) | Machine JSON Schema |
 | [`data/parking-config.generated.json`](data/parking-config.generated.json) | **Full transformed production data** (main deliverable) |
 | [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) | Small Belgrade excerpt (polygons truncated) |
@@ -73,7 +74,7 @@ Python 3.10+. Overwrites `data/parking-config.generated.json` and `examples/belg
 
 ## Review tips
 
-1. Skim [`docs/schema.md`](docs/schema.md) for the object model.
+1. Architecture overview above → then [`docs/field-reference.md`](docs/field-reference.md) for every field.
 2. Open [`examples/belgrade-snippet.json`](examples/belgrade-snippet.json) for a readable city.
 3. Spot-check the full file against [`docs/parking-config.schema.json`](docs/parking-config.schema.json).
-4. Compare mapping notes at the bottom of `docs/schema.md` with legacy [`docs/legacy-schema.json`](docs/legacy-schema.json).
+4. Concepts + production mapping: [`docs/schema.md`](docs/schema.md); legacy shape: [`docs/legacy-schema.json`](docs/legacy-schema.json).

@@ -1,13 +1,20 @@
 # Parking config — new rule-data format
 
-Human-readable guide to `parking-config.generated.json`. Machine schema: [`parking-config.schema.json`](parking-config.schema.json).
+Human-readable **concept** guide to `parking-config.generated.json`.
+
+| Doc | Role |
+| --- | --- |
+| [**field-reference.md**](field-reference.md) | **Every field** — type, required/optional, meaning, examples |
+| [parking-config.schema.json](parking-config.schema.json) | Machine JSON Schema |
+| This file | Layers, inheritance, versioning, production mapping |
 
 ## Quick path for reviewers
 
-1. Read **Layers** and **Money** / **Locales** below.
-2. Open [`../examples/belgrade-snippet.json`](../examples/belgrade-snippet.json) for a concrete city.
-3. Full data: [`../data/parking-config.generated.json`](../data/parking-config.generated.json).
-4. Mapping from production: bottom of this doc (**Production → new mapping**).
+1. Skim **Layers** / **Money** / **Locales** below.
+2. Use [field-reference.md](field-reference.md) when checking a specific property.
+3. Open [`../examples/belgrade-snippet.json`](../examples/belgrade-snippet.json) for a concrete city.
+4. Full data: [`../data/parking-config.generated.json`](../data/parking-config.generated.json).
+5. Mapping from production: bottom of this doc (**Production → new mapping**).
 
 ## Why this shape
 

@@ -1,0 +1,670 @@
+# Field reference — parking config
+
+Complete parameter list for teammates reviewing or editing the format.  
+Companion docs: [schema.md](schema.md) (concepts) · [parking-config.schema.json](parking-config.schema.json) (machine schema) · [../README.md](../README.md).
+
+**Conventions used below**
+
+| Marker | Meaning |
+| --- | --- |
+| **R** | Required on that object |
+| **O** | Optional (may be `null` or omitted where noted) |
+| string id | Stable back-office id (`city-beograd`, `rsd`, …) |
+| locale map | Object keyed by locale id (`sr-Latn`, `sr-Cyrl`, `en`, `ru`, …) |
+
+---
+
+## Root object (`ParkingConfig`)
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `dataVersion` | string | **R** | Config revision for cache / “is this newer?”. Bump on every publish (e.g. `"1.0.0"`). |
+| `minAppVersion` | string | **R** | App must be ≥ this semver-like string to load the file. Raise only when the engine must understand a new capability. |
+| `generatedAt` | string \| null | O | ISO-8601 UTC timestamp when this file was generated. |
+| `source` | object | O | Provenance of a transform (see below). |
+| `locales` | array | **R** | Catalog of UI languages + default sort order. |
+| `currencies` | array | **R** | Currency catalog (codes, symbols, exchange rates). |
+| `countries` | array | **R** | Country catalog (timezone required). |
+| `operators` | array | **R** | Fine / operator catalog (may be `[]`). |
+| `cities` | array | **R** | City catalog. |
+| `zones` | array | **R** | Parking zones. |
+| `polygons` | array | **R** | Polygon rings; may override zone fields. |
+| `products` | array | **R** | What is sold (timed, full-day, permit). |
+| `paymentMethods` | array | **R** | How to pay (`sms`, `webview_card`, …). |
+| `rules` | array | **R** | Typed rule objects referenced by id. |
+| `coveragePolicies` | array | **R** | Multi-zone overlap / coverage policy. |
+| `residentPermits` | array | **R** | Resident permits (may be `[]`). |
+| `fines` | array | **R** | Fine amounts / discounts (may be `[]`). |
+
+```json
+{
+  "dataVersion": "1.0.0",
+  "minAppVersion": "5.0.0",
+  "generatedAt": "2026-10-18T09:37:00Z",
+  "locales": [],
+  "currencies": [],
+  "countries": [],
+  "operators": [],
+  "cities": [],
+  "zones": [],
+  "polygons": [],
+  "products": [],
+  "paymentMethods": [],
+  "rules": [],
+  "coveragePolicies": [],
+  "residentPermits": [],
+  "fines": []
+}
+```
+
+### `source`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `url` | string | O | URL of the production/source JSON used for transform. |
+| `legacyVersion` | number \| string \| null | O | Legacy file `version` field. |
+| `notes` | string | O | Free-text transform notes. |
+
+---
+
+## Shared types
+
+### Money
+
+Used **everywhere** money appears. Never a bare number with a sibling currency string.
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `amount` | number | **R** | Decimal-capable amount (e.g. `80`, `0.6`, `156.5`). |
+| `currencyId` | string | **R** | Id of an entry in `currencies` (e.g. `"rsd"`, `"eur"`). |
+
+```json
+{ "amount": 80.0, "currencyId": "rsd" }
+```
+
+### LatLng
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `latitude` | number | **R** | WGS84 latitude. |
+| `longitude` | number | **R** | WGS84 longitude. |
+
+### Effective dating
+
+Optional on many entities. `null` / omitted = always active.
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `effectiveFrom` | string \| null | O | ISO date or datetime when this record becomes active. |
+| `effectiveTo` | string \| null | O | ISO date or datetime when it stops (exclusive or inclusive — app should treat as end of validity window; document in back office UX). |
+
+Use to stage future prices, polygons, or seasonal products ahead of time.
+
+### Locale map (`locales` on entities)
+
+Object keyed by locale id. Values are objects with optional text fields:
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `name` | string | O | Display name in that locale. |
+| `description` | string | O | Longer description. |
+| `infoNote` | string | O | Extra info note (e.g. zone tip). |
+| `preposition` | string | O | Grammar helper for city phrases. |
+| `alternativeNames` | string[] | O | Search aliases. |
+| `cases` | object | O | Grammatical cases (see below). |
+
+#### `cases` (under a locale)
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `genitive` | string | O | Genitive form. |
+| `dative` | string | O | Dative form. |
+| `accusative` | string | O | Accusative form. |
+| `locative` | string | O | Locative form. |
+| `instrumental` | string | O | Instrumental form. |
+
+```json
+"locales": {
+  "sr-Latn": {
+    "name": "Beograd",
+    "preposition": "u",
+    "cases": {
+      "genitive": "Beograda",
+      "dative": "Beogradu",
+      "accusative": "Beograd",
+      "locative": "Beogradu",
+      "instrumental": "Beogradom"
+    }
+  },
+  "en": { "name": "Belgrade" }
+}
+```
+
+### Eligibility
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `type` | string | **R** | Who may use this zone/product. Known: `"public"`, `"residents"`. Future hooks (e.g. `"vehicle_class"`) allowed; older apps ignore unknown types. |
+| `notes` | string | O | Back-office note. |
+| *(extra)* | any | O | Extension fields for future eligibility kinds. |
+
+```json
+{ "type": "public" }
+```
+
+```json
+{ "type": "residents", "notes": "Resident permit required" }
+```
+
+---
+
+## Catalog layer
+
+### `locales[]` — language catalog
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Locale id used as map keys elsewhere (`sr-Latn`, `en`, …). |
+| `name` | string | O | Human label for the language in back office / settings. |
+| `sortOrder` | integer | **R** | Default language sort order (lower = earlier). |
+
+```json
+{ "id": "sr-Latn", "name": "Srpski (latinica)", "sortOrder": 1 }
+```
+
+### `currencies[]`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Stable id (`rsd`, `eur`, …). Referenced by money objects. |
+| `legacyId` | integer \| null | O | Old numeric currency id (review / tooling). |
+| `code` | string | **R** | ISO-like code (`RSD`, `EUR`). |
+| `symbol` | string | **R** | Display symbol (`RSD`, `€`). |
+| `exchangeRate` | number | **R** | Rate vs base currency (production base = RSD). |
+| `locales` | locale map | O | Localized currency name. |
+
+```json
+{
+  "id": "rsd",
+  "legacyId": 1,
+  "code": "RSD",
+  "symbol": "RSD",
+  "exchangeRate": 1,
+  "locales": { "en": { "name": "Serbian Dinar" } }
+}
+```
+
+### `countries[]`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Country id (`rs`, `me`). |
+| `timezone` | string | **R** | IANA timezone (`Europe/Belgrade`). **Required.** |
+| `defaultCurrencyId` | string | **R** | Default currency id for cities in this country. |
+| `languageSortOrder` | string[] | O | Preferred locale ids for display sorting. |
+| `locales` | locale map | O | Country names. |
+| `coveragePolygon` | LatLng[] \| null | O | Optional country map outline. |
+| `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating. |
+
+### `operators[]`
+
+Centralized operators for fine display, contacts, etc. Empty until back office fills.
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Operator id. |
+| `legacyId` | integer \| null | O | Old id if any. |
+| `locales` | locale map | O | Operator display name. |
+| `contact` | object | O | Free-form contact info (phone, url, …). |
+
+### `cities[]`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | City id (`city-beograd`). |
+| `legacyId` | integer \| null | O | Old `city_id`. |
+| `countryId` | string | **R** | Parent country id. |
+| `timezone` | string | **R** | IANA timezone (may match country; overridable per city). |
+| `shortName` | string | O | Short code (`BG`). |
+| `center` | LatLng | **R** | Map center. |
+| `locales` | locale map | O | Names + cases + preposition. |
+| `zoneIds` | string[] | O | Zones belonging to this city. |
+| `coveragePolicyId` | string \| null | O | Id of this city’s coverage policy. |
+| `coveragePolygon` | LatLng[] \| null | O | City parking coverage outline (optional). |
+| `fullDayButtonColor` | string \| null | O | Suggested color for full-day CTA (e.g. Šabac). |
+| `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating. |
+
+---
+
+## Geography layer
+
+### `zones[]`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Zone id. |
+| `legacyId` | integer \| null | O | Old zone `id`. |
+| `cityId` | string | **R** | Parent city. |
+| `color` | string | **R** | Map / card color (hex). |
+| `locales` | locale map | O | Zone name, description, `infoNote`. |
+| `polygonIds` | string[] | O | Polygons that make up this zone. |
+| `productIds` | string[] | O | Products offered in this zone. |
+| `paymentMethodIds` | string[] | O | Payment methods attached at zone level (products also list their own). |
+| `paymentWindows` | PaymentWindow[] | O | When payment / enforcement applies (split windows supported). |
+| `workingDayOverrides` | string[] | O | Calendar dates that use **weekday** windows (from legacy `working_days_override`). |
+| `eligibility` | Eligibility | O | Who may park / buy here. |
+| `fullDayOnly` | boolean | O | If true, zone only sells full-day products (still has color, polygons, cards). |
+| `seasonalWindows` | SeasonalWindow[] | O | Active date ranges; optional polygon expansion for events. |
+| `operatorId` | string \| null | O | Operator responsible for this zone. |
+| `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating. |
+
+#### `paymentWindows[]` item
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `days` | string[] | **R** | `monday` … `sunday`. |
+| `startHour` | number | **R** | Start hour `0–24` (legacy used `24` for midnight end). |
+| `endHour` | number | **R** | End hour `0–24`. |
+
+Closed day = no window for that day (legacy `start`/`end` null).
+
+Multiple windows per day set are allowed (e.g. morning + afternoon).
+
+```json
+{
+  "days": ["monday", "tuesday", "wednesday", "thursday", "friday"],
+  "startHour": 7,
+  "endHour": 22
+}
+```
+
+#### `seasonalWindows[]` item
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | O | Window id. |
+| `label` | string | O | Back-office label (`Zaječar fair`). |
+| `effectiveFrom` | string | O | Start of season/event. |
+| `effectiveTo` | string | O | End of season/event. |
+| `expandsPolygonIds` | string[] | O | Extra polygons active only in this window. |
+
+### `polygons[]`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Polygon id. |
+| `zoneId` | string | **R** | Parent zone. |
+| `ring` | LatLng[] | **R** | Closed ring coordinates (order as produced; app closes if needed). |
+| `overrides` | PolygonOverrides | O | Fields that **replace** the parent zone for this polygon only. Empty `{}` = inherit everything. |
+| `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating (e.g. staged boundary change). |
+
+#### Override rule
+
+**Any field present under `polygon.overrides` wins over the same field on the parent zone** for locations inside that polygon (hours, products, payment methods, color, eligibility, locales, `fullDayOnly`, …). Belgrade subzones with different hours are the motivating case.
+
+#### `overrides` properties (all optional)
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `color` | string | Override map color. |
+| `locales` | locale map | Override name/description/notes. |
+| `productIds` | string[] | Different products for this polygon. |
+| `paymentMethodIds` | string[] | Different payment methods. |
+| `paymentWindows` | PaymentWindow[] | Different hours. |
+| `eligibility` | Eligibility | Different eligibility. |
+| `fullDayOnly` | boolean | Override full-day-only flag. |
+
+```json
+{
+  "id": "poly-beograd-zona-1-0",
+  "zoneId": "zone-beograd-zona-1",
+  "ring": [{ "latitude": 44.81, "longitude": 20.46 }],
+  "overrides": {},
+  "effectiveFrom": null,
+  "effectiveTo": null
+}
+```
+
+---
+
+## Commerce layer
+
+### `products[]`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Product id. |
+| `legacyId` | integer \| null | O | Old zone id or daily ticket id. |
+| `kind` | string | **R** | `"timed"` \| `"full_day"` \| `"permit"`. |
+| `zoneIds` | string[] | O | Zones this product applies to. |
+| `coversZoneIds` | string[] | O | Cheaper zones also covered by this (expensive) ticket. |
+| `locales` | locale map | O | Product name / description. |
+| `color` | string \| null | O | Card / button color. |
+| `price` | Money | **R** | List / base price. |
+| `pricing` | ProductPricing | **R** | How price scales (hour, minute, ladder, fixed). |
+| `validity` | ProductValidity | O | Duration / full-day validity mode. |
+| `paymentMethodIds` | string[] | O | Which payment channels can buy this. |
+| `ruleIds` | string[] | O | Attached typed rules. |
+| `eligibility` | Eligibility | O | Who may buy. |
+| `effectiveFrom` / `effectiveTo` | string \| null | O | Scheduled price/product changes. |
+
+#### `pricing`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `mode` | string | **R** | `"per_hour"` \| `"per_minute"` \| `"fixed"` \| `"ladder"`. |
+| `baseDurationMinutes` | integer \| null | O | Minutes granted by one purchase unit (from legacy `value`, or daily `interval`). |
+| `ladder` | LadderStep[] | O | Different price for 1st, 2nd, 3rd… hour. |
+| `nightRates` | NightRate[] | O | Night period prices. |
+| `seasonalPrices` | SeasonalPrice[] | O | Summer/winter (etc.) price schedules. |
+
+##### Ladder step
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `hourIndex` | integer | **R** | 1-based hour index. |
+| `price` | Money | **R** | Price for that hour. |
+
+##### Night rate
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `startHour` | number | **R** | Night window start. |
+| `endHour` | number | **R** | Night window end. |
+| `days` | string[] | O | Limit to certain weekdays. |
+| `price` | Money | **R** | Night price. |
+
+##### Seasonal price
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `label` | string | O | e.g. `summer`. |
+| `effectiveFrom` | string | **R** | Season start. |
+| `effectiveTo` | string | **R** | Season end. |
+| `price` | Money | **R** | Price in that season. |
+
+#### `validity`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `mode` | string \| null | O | For full-day: `"calendar_day"` (until end of payment day) or `"rolling_24h"`. `null` for timed products. |
+| `durationMinutes` | integer \| null | O | Explicit duration (daily tickets often `1440`). |
+| `buttonColor` | string \| null | O | Full-day button color override. |
+
+```json
+{
+  "id": "prod-timed-beograd-zona-1",
+  "kind": "timed",
+  "zoneIds": ["zone-beograd-zona-1"],
+  "coversZoneIds": [],
+  "price": { "amount": 80, "currencyId": "rsd" },
+  "pricing": {
+    "mode": "per_hour",
+    "baseDurationMinutes": 60,
+    "ladder": [],
+    "nightRates": [],
+    "seasonalPrices": []
+  },
+  "validity": { "mode": null, "durationMinutes": 60, "buttonColor": null },
+  "paymentMethodIds": ["pay-sms-beograd-zona-1"],
+  "ruleIds": ["rule-max-duration-beograd-zona-1"],
+  "eligibility": { "type": "public" }
+}
+```
+
+```json
+{
+  "id": "prod-fullday-sabac-celodnevna",
+  "kind": "full_day",
+  "zoneIds": ["zone-sabac-zona-1", "zone-sabac-zona-2"],
+  "price": { "amount": 156, "currencyId": "rsd" },
+  "pricing": { "mode": "fixed", "baseDurationMinutes": 1440, "ladder": [], "nightRates": [], "seasonalPrices": [] },
+  "validity": { "mode": "calendar_day", "durationMinutes": 1440, "buttonColor": "#FFFFFF" }
+}
+```
+
+### `paymentMethods[]`
+
+Channel-agnostic. Products/zones reference methods by id. Adding card = new method + app support for that `type` — **do not reshape products or zones**.
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Payment method id. |
+| `type` | string | **R** | `"sms"` \| `"webview_card"` \| future. Unknown types ignored by older apps. |
+| `enabled` | boolean | **R** | Soft switch; disabled methods are not offered. |
+| `sms` | object | O | Present when `type` is `sms`. |
+| `webviewCard` | object | O | Present when `type` is `webview_card`. |
+| `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating. |
+
+#### `sms`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `number` | string | O | Short code / MSISDN to send to. |
+| `prefix` | string | O | Message prefix / template start (plate usually appended by app). |
+| `messageSlots` | MessageSlot[] | O | Nth SMS duration + optional send windows. |
+| `maxDurationMinutes` | integer \| null | O | Cap on cumulative paid minutes (from legacy `restriction_time`). |
+| `cooldownAfterMax` | object \| null | O | Block further payments after max until next window. |
+
+##### `messageSlots[]` item
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `index` | integer | **R** | 1-based SMS ordinal. |
+| `durationMinutes` | integer | **R** | Minutes this SMS adds. |
+| `sendWindow` | object \| null | O | When this slot may be sent (relative to another slot). |
+
+###### `sendWindow`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `relativeToSlotIndex` | integer | O | Usually previous slot. |
+| `fromMinutesBeforeEnd` | number | O | Earliest: N minutes before that slot ends. |
+| `toMinutesBeforeEnd` | number | O | Latest: M minutes before that slot ends (`0` = at end). |
+
+Belgrade “4th SMS only in last 10 min of 3rd” maps here. Production often yields a **single** slot from legacy `value`.
+
+##### `cooldownAfterMax`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `enabled` | boolean | O | Whether cooldown applies. |
+| `resumeNextPaymentWindow` | boolean | O | Resume at next `paymentWindows` open. |
+
+```json
+{
+  "id": "pay-sms-beograd-zona-1",
+  "type": "sms",
+  "enabled": true,
+  "sms": {
+    "number": "9111",
+    "prefix": "",
+    "messageSlots": [
+      { "index": 1, "durationMinutes": 60, "sendWindow": null },
+      {
+        "index": 2,
+        "durationMinutes": 30,
+        "sendWindow": {
+          "relativeToSlotIndex": 1,
+          "fromMinutesBeforeEnd": 10,
+          "toMinutesBeforeEnd": 0
+        }
+      }
+    ],
+    "maxDurationMinutes": 90,
+    "cooldownAfterMax": { "enabled": true, "resumeNextPaymentWindow": true }
+  }
+}
+```
+
+#### `webviewCard` (future)
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `urlTemplate` | string | O | Checkout URL with placeholders (`{zoneId}`, `{productId}`, `{plate}`, …). |
+| `returnUrlScheme` | string | O | App deep link for payment result. |
+| `parameters` | object | O | Extra query/body params for the provider. |
+
+```json
+{
+  "id": "pay-webview-card-example",
+  "type": "webview_card",
+  "enabled": false,
+  "webviewCard": {
+    "urlTemplate": "https://pay.example.com/checkout?zone={zoneId}&product={productId}&plate={plate}",
+    "returnUrlScheme": "parkingapp://payment-result",
+    "parameters": {}
+  }
+}
+```
+
+### `rules[]`
+
+Typed objects. Apps **skip unknown `type`** values and keep offering known products.
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Rule id (referenced from `product.ruleIds`). |
+| `type` | string | **R** | Rule kind (see table). |
+| `notes` | string | O | Back-office explanation. |
+| *(type-specific)* | … | O | See below; extra properties allowed for forward compatibility. |
+
+| `type` | Extra fields | Meaning |
+| --- | --- | --- |
+| `max_duration` | `maxDurationMinutes` | Cap cumulative paid minutes. |
+| `cooldown_after_max` | `enabled`, `resumeNextPaymentWindow` | Block further payments after max. |
+| `sms_slot_send_window` | `slotIndex`, `relativeToSlotIndex`, `fromMinutesBeforeEnd`, `toMinutesBeforeEnd` | Restrict when slot N may be sent (mirror of SMS sendWindow as a rule). |
+| `resident_only` | `eligibility` | Shorthand resident restriction. |
+| `seasonal_active` | (use with seasonal windows) | Product/zone only active in windows. |
+
+```json
+{
+  "id": "rule-max-duration-beograd-zona-1",
+  "type": "max_duration",
+  "maxDurationMinutes": 60,
+  "notes": "Mapped from legacy restriction_time"
+}
+```
+
+### `coveragePolicies[]`
+
+Single policy model for multi-zone locations and “expensive covers cheaper”.
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Policy id. |
+| `cityId` | string | **R** | City this policy applies to. |
+| `onOverlap` | string | **R** | UX when GPS hits 2+ zones: `"offer_highest_rank"` \| `"offer_all"` \| `"offer_none"`. |
+| `zones` | array | **R** | Per-zone rank + coverage list. |
+
+#### `zones[]` item
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `zoneId` | string | **R** | Zone id. |
+| `rank` | integer | **R** | Higher = more “expensive” / preferred on overlap. |
+| `coversZoneIds` | string[] | O | Zones covered when this zone’s ticket is bought. |
+
+```json
+{
+  "id": "coverage-beograd",
+  "cityId": "city-beograd",
+  "onOverlap": "offer_highest_rank",
+  "zones": [
+    {
+      "zoneId": "zone-beograd-zona-a",
+      "rank": 120600,
+      "coversZoneIds": []
+    }
+  ]
+}
+```
+
+Generated data ranks zones by price; `coversZoneIds` is empty until back office fills the real graph.
+
+### `residentPermits[]`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Permit id. |
+| `locales` | locale map | O | Permit name / description. |
+| `validZoneIds` | string[] | **R** | Zones where this permit is valid. |
+| `eligibility` | Eligibility | O | Who holds / may use it. |
+| `effectiveFrom` / `effectiveTo` | string \| null | O | Permit validity window. |
+
+### `fines[]`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | **R** | Fine id. |
+| `operatorId` | string \| null | O | Issuing operator. |
+| `zoneIds` | string[] | O | Zones where this fine applies. |
+| `amount` | Money | **R** | Fine amount. |
+| `discount` | object \| null | O | Early-payment discount. |
+| `locales` | locale map | O | Fine labels. |
+
+#### `discount`
+
+| Field | Type | R/O | Meaning |
+| --- | --- | --- | --- |
+| `amount` | Money | O | Fixed discount amount. |
+| `percent` | number | O | Percent discount (e.g. `50`). |
+| `periodDurationMinutes` | integer | O | How long the discount is available after issue. |
+
+```json
+{
+  "id": "fine-example",
+  "operatorId": null,
+  "zoneIds": ["zone-beograd-zona-1"],
+  "amount": { "amount": 5000, "currencyId": "rsd" },
+  "discount": {
+    "percent": 50,
+    "periodDurationMinutes": 1440
+  }
+}
+```
+
+---
+
+## Versioning behavior (apps)
+
+| Mechanism | Behavior |
+| --- | --- |
+| `dataVersion` | Compare to cached version; fetch/replace when newer. |
+| `minAppVersion` | If app &lt; this, refuse config (prompt update). |
+| Unknown `rules[].type` | Ignore that rule; keep product if still usable. |
+| Unknown `paymentMethods[].type` | Hide that payment path. |
+| Unknown `eligibility.type` | Treat as not matching / hide offer (safer than granting access). |
+
+---
+
+## Production → field mapping (cheat sheet)
+
+| Legacy | New field |
+| --- | --- |
+| `version` | `source.legacyVersion` (new `dataVersion` starts fresh) |
+| `currency[]` | `currencies[]` |
+| `cities` / `montenegro_cities` | `countries` + `cities[]` |
+| city name / cases | `city.locales` |
+| `Zones[]` | `zones[]` + `polygons[]` + timed `products[]` + SMS `paymentMethods[]` |
+| `parking_hours` | `zone.paymentWindows` |
+| `value` | `pricing.baseDurationMinutes` + `sms.messageSlots[0].durationMinutes` |
+| `restriction` / `restriction_time` | `rules` `max_duration` + `sms.maxDurationMinutes` + cooldown |
+| `daily_tickets[]` | `products` with `kind: "full_day"` |
+| `sms_number` / `sms_prefix` / `sms_prefix_daily` | `paymentMethods[].sms` |
+| `forZones` | `product.zoneIds` |
+| `working_days_override` | `zone.workingDayOverrides` |
+| `info_note` | `locales.*.infoNote` |
+
+---
+
+## Related files
+
+| Path | Role |
+| --- | --- |
+| [schema.md](schema.md) | Concept guide |
+| [parking-config.schema.json](parking-config.schema.json) | JSON Schema |
+| [../data/parking-config.generated.json](../data/parking-config.generated.json) | Full generated config |
+| [../examples/belgrade-snippet.json](../examples/belgrade-snippet.json) | Belgrade excerpt |
+| [requirements.md](requirements.md) | Product requirements |
+| [project-context.md](project-context.md) | Locked decisions |

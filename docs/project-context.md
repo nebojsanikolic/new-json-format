@@ -32,9 +32,12 @@ Three layers:
 ## Status
 
 - Decisions locked (including money shape).
-- **GitHub repo:** [https://github.com/nebojsanikolic/new-json-format](https://github.com/nebojsanikolic/new-json-format)  
-  Schema + full production transform live there (`data/parking-config.generated.json`, `docs/schema.md`, JSON Schema).
-- Local / Context copies also under the Project store `docs/` while push/auth was being set up.
+- **GitHub repo (live):** [https://github.com/nebojsanikolic/new-json-format](https://github.com/nebojsanikolic/new-json-format)  
+  - Generated data: [`data/parking-config.generated.json`](https://github.com/nebojsanikolic/new-json-format/blob/main/data/parking-config.generated.json)  
+  - Field reference: [`docs/field-reference.md`](https://github.com/nebojsanikolic/new-json-format/blob/main/docs/field-reference.md)  
+  - Concept guide: [`docs/schema.md`](https://github.com/nebojsanikolic/new-json-format/blob/main/docs/schema.md)  
+  - JSON Schema: [`docs/parking-config.schema.json`](https://github.com/nebojsanikolic/new-json-format/blob/main/docs/parking-config.schema.json)
+- Project store `docs/` mirrors the same materials for Context.
 - Next (product/app): wire cutover, back-office editor, fill coverage `coversZoneIds` and multi-slot SMS windows that were previously hard-coded.
 
 ## Related
