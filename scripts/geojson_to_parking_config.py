@@ -581,7 +581,7 @@ def transform_geojson_files(
                             "id": poly_id,
                             "zoneId": zone_id,
                             "enabled": True,
-                            "ring": ring_from_geometry(feat.get("geometry")),
+                            "coordinates": ring_from_geometry(feat.get("geometry")),
                             "overrides": overrides,
                             "effectiveFrom": None,
                             "effectiveTo": None,
@@ -933,12 +933,10 @@ def make_sample(config: dict[str, Any], city_ids: list[str]) -> dict[str, Any]:
     for p in config["polygons"]:
         if p["id"] not in poly_ids:
             continue
-        ring = p.get("ring") or []
+        ring = p.get("coordinates") or []
         clipped = dict(p)
         if len(ring) > 8:
-            clipped["ring"] = ring[:3] + ring[-1:]
-            clipped["ringTruncated"] = True
-            clipped.pop("_ringTruncated", None)
+            clipped["coordinates"] = ring[:3] + ring[-1:]
             clipped.pop("_ringPointCount", None)
         polygons.append(clipped)
     product_ids = {pid for z in zones for pid in (z.get("productIds") or [])}

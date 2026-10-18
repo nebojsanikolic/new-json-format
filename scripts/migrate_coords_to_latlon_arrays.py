@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Migrate {latitude,longitude} points → [lat, lon] arrays; fix truncated rings."""
+"""Migrate {latitude,longitude} points → [lat, lon] arrays; rename ring → coordinates."""
 
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 from typing import Any
 
@@ -18,25 +17,22 @@ def convert_point(p: Any) -> list[float] | None:
         return [round6(p[0]), round6(p[1])]
     if isinstance(p, dict) and "latitude" in p and "longitude" in p:
         if p.get("_truncated"):
-            return None  # drop sentinel
+            return None
         return [round6(p["latitude"]), round6(p["longitude"])]
     return None
 
 
-def convert_ring(ring: Any) -> tuple[list[list[float]], bool]:
-    """Return (new_ring, saw_truncated_sentinel)."""
+def convert_ring(ring: Any) -> list[list[float]]:
     if not isinstance(ring, list):
-        return [], False
+        return []
     out: list[list[float]] = []
-    truncated = False
     for p in ring:
         if isinstance(p, dict) and p.get("_truncated"):
-            truncated = True
             continue
         pt = convert_point(p)
         if pt is not None:
             out.append(pt)
-    return out, truncated
+    return out
 
 
 def migrate(obj: Any) -> Any:
@@ -47,27 +43,24 @@ def migrate(obj: Any) -> Any:
 
     out: dict[str, Any] = {}
     for k, v in obj.items():
-        if k == "ring" and isinstance(v, list):
-            ring, sentinel = convert_ring(v)
-            out["ring"] = ring
-            if sentinel or obj.get("ringTruncated") or obj.get("_ringTruncated"):
-                out["ringTruncated"] = True
+        if k in ("ring", "coordinates") and isinstance(v, list):
+            out["coordinates"] = convert_ring(v)
             continue
-        if k in ("_ringTruncated", "_ringPointCount", "_truncated"):
+        if k in (
+            "ringTruncated",
+            "_ringTruncated",
+            "_ringPointCount",
+            "_truncated",
+        ):
             continue
         if k in ("center",) or k.endswith("Polygon") or k == "coveragePolygon":
             if isinstance(v, dict) and "latitude" in v:
                 out[k] = convert_point(v)
                 continue
             if isinstance(v, list) and v and isinstance(v[0], dict):
-                ring, _ = convert_ring(v)
-                out[k] = ring
+                out[k] = convert_ring(v)
                 continue
         out[k] = migrate(v)
-
-    # polygons may carry ringTruncated from legacy keys already handled
-    if "ring" in out and obj.get("_ringTruncated") and "ringTruncated" not in out:
-        out["ringTruncated"] = True
     return out
 
 
@@ -90,7 +83,6 @@ def main() -> None:
         root / "examples" / "delivery" / "cities" / "city-beograd.json",
         root / "examples" / "delivery" / "shared.json",
     ]
-    # optional store copies handled separately
     for p in paths:
         if not p.exists():
             print(f"skip missing {p}")

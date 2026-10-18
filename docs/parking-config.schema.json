@@ -652,7 +652,7 @@
         "id",
         "zoneId",
         "enabled",
-        "ring"
+        "coordinates"
       ],
       "properties": {
         "id": {
@@ -664,20 +664,6 @@
         "enabled": {
           "type": "boolean",
           "description": "When false, hide this polygon (zone may still show other polygons)."
-        },
-        "ring": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/latLng"
-          },
-          "description": "Polygon vertices as [lat, lon] pairs."
-        },
-        "ringTruncated": {
-          "type": [
-            "boolean",
-            "null"
-          ],
-          "description": "True when ring is a shortened sample. Prefer null/omit in production city files."
         },
         "overrides": {
           "oneOf": [
@@ -710,6 +696,13 @@
             "$ref": "#/$defs/closure"
           },
           "description": "Temporary polygon-level closures (required capability for lot/block closures)."
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/latLng"
+          },
+          "description": "Polygon vertices as [lat, lon] pairs (lat-first)."
         }
       },
       "additionalProperties": false

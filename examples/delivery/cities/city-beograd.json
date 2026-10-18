@@ -95,7 +95,7 @@
       "id": "poly-beograd-example-1",
       "zoneId": "zone-beograd-example-1",
       "enabled": true,
-      "ring": [
+      "coordinates": [
         [
           44.818,
           20.456

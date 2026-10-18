@@ -199,7 +199,7 @@
         "id": "poly-timed-1",
         "zoneId": "zone-timed-1",
         "enabled": true,
-        "ring": [
+        "coordinates": [
           [
             44.818,
             20.456
@@ -221,7 +221,6 @@
             20.456
           ]
         ],
-        "ringTruncated": null,
         "overrides": null,
         "closures": [],
         "effectiveFrom": null,

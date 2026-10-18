@@ -176,4 +176,4 @@ What to offer when GPS / map hits multiple zones (`coveragePolicies[].onOverlap`
 
 ## Booleans (not string enums)
 
-`enabled`, `forceUpdate`, `fullDayOnly`, `ringTruncated`, `observeCountryHolidays`, `observeCityHolidays`, SMS `cooldownAfterMax.enabled`, etc. — plain booleans, not closed string enums.
+`enabled`, `forceUpdate`, `fullDayOnly`, `observeCountryHolidays`, `observeCityHolidays`, SMS `cooldownAfterMax.enabled`, etc. — plain booleans, not closed string enums.

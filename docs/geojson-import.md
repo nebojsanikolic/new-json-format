@@ -36,7 +36,7 @@ Optional: `--data-version`, `--min-app-version`.
 | --- | --- |
 | `city_id`, `is_in`, `city_short_name`, `city_coordinate` | `cities[]` (+ `countryId` from file) |
 | `zone_id`, `colour`, names/descriptions/`info_note:*` | `zones[]` (`enabled: true`) |
-| `polygon_id` + geometry ring | `polygons[]` (`enabled: true`, `ring` as `[lat, lon]` @ 6 dp) |
+| `polygon_id` + geometry outline | `polygons[]` (`enabled: true`, `coordinates` as `[lat, lon]` @ 6 dp) |
 | `fee:conditional` | `zones[].paymentWindows` (`HH:mm`). Supports `yes @ Mo-Fr 07:00-21:00` and parenthesized forms like `yes @ (Fr-Su 06:00-14:00)`. Days outside the windows stay free. |
 | `base_rate` / `base_unit` | timed `products[].price` + `pricing` |
 | `extension_rate(_2)` / `extension_unit(_2)` / `special_extension_*` | `pricing.ladder[]` (`stepIndex`, `durationMinutes`, `price`) |

@@ -32,7 +32,7 @@ Do **not** invent null stubs for nested structures that are not part of that ent
 | `operators` | array | **R** | Fine / operator catalog (may be `[]`). |
 | `cities` | array | **R** | City catalog. |
 | `zones` | array | **R** | Parking zones. |
-| `polygons` | array | **R** | Polygon rings; may override zone fields. |
+| `polygons` | array | **R** | Polygons; may override zone fields. |
 | `products` | array | **R** | What is sold (timed, full-day, permit). |
 | `paymentMethods` | array | **R** | How to pay (`sms`, `webview_card`, …). |
 | `rules` | array | **R** | Typed rule objects referenced by id. |
@@ -110,7 +110,7 @@ A point is a **2-element array**: `[latitude, longitude]` (lat-first — mobile-
 [44.814512, 20.45659]
 ```
 
-Used for `city.center`, `coveragePolygon`, and every `polygons[].ring` vertex. Do **not** use `{ "latitude", "longitude" }` objects (verbose key repetition). Always round when writing config.
+Used for `city.center`, `coveragePolygon`, and every `polygons[].coordinates` vertex. Do **not** use `{ "latitude", "longitude" }` objects (verbose key repetition). Always round when writing config.
 
 ### Time of day (`HH:mm`)
 
@@ -437,9 +437,8 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
 | `id` | string | **R** | Polygon id. |
 | `zoneId` | string | **R** | Parent zone. |
 | `enabled` | boolean | **R** | When `false`, hide this polygon (other polygons of the zone may still show). Production transform sets `true`. |
-| `ring` | LatLng[] | **R** | Vertices as `[lat, lon]` pairs; each coord rounded to **6 decimal places**. |
-| `ringTruncated` | boolean | O | `true` when `ring` is a shortened sample (examples only). Prefer this over sentinel coordinates. |
-| `overrides` | PolygonOverrides | O | Fields that **replace** the parent zone for this polygon only. Empty `{}` = inherit everything. |
+| `coordinates` | LatLng[] | **R** | Vertices as `[lat, lon]` pairs; each coord rounded to **6 decimal places**. Example/snippet files may use shortened outlines (no marker field). |
+| `overrides` | PolygonOverrides | O | Fields that **replace** the parent zone for this polygon only. Empty `{}` = inherit everything. Prefer `null` when unset. |
 | `closures` | Closure[] | O | Temporary **polygon-level** closures (lot/block). |
 | `effectiveFrom` / `effectiveTo` | string \| null | O | Effective dating (e.g. staged boundary change). |
 
@@ -466,7 +465,7 @@ Multiple windows per day set are allowed (e.g. morning + afternoon).
   "id": "poly-beograd-zona-1-0",
   "zoneId": "zone-beograd-zona-1",
   "enabled": true,
-  "ring": [[44.814512, 20.45659], [44.8141, 20.4572]],
+  "coordinates": [[44.814512, 20.45659], [44.8141, 20.4572]],
   "overrides": {},
   "effectiveFrom": null,
   "effectiveTo": null

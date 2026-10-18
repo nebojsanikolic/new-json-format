@@ -343,7 +343,7 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
                             "id": poly_id,
                             "zoneId": zone_id,
                             "enabled": True,
-                            "ring": [
+                            "coordinates": [
                                 lat_lng(p["latitude"], p["longitude"]) for p in ring
                             ],
                             "overrides": {},
@@ -676,10 +676,8 @@ def belgrade_snippet(config: dict[str, Any]) -> dict[str, Any]:
     polygons = []
     for p in config["polygons"]:
         if p["id"] in polygon_ids:
-            ring = p["ring"]
-            clipped = {**p, "ring": ring[:3] if len(ring) > 3 else list(ring)}
-            if len(ring) > 3:
-                clipped["ringTruncated"] = True
+            ring = p["coordinates"]
+            clipped = {**p, "coordinates": ring[:3] if len(ring) > 3 else list(ring)}
             clipped.pop("_ringPointCount", None)
             polygons.append(clipped)
 

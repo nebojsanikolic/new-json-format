@@ -56,11 +56,13 @@ Products = *what* is sold. Payment methods = *how* (today: `sms`; `webview_card`
 
 ## Compact examples
 
-Coordinates are **`[lat, lon]`** (lat-first, 6 dp) — not GeoJSON lon-first, not `{ latitude, longitude }` objects. Truncated samples use `"ringTruncated": true` (no sentinel vertex).
+Coordinates are **`[lat, lon]`** (lat-first, 6 dp) — not GeoJSON lon-first, not `{ latitude, longitude }` objects. Example / snippet `coordinates` may be shortened for file size (no marker field; no sentinel vertices).
 
 ```json
-"ring": [[44.814512, 20.45659], [44.814231, 20.457672]],
-"ringTruncated": true
+"coordinates": [
+  [44.808313, 20.463391],
+  [44.807738, 20.46264]
+]
 ```
 
 ```json

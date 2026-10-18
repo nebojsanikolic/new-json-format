@@ -134,14 +134,14 @@ Coordinates are **`[latitude, longitude]`** arrays (lat-first), rounded to **6 d
   "id": "poly-…",
   "zoneId": "zone-…",
   "enabled": true,
-  "ring": [[44.814512, 20.45659], [44.8141, 20.4572]],
+  "coordinates": [[44.814512, 20.45659], [44.8141, 20.4572]],
   "overrides": {},
   "effectiveFrom": null,
   "effectiveTo": null
 }
 ```
 
-Sample/truncated rings set `"ringTruncated": true` on the polygon (no sentinel vertex).
+Example/snippet `coordinates` arrays may be shortened for readability (no marker field; no sentinel vertices).
 
 `overrides` may repeat any zone-level commercial/geo field. Empty object = inherit everything from the zone.
 
