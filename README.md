@@ -92,12 +92,13 @@ Also: hours as `"HH:mm"` / `"24:00"` · locales as complete maps (`sr-Latn`/`sr-
 ```
 manifest.json          ← always fetched first (includes countries[] index)
 shared.json            ← client, locales, currencies, countries, operators
+exchange-rates.json    ← FX vs base (not inside currencies / cities)
 cities/{cityId}.json   ← one city slice
 ```
 
 - City `forceUpdate: true` → download before parking in that city (price / SMS / rules).
 - `false` → soft / background refresh.
-- Root `forceUpdate` → global / schema gate (+ `minAppVersion` when needed).
+- Root `forceUpdate` → global / schema gate (+ per-platform `minAppVersions` when needed).
 
 Details: [`docs/delivery-manifest.md`](docs/delivery-manifest.md).
 

@@ -6,7 +6,6 @@
   "generatedAt": "2026-10-18T13:00:00Z",
   "city": {
     "id": "city-beograd",
-    "legacyId": null,
     "countryId": "rs",
     "timezone": "Europe/Belgrade",
     "shortName": "BG",
@@ -40,7 +39,6 @@
   "zones": [
     {
       "id": "zone-beograd-example-1",
-      "legacyId": null,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#E53935",
@@ -125,7 +123,6 @@
   "products": [
     {
       "id": "product-beograd-example-timed",
-      "legacyId": null,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-example-1"

@@ -43,7 +43,13 @@ LOCALE_CATALOG = [
 
 
 def complete_locales_map(partial: dict[str, Any] | None) -> dict[str, Any]:
-    """Ensure all four supported locale keys exist (shared LocalesMap contract)."""
+    """Ensure all four supported locale keys exist (shared LocalesMap contract).
+
+    Missing keys are filled from sr-Latn → en → first available. For `sr-Cyrl`,
+    prefer a real Cyrillic entry from source; when only Latin exists, copy
+    sr-Latn into sr-Cyrl as a last-resort fallback (editors should fix foreign
+    brand names that look wrong in Cyrillic).
+    """
     src = dict(partial or {})
     extras: list[str] = []
     for key in list(src.keys()):
@@ -81,6 +87,24 @@ def empty_locales_map(name: str = "") -> dict[str, Any]:
     return {lid: dict(entry) for lid in LOCALE_IDS}
 
 
+DEFAULT_MIN_APP_VERSIONS = {
+    "ios": "5.0.0",
+    "android": "5.0.0",
+    "web": None,
+}
+
+
+def _first_prop(props: dict[str, Any], *keys: str) -> str | None:
+    for key in keys:
+        val = props.get(key)
+        if val is None:
+            continue
+        text = str(val).strip()
+        if text:
+            return text
+    return None
+
+
 COUNTRY_META = {
     "rs": {
         "timezone": "Europe/Belgrade",
@@ -109,10 +133,8 @@ COUNTRY_META = {
 CURRENCY_SEED = [
     {
         "id": "rsd",
-        "legacyId": 1,
         "code": "RSD",
         "symbol": "RSD",
-        "exchangeRate": 1.0,
         "locales": {
             "sr-Latn": {"name": "Srpski dinar"},
             "sr-Cyrl": {"name": "Српски динар"},
@@ -122,10 +144,8 @@ CURRENCY_SEED = [
     },
     {
         "id": "eur",
-        "legacyId": 2,
         "code": "EUR",
         "symbol": "€",
-        "exchangeRate": 117.0,
         "locales": {
             "sr-Latn": {"name": "Evro"},
             "sr-Cyrl": {"name": "Евро"},
@@ -134,6 +154,13 @@ CURRENCY_SEED = [
         },
     },
 ]
+
+# FX lives in a separate delivery file — not on currencies[].
+EXCHANGE_RATES_SEED = {
+    "baseCurrencyId": "rsd",
+    "rates": {"rsd": 1.0, "eur": 117.0},
+    "notes": None,
+}
 
 MONEY_RE = re.compile(
     r"^\s*(?P<amount>\d+(?:[.,]\d+)?)\s*(?P<code>[A-Za-z€$]*)?\s*$"
@@ -286,35 +313,62 @@ def ring_from_geometry(geometry: dict[str, Any] | None) -> list[list[float]]:
 def zone_locales_from_props(props: dict[str, Any]) -> dict[str, Any]:
     locales: dict[str, Any] = {}
 
-    def put(locale: str, name_key: str, desc_key: str, note_key: str | None = None) -> None:
-        name = props.get(name_key)
-        desc = props.get(desc_key)
-        note = props.get(note_key) if note_key else None
+    def put(
+        locale: str,
+        name_keys: tuple[str, ...],
+        desc_keys: tuple[str, ...],
+        note_keys: tuple[str, ...] = (),
+    ) -> None:
+        name = _first_prop(props, *name_keys)
+        desc = _first_prop(props, *desc_keys)
+        note = _first_prop(props, *note_keys) if note_keys else None
         if not name and not desc and not note:
             return
         entry: dict[str, Any] = {}
         if name:
-            entry["name"] = str(name)
+            entry["name"] = name
         if desc:
-            entry["description"] = str(desc)
+            entry["description"] = desc
         if note:
-            entry["infoNote"] = str(note)
+            entry["infoNote"] = note
         locales[locale] = entry
 
     put(
         "sr-Latn",
-        "parkingzone_name:sr-Latn-RS",
-        "description_zone:sr-Latn-RS",
-        "info_note:sr-Latn",
+        ("parkingzone_name:sr-Latn-RS", "parkingzone_name:sr-Latn", "name"),
+        ("description_zone:sr-Latn-RS", "description_zone:sr-Latn"),
+        ("info_note:sr-Latn", "info_note:sr"),
     )
+    # Prefer real Cyrillic props (sr-Cyrl / bare :sr). Do not invent transliterations.
     put(
         "sr-Cyrl",
-        "parkingzone_name:sr-Cyrl-RS",
-        "description_zone:sr-Cyrl-RS",
-        None,
+        (
+            "parkingzone_name:sr-Cyrl-RS",
+            "parkingzone_name:sr-Cyrl",
+            "parkingzone_name:sr",
+            "name_rs_cyrl",
+            "name:sr",
+        ),
+        (
+            "description_zone:sr-Cyrl-RS",
+            "description_zone:sr-Cyrl",
+            "description_zone:sr",
+            "description_rs_cyrl",
+        ),
+        ("info_note:sr-Cyrl", "info_note:sr-Cyrl-RS"),
     )
-    put("en", "parkingzone_name:en-US", "description_zone:en-US", "info_note:en")
-    put("ru", "parkingzone_name:ru-RU", "description_zone:ru-RU", "info_note:ru")
+    put(
+        "en",
+        ("parkingzone_name:en-US", "parkingzone_name:en", "name_en"),
+        ("description_zone:en-US", "description_zone:en"),
+        ("info_note:en",),
+    )
+    put(
+        "ru",
+        ("parkingzone_name:ru-RU", "parkingzone_name:ru", "name_ru"),
+        ("description_zone:ru-RU", "description_zone:ru"),
+        ("info_note:ru",),
+    )
     if props.get("parkingzone_name:sk-SK"):
         locales["sk"] = {"name": str(props["parkingzone_name:sk-SK"])}
     if props.get("parkingzone_name:hu-HU"):
@@ -326,14 +380,27 @@ def zone_locales_from_props(props: dict[str, Any]) -> dict[str, Any]:
 
 
 def city_locales_from_props(props: dict[str, Any]) -> dict[str, Any]:
-    name = str(props.get("is_in") or "")
+    """City names. GeoJSON often only has Latin `is_in` — copy into sr-Cyrl as fallback."""
+    latin = _first_prop(props, "is_in", "city_name", "name") or ""
+    cyrillic = _first_prop(
+        props,
+        "is_in:sr-Cyrl-RS",
+        "is_in:sr-Cyrl",
+        "is_in:sr",
+        "city_name_cyrillic",
+        "city_name_rs_cyrl",
+        "city_name:sr",
+    )
     locales: dict[str, Any] = {
-        "sr-Latn": {"name": name},
-        "en": {"name": name},
+        "sr-Latn": {"name": latin},
+        "en": {"name": latin},
     }
-    ru = props.get("is_in:ru-RU") or props.get("city_name_ru")
+    if cyrillic:
+        locales["sr-Cyrl"] = {"name": cyrillic}
+    # else: complete_locales_map copies sr-Latn → sr-Cyrl (last-resort Latin)
+    ru = _first_prop(props, "is_in:ru-RU", "city_name_ru")
     if ru:
-        locales["ru"] = {"name": str(ru)}
+        locales["ru"] = {"name": ru}
     return complete_locales_map(locales)
 
 
@@ -438,7 +505,7 @@ def transform_geojson_files(
     inputs: list[tuple[Path, str]],
     *,
     data_version: str = "1.0.0-geojson",
-    min_app_version: str = "5.0.0",
+    min_app_versions: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     ids = IdFactory()
     operators_by_key: dict[str, dict[str, Any]] = {}
@@ -500,11 +567,6 @@ def transform_geojson_files(
             city_name = str(sample.get("is_in") or f"city-{city_key}")
             city_slug = slugify(city_name)
             city_id = ids.unique(f"city-{city_slug}")
-            try:
-                legacy_city_id = int(city_key)
-            except (TypeError, ValueError):
-                legacy_city_id = None
-
             center = parse_city_center(sample.get("city_coordinate")) or lat_lng(
                 0.0, 0.0
             )
@@ -532,11 +594,6 @@ def transform_geojson_files(
                 zone_id = ids.unique(f"zone-{city_slug}-{z_slug}")
                 zone_ids.append(zone_id)
 
-                try:
-                    legacy_zone_id = int(zone_key) if not str(zone_key).startswith("synth-") else None
-                except ValueError:
-                    legacy_zone_id = None
-
                 # Operator
                 op_name = str(props.get("operator") or "").strip()
                 operator_id = None
@@ -553,7 +610,6 @@ def transform_geojson_files(
                             contact["phone"] = str(props["contact:phone"])
                         operators_by_key[op_key] = {
                             "id": op_id,
-                            "legacyId": None,
                             "locales": empty_locales_map(op_name),
                             "contact": contact or None,
                         }
@@ -669,7 +725,6 @@ def transform_geojson_files(
                     products_out.append(
                         {
                             "id": prod_id,
-                            "legacyId": legacy_zone_id,
                             "kind": "timed",
                             "zoneIds": [zone_id],
                             "locales": zone_locales_from_props(props),
@@ -741,7 +796,6 @@ def transform_geojson_files(
                     products_out.append(
                         {
                             "id": d_prod_id,
-                            "legacyId": legacy_zone_id,
                             "kind": "full_day",
                             "zoneIds": [zone_id],
                             "locales": complete_locales_map(
@@ -832,7 +886,6 @@ def transform_geojson_files(
                 zones_out.append(
                     {
                         "id": zone_id,
-                        "legacyId": legacy_zone_id,
                         "cityId": city_id,
                         "enabled": True,
                         "color": props.get("colour") or "#888888",
@@ -858,7 +911,6 @@ def transform_geojson_files(
             cities_out.append(
                 {
                     "id": city_id,
-                    "legacyId": legacy_city_id,
                     "countryId": country_id,
                     "timezone": tz,
                     "shortName": sample.get("city_short_name") or None,
@@ -888,17 +940,30 @@ def transform_geojson_files(
             }
         )
 
+    versions = dict(DEFAULT_MIN_APP_VERSIONS)
+    if min_app_versions:
+        versions.update(min_app_versions)
+    generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    exchange_rates = {
+        "schemaVersion": "1.0.0",
+        "version": f"rates-{data_version}",
+        "baseCurrencyId": EXCHANGE_RATES_SEED["baseCurrencyId"],
+        "asOf": generated_at,
+        "rates": dict(EXCHANGE_RATES_SEED["rates"]),
+        "notes": EXCHANGE_RATES_SEED.get("notes"),
+    }
+
     return {
         "dataVersion": data_version,
-        "minAppVersion": min_app_version,
-        "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "minAppVersions": versions,
+        "generatedAt": generated_at,
         "source": {
             "url": None,
-            "legacyVersion": None,
             "notes": (
                 "GeoJSON import: "
                 + "; ".join(source_notes)
-                + ". SMS sendWindow / city cases / coverage (coversZoneIds) left for manual fill — not seeded."
+                + ". SMS sendWindow / city cases / coverage (coversZoneIds) left for manual fill — not seeded. "
+                "City sr-Cyrl falls back to Latin is_in when no Cyrillic city prop exists."
             ),
         },
         "client": {
@@ -907,6 +972,7 @@ def transform_geojson_files(
         },
         "locales": LOCALE_CATALOG,
         "currencies": CURRENCY_SEED,
+        "exchangeRates": exchange_rates,
         "countries": countries,
         "operators": list(operators_by_key.values()),
         "cities": cities_out,
@@ -964,8 +1030,9 @@ def make_sample(config: dict[str, Any], city_ids: list[str]) -> dict[str, Any]:
     country_ids = {c["countryId"] for c in cities}
     return {
         "dataVersion": config["dataVersion"],
-        "minAppVersion": config["minAppVersion"],
+        "minAppVersions": config["minAppVersions"],
         "generatedAt": config.get("generatedAt"),
+        "exchangeRates": config.get("exchangeRates"),
         "source": {
             **(config.get("source") or {}),
             "notes": (
@@ -1022,7 +1089,16 @@ def main() -> None:
         help="City ids to include in --sample-output",
     )
     parser.add_argument("--data-version", default="1.0.0-geojson")
-    parser.add_argument("--min-app-version", default="5.0.0")
+    parser.add_argument(
+        "--min-app-version",
+        default="5.0.0",
+        help="Applied to ios + android (web stays null). Prefer --min-app-versions JSON for full control.",
+    )
+    parser.add_argument(
+        "--min-app-versions",
+        default=None,
+        help='JSON object e.g. {"ios":"5.0.0","android":"5.0.0","web":null}',
+    )
     args = parser.parse_args()
 
     inputs: list[tuple[Path, str]] = []
@@ -1040,7 +1116,11 @@ def main() -> None:
     config = transform_geojson_files(
         inputs,
         data_version=args.data_version,
-        min_app_version=args.min_app_version,
+        min_app_versions=(
+            json.loads(args.min_app_versions)
+            if args.min_app_versions
+            else {"ios": args.min_app_version, "android": args.min_app_version, "web": None}
+        ),
     )
 
     args.output.parent.mkdir(parents=True, exist_ok=True)

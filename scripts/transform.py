@@ -58,6 +58,32 @@ def slugify(text: str) -> str:
     return ascii_text.strip("-") or "item"
 
 
+
+LOCALE_IDS = ("sr-Latn", "sr-Cyrl", "en", "ru")
+
+DEFAULT_MIN_APP_VERSIONS = {
+    "ios": "5.0.0",
+    "android": "5.0.0",
+    "web": None,
+}
+
+
+def complete_locales_map(partial: dict | None) -> dict:
+    """Ensure all four LocalesMap keys; copy sr-Latn into sr-Cyrl when Cyrillic missing."""
+    src = dict(partial or {})
+    fallback = {}
+    for lid in ("sr-Latn", "en", "sr-Cyrl", "ru"):
+        if src.get(lid):
+            fallback = dict(src[lid])
+            break
+    if not fallback:
+        for entry in src.values():
+            if entry:
+                fallback = dict(entry)
+                break
+    return {lid: dict(src.get(lid) or fallback) for lid in LOCALE_IDS}
+
+
 def currency_id_from_code(code: str) -> str:
     return code.strip().lower()
 
@@ -151,19 +177,34 @@ def build_currencies(raw_list: list[dict[str, Any]]) -> tuple[list[dict], dict[i
         cid = currency_id_from_code(item["code"])
         entry = {
             "id": cid,
-            "legacyId": item.get("id"),
             "code": item["code"],
             "symbol": item.get("symbol") or item["code"],
-            "exchangeRate": float(item.get("exchangeRate") or 1),
-            "locales": {
+            "locales": complete_locales_map({
                 "en": {"name": item.get("name") or item["code"]},
-            },
+            }),
         }
         currencies.append(entry)
         if item.get("id") is not None:
             by_legacy[int(item["id"])] = cid
         by_code[item["code"].upper()] = cid
     return currencies, by_legacy, by_code
+
+
+def build_exchange_rates(raw_list: list[dict], *, generated_at: str) -> dict:
+    rates = {}
+    for item in raw_list:
+        cid = currency_id_from_code(item["code"])
+        rates[cid] = float(item.get("exchangeRate") or 1)
+    if "rsd" not in rates:
+        rates["rsd"] = 1.0
+    return {
+        "schemaVersion": "1.0.0",
+        "version": "1.0.0",
+        "baseCurrencyId": "rsd",
+        "asOf": generated_at,
+        "rates": rates,
+        "notes": "Seeded from zonesData_v2 currency.exchangeRate at transform time.",
+    }
 
 
 def city_locales(raw: dict[str, Any]) -> dict[str, Any]:
@@ -183,11 +224,18 @@ def city_locales(raw: dict[str, Any]) -> dict[str, Any]:
     if cases:
         sr["cases"] = cases
     locales: dict[str, Any] = {"sr-Latn": sr}
+    cyr_name = raw.get("city_name_rs_cyrl") or raw.get("city_name_cyrillic")
+    if cyr_name:
+        cyr = {"name": cyr_name}
+        if raw.get("city_name_preposition"):
+            # keep Latin preposition only when no Cyrillic form — editors can fix
+            cyr["preposition"] = raw["city_name_preposition"]
+        locales["sr-Cyrl"] = cyr
     if raw.get("city_name_ru"):
         locales["ru"] = {"name": raw["city_name_ru"]}
-    # English fallback = Latin name (legacy had no city_name_en)
+    # English fallback = Latin name (source had no city_name_en)
     locales["en"] = {"name": raw.get("city_name") or ""}
-    return locales
+    return complete_locales_map(locales)
 
 
 def zone_locales(raw: dict[str, Any]) -> dict[str, Any]:
@@ -216,32 +264,42 @@ def zone_locales(raw: dict[str, Any]) -> dict[str, Any]:
         locales["en"]["infoNote"] = info["en"]
     if info.get("ru"):
         locales["ru"]["infoNote"] = info["ru"]
-    return locales
+    if info.get("rs_cyrl") or info.get("sr-Cyrl"):
+        locales["sr-Cyrl"]["infoNote"] = info.get("rs_cyrl") or info.get("sr-Cyrl")
+    return complete_locales_map(locales)
 
 
 def daily_locales(raw: dict[str, Any]) -> dict[str, Any]:
-    return {
-        "sr-Latn": {
-            "name": raw.get("name") or "",
-            "description": raw.get("desc") or "",
-        },
-        "sr-Cyrl": {
-            "name": raw.get("name_rs_cyrl") or "",
-            "description": raw.get("desc_rs_cyrl") or "",
-        },
-        "en": {
-            "name": raw.get("name_en") or "",
-            "description": raw.get("desc_en") or "",
-        },
-        "ru": {
-            "name": raw.get("name_ru") or "",
-            "description": raw.get("desc_ru") or "",
-        },
-    }
+    return complete_locales_map(
+        {
+            "sr-Latn": {
+                "name": raw.get("name") or "",
+                "description": raw.get("desc") or "",
+            },
+            "sr-Cyrl": {
+                "name": raw.get("name_rs_cyrl") or "",
+                "description": raw.get("desc_rs_cyrl") or "",
+            },
+            "en": {
+                "name": raw.get("name_en") or "",
+                "description": raw.get("desc_en") or "",
+            },
+            "ru": {
+                "name": raw.get("name_ru") or "",
+                "description": raw.get("desc_ru") or "",
+            },
+        }
+    )
 
 
 def transform(source: dict[str, Any]) -> dict[str, Any]:
-    currencies, currency_by_legacy, currency_by_code = build_currencies(source.get("currency") or [])
+    currencies, currency_by_legacy, currency_by_code = build_currencies(
+        source.get("currency") or []
+    )
+    generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    exchange_rates = build_exchange_rates(
+        source.get("currency") or [], generated_at=generated_at
+    )
 
     countries = []
     for cid, meta in COUNTRY_META.items():
@@ -418,7 +476,6 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
                 products_out.append(
                     {
                         "id": prod_id,
-                        "legacyId": z_legacy,
                         "kind": "timed",
                         "zoneIds": [zone_id],
                         "coversZoneIds": [],
@@ -448,7 +505,6 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
                 zones_out.append(
                     {
                         "id": zone_id,
-                        "legacyId": z_legacy,
                         "cityId": city_id,
                         "enabled": True,
                         "color": raw_zone.get("color") or "#888888",
@@ -530,7 +586,6 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
                 products_out.append(
                     {
                         "id": prod_id,
-                        "legacyId": int(d_legacy) if d_legacy is not None else None,
                         "kind": "full_day",
                         "zoneIds": target_zone_ids,
                         "coversZoneIds": [],
@@ -610,7 +665,6 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
             cities_out.append(
                 {
                     "id": city_id,
-                    "legacyId": raw_city.get("city_id"),
                     "countryId": country_id,
                     "timezone": country_tz,
                     "shortName": raw_city.get("city_short_name") or "",
@@ -630,21 +684,22 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
 
     return {
         "dataVersion": "1.0.0",
-        "minAppVersion": "5.0.0",
-        "generatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "minAppVersions": dict(DEFAULT_MIN_APP_VERSIONS),
+        "generatedAt": generated_at,
         "source": {
             "url": SOURCE_URL,
-            "legacyVersion": source.get("version"),
             "notes": (
                 "Transformed from production zonesData_v2. "
                 "Empty arrays (operators, residentPermits, fines) and empty "
-                "Empty pricing.ladder[] (use stepIndex+durationMinutes+price when filled), "
+                "pricing.ladder[] (use stepIndex+durationMinutes+price when filled), "
                 "nightRates/seasonalWindows are intentional hooks. "
-                "pay-webview-card-example is disabled structural sample."
+                "pay-webview-card-example is disabled structural sample. "
+                "FX rates live in exchangeRates (separate delivery file)."
             ),
         },
         "locales": LOCALE_CATALOG,
         "currencies": currencies,
+        "exchangeRates": exchange_rates,
         "countries": countries,
         "operators": [],
         "cities": cities_out,
@@ -661,7 +716,7 @@ def transform(source: dict[str, Any]) -> dict[str, Any]:
 
 def belgrade_snippet(config: dict[str, Any]) -> dict[str, Any]:
     """Small readable excerpt: Belgrade without full polygon rings."""
-    city = next(c for c in config["cities"] if c["legacyId"] == 11)
+    city = next(c for c in config["cities"] if c["id"] == "city-beograd")
     zone_ids = set(city["zoneIds"])
     zones = []
     for z in config["zones"]:
@@ -694,7 +749,7 @@ def belgrade_snippet(config: dict[str, Any]) -> dict[str, Any]:
 
     return {
         "dataVersion": config["dataVersion"],
-        "minAppVersion": config["minAppVersion"],
+        "minAppVersions": config["minAppVersions"],
         "note": "Belgrade excerpt — polygons truncated for readability; see parking-config.generated.json for full data.",
         "city": city,
         "zones": zones,

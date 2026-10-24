@@ -20,6 +20,7 @@ python3 scripts/split_parking_config.py \
 delivery/
   manifest.json          # always fetched first (small)
   shared.json            # client, locales, currencies, countries, operators, country holidays
+  exchange-rates.json    # FX vs base currency (not inside currencies[] / cities)
   cities/
     city-beograd.json
     city-podgorica.json
@@ -36,12 +37,13 @@ path as `manifest.json` (e.g. `https://cdn.example/parking/v1/`).
 | Field | Type | Meaning |
 | --- | --- | --- |
 | `schemaVersion` | string | **Delivery/schema envelope** version (currently `"1.0.0"`). Separate from `mainVersion`, city `version`, shared `version`, and monolith `dataVersion`. |
-| `minAppVersion` | string | App must be ≥ this to consume this delivery. Raise when the engine needs a new capability. |
+| `minAppVersions` | object | Per-platform floors: `{ "ios", "android", "web" }` (string or `null`). Raise a platform when that app needs a new engine capability. |
 | `mainVersion` | string | Revision of this **publish** (content stamp; often mirrors monolith `dataVersion`). |
 | `forceUpdate` | boolean | **Main / global** force flag (see semantics below). |
 | `updateDescription` | string \| locale map | Optional whole-delivery notice. Locale map must include **all four** keys: `sr-Latn`, `sr-Cyrl`, `en`, `ru`. |
 | `generatedAt` | string | ISO-8601 UTC when this delivery was built. |
 | `shared` | object | Pointer to `shared.json` (see below). |
+| `exchangeRates` | object | Pointer to `exchange-rates.json` (version, url, checksum, forceUpdate, …). |
 | `countries` | array | Country **index** for the app (see below). Full country objects stay in `shared.json` (v1). |
 | `cities` | array | One entry per city file (see below). |
 | `source` | object | Optional provenance copied from the monolith. |
@@ -49,11 +51,11 @@ path as `manifest.json` (e.g. `https://cdn.example/parking/v1/`).
 
 ### Integrity: `checksum` / `contentHash`
 
-Studio and `split_parking_config.py` hash the **exact UTF-8 JSON bytes** written for `shared.json` and each `cities/{id}.json`.
+Studio and `split_parking_config.py` hash the **exact UTF-8 JSON bytes** written for `shared.json`, `exchange-rates.json`, and each `cities/{id}.json`.
 
 | Field | Format | Meaning |
 | --- | --- | --- |
-| `checksum` | `sha256:<hex>` | Required on export for shared + every city entry. |
+| `checksum` | `sha256:<hex>` | Required on export for shared, exchange-rates, + every city entry. |
 | `contentHash` | `sha256:<hex>` | Same digest as `checksum` — etag-equivalent next to `version`. |
 
 CDN HTTP `ETag` headers and HMAC signing are **backend/ops** concerns (not written by the studio). Clients may treat `contentHash` like an etag when verifying downloads.
@@ -103,7 +105,7 @@ Example:
 ```json
 {
   "schemaVersion": "1.0.0",
-  "minAppVersion": "5.0.0",
+  "minAppVersions": { "ios": "5.0.0", "android": "5.0.0", "web": null },
   "mainVersion": "1.0.0-geojson",
   "forceUpdate": false,
   "updateDescription": {
@@ -119,15 +121,22 @@ Example:
     "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
     "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
   },
+  "exchangeRates": {
+    "version": "2026.10.24.1",
+    "forceUpdate": false,
+    "url": "exchange-rates.json",
+    "checksum": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "contentHash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
   "countries": [
     {
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "locales": {
         "sr-Latn": { "name": "Srbija" },
-        "sr-Cyrl": { "name": "Srbija" },
+        "sr-Cyrl": { "name": "Србија" },
         "en": { "name": "Serbia" },
-        "ru": { "name": "Srbija" }
+        "ru": { "name": "Сербия" }
       },
       "version": "2026.10.18.1",
       "forceUpdate": false,
@@ -175,7 +184,7 @@ Tiny checked-in sample: [`examples/delivery/`](../examples/delivery/).
 
 | Value | Client behavior |
 | --- | --- |
-| **`true`** | Schema or **global** rules require a full refresh of shared + relevant cities, and/or an **app gate** via `minAppVersion` (user must update the app if below). Treat as “do not run on stale delivery.” |
+| **`true`** | Schema or **global** rules require a full refresh of shared + relevant cities, and/or an **app gate** via `minAppVersions` (user must update the app if that platform is below). Treat as “do not run on stale delivery.” |
 | **`false`** | Normal incremental path: compare versions and update only what changed. |
 
 ---
@@ -188,11 +197,42 @@ Tiny checked-in sample: [`examples/delivery/`](../examples/delivery/).
 | Fine amounts / payment-related operator contact used at pay time | **Yes** | **`true`** (if old values would mislead payment) |
 | Zone `enabled` flipped (hide/show parking) | **Yes** | Prefer **`true`** if leaving it soft would show illegal/outdated availability |
 | Polygon geometry only (map shape), cosmetic colors, copy tweaks with no price/rule impact | **Yes** | **`false`** OK (soft / background) |
-| Shared catalog only (new locale, currency rate) | Bump **`shared.version`** | `shared.forceUpdate` as needed; city versions unchanged |
+| Shared catalog only (new locale, currency metadata) | Bump **`shared.version`** | `shared.forceUpdate` as needed; city versions unchanged |
+| FX rates only | Bump **`exchangeRates.version`** | `exchangeRates.forceUpdate` as needed; cities unchanged |
 
 **Guideline:** if serving the previous city JSON could cause a wrong SMS, wrong price, wrong max stay, or illegal parking advice → **`forceUpdate: true`**. If it is map polish or non-binding copy → leave **`false`**.
 
 Always bump the city `version` string on **any** city content change so soft updates still detect freshness. Suggested stamp: `YYYY.MM.DD.N` (e.g. `2026.10.18.1`).
+
+---
+
+## `exchange-rates.json`
+
+FX is **not** stored on `currencies[]` or in city/zone payloads. Clients fetch this file when the manifest `exchangeRates` entry changes.
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `schemaVersion` | string | Envelope version |
+| `version` | string | Content stamp |
+| `baseCurrencyId` | string | Currency id rates are quoted against (e.g. `rsd`) |
+| `asOf` | string | ISO-8601 UTC observation / publish time |
+| `rates` | object | Map of `currencyId` → number (base itself is typically `1`) |
+| `notes` | string \| null | Optional |
+
+```json
+{
+  "schemaVersion": "1.0.0",
+  "version": "2026.10.24.1",
+  "baseCurrencyId": "rsd",
+  "asOf": "2026-10-24T12:00:00Z",
+  "rates": { "rsd": 1, "eur": 117.0 },
+  "notes": null
+}
+```
+
+### `exchangeRates` manifest entry
+
+Same shape as shared: `version`, `forceUpdate`, `url` (`exchange-rates.json`), `checksum` / `contentHash`, optional `updateDescription` / `updatedAt`.
 
 ---
 
@@ -236,12 +276,13 @@ Payment methods and rules are **included by reference** from the city’s zones/
 ## Client fetch sketch
 
 1. GET `manifest.json`.
-2. If `minAppVersion` > app → prompt update / gate.
-3. If `forceUpdate` (main) → refresh shared + all cities needed for the user’s context before use.
+2. If this platform’s `minAppVersions.{ios|android|web}` is a string and app &lt; that → prompt update / gate (`null` = not gated).
+3. If `forceUpdate` (main) → refresh shared + rates + all cities needed for the user’s context before use.
 4. Use `manifest.countries[]` for the country list / timezone labels; compare `countries[].version` / `forceUpdate` (v1 mirrors shared) → fetch `shared.json` when shared (or any country pointing at it) needs refresh.
 5. Compare `shared.version` (and `shared.forceUpdate`) → fetch `shared.json` if needed.
-6. For each city the user may use: if local version ≠ manifest version, or `forceUpdate`, fetch that city URL (blocking when forced).
-7. Verify `checksum` (`sha256:<hex>`) against the downloaded file bytes (prefer `checksum` over `contentHash`).
+6. Compare `exchangeRates.version` / `forceUpdate` → fetch `exchange-rates.json` if needed.
+7. For each city the user may use: if local version ≠ manifest version, or `forceUpdate`, fetch that city URL (blocking when forced).
+8. Verify `checksum` (`sha256:<hex>`) against the downloaded file bytes (prefer `checksum` over `contentHash`).
 
 ---
 
@@ -251,6 +292,8 @@ Payment methods and rules are **included by reference** from the city’s zones/
 | --- | --- |
 | `--force-update-main` | Set root `forceUpdate` |
 | `--force-update-shared` | Set `shared.forceUpdate` |
+| `--force-update-rates` | Set `exchangeRates.forceUpdate` |
+| `--rates-version …` | Stamp `exchange-rates.json` version |
 | `--force-update-cities city-a,city-b` | Hard-refresh listed cities |
 | `--force-update-all-cities` | Hard-refresh every city (cutover) |
 | `--city-version 2026.10.18.2` | Stamp all city files |

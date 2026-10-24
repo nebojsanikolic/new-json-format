@@ -6,7 +6,7 @@
   "type": "object",
   "required": [
     "schemaVersion",
-    "minAppVersion",
+    "minAppVersions",
     "mainVersion",
     "forceUpdate",
     "generatedAt",
@@ -16,73 +16,173 @@
   ],
   "additionalProperties": false,
   "properties": {
-    "schemaVersion": { "type": "string" },
-    "minAppVersion": { "type": "string" },
-    "mainVersion": { "type": "string" },
-    "forceUpdate": { "type": "boolean" },
+    "schemaVersion": {
+      "type": "string"
+    },
+    "mainVersion": {
+      "type": "string"
+    },
+    "forceUpdate": {
+      "type": "boolean"
+    },
     "updateDescription": {
       "oneOf": [
-        { "type": "string" },
-        { "$ref": "#/$defs/updateDescriptionLocales" }
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/$defs/updateDescriptionLocales"
+        }
       ]
     },
-    "generatedAt": { "type": "string", "format": "date-time" },
-    "shared": { "$ref": "#/$defs/sharedEntry" },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "shared": {
+      "$ref": "#/$defs/sharedEntry"
+    },
     "countries": {
       "type": "array",
-      "items": { "$ref": "#/$defs/countryEntry" }
+      "items": {
+        "$ref": "#/$defs/countryEntry"
+      }
     },
     "cities": {
       "type": "array",
-      "items": { "$ref": "#/$defs/cityEntry" }
+      "items": {
+        "$ref": "#/$defs/cityEntry"
+      }
     },
-    "source": { "type": "object" },
+    "source": {
+      "type": "object"
+    },
     "forcedExport": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["at", "errorCount"],
+      "required": [
+        "at",
+        "errorCount"
+      ],
       "properties": {
-        "at": { "type": "string", "format": "date-time" },
-        "errorCount": { "type": "integer", "minimum": 0 }
+        "at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "errorCount": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
+    },
+    "minAppVersions": {
+      "type": "object",
+      "required": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ios": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "android": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "web": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "exchangeRates": {
+      "$ref": "#/$defs/exchangeRatesEntry"
     }
   },
   "$defs": {
     "localeId": {
       "type": "string",
-      "enum": ["sr-Latn", "sr-Cyrl", "en", "ru"]
+      "enum": [
+        "sr-Latn",
+        "sr-Cyrl",
+        "en",
+        "ru"
+      ]
     },
     "updateDescriptionLocales": {
       "type": "object",
-      "required": ["sr-Latn", "sr-Cyrl", "en", "ru"],
+      "required": [
+        "sr-Latn",
+        "sr-Cyrl",
+        "en",
+        "ru"
+      ],
       "additionalProperties": false,
       "properties": {
-        "sr-Latn": { "type": "string" },
-        "sr-Cyrl": { "type": "string" },
-        "en": { "type": "string" },
-        "ru": { "type": "string" }
+        "sr-Latn": {
+          "type": "string"
+        },
+        "sr-Cyrl": {
+          "type": "string"
+        },
+        "en": {
+          "type": "string"
+        },
+        "ru": {
+          "type": "string"
+        }
       }
     },
     "localesMapName": {
       "type": "object",
-      "required": ["sr-Latn", "sr-Cyrl", "en", "ru"],
+      "required": [
+        "sr-Latn",
+        "sr-Cyrl",
+        "en",
+        "ru"
+      ],
       "additionalProperties": false,
       "properties": {
         "sr-Latn": {
           "type": "object",
-          "properties": { "name": { "type": "string" } }
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
         },
         "sr-Cyrl": {
           "type": "object",
-          "properties": { "name": { "type": "string" } }
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
         },
         "en": {
           "type": "object",
-          "properties": { "name": { "type": "string" } }
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
         },
         "ru": {
           "type": "object",
-          "properties": { "name": { "type": "string" } }
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -92,21 +192,41 @@
     },
     "sharedEntry": {
       "type": "object",
-      "required": ["version", "forceUpdate", "url"],
+      "required": [
+        "version",
+        "forceUpdate",
+        "url"
+      ],
       "additionalProperties": false,
       "properties": {
-        "version": { "type": "string" },
-        "forceUpdate": { "type": "boolean" },
-        "url": { "type": "string" },
-        "checksum": { "$ref": "#/$defs/checksum" },
-        "contentHash": { "$ref": "#/$defs/checksum" },
+        "version": {
+          "type": "string"
+        },
+        "forceUpdate": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/checksum"
+        },
         "updateDescription": {
           "oneOf": [
-            { "type": "string" },
-            { "$ref": "#/$defs/updateDescriptionLocales" }
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/updateDescriptionLocales"
+            }
           ]
         },
-        "updatedAt": { "type": "string" }
+        "updatedAt": {
+          "type": "string"
+        }
       }
     },
     "countryEntry": {
@@ -122,42 +242,130 @@
       "additionalProperties": false,
       "description": "Country index. v1: full objects in shared.json; version/forceUpdate/url mirror shared.",
       "properties": {
-        "countryId": { "type": "string" },
-        "timezone": { "type": "string" },
-        "locales": { "$ref": "#/$defs/localesMapName" },
-        "version": { "type": "string" },
-        "forceUpdate": { "type": "boolean" },
-        "url": { "type": "string" },
-        "checksum": { "$ref": "#/$defs/checksum" },
-        "contentHash": { "$ref": "#/$defs/checksum" },
+        "countryId": {
+          "type": "string"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "locales": {
+          "$ref": "#/$defs/localesMapName"
+        },
+        "version": {
+          "type": "string"
+        },
+        "forceUpdate": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/checksum"
+        },
         "updateDescription": {
           "oneOf": [
-            { "type": "string" },
-            { "$ref": "#/$defs/updateDescriptionLocales" }
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/updateDescriptionLocales"
+            }
           ]
         },
-        "updatedAt": { "type": "string" }
+        "updatedAt": {
+          "type": "string"
+        }
       }
     },
     "cityEntry": {
       "type": "object",
-      "required": ["cityId", "countryId", "version", "forceUpdate", "url"],
+      "required": [
+        "cityId",
+        "countryId",
+        "version",
+        "forceUpdate",
+        "url"
+      ],
       "additionalProperties": false,
       "properties": {
-        "cityId": { "type": "string" },
-        "countryId": { "type": "string" },
-        "version": { "type": "string" },
-        "forceUpdate": { "type": "boolean" },
-        "url": { "type": "string" },
-        "checksum": { "$ref": "#/$defs/checksum" },
-        "contentHash": { "$ref": "#/$defs/checksum" },
+        "cityId": {
+          "type": "string"
+        },
+        "countryId": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "forceUpdate": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/checksum"
+        },
         "updateDescription": {
           "oneOf": [
-            { "type": "string" },
-            { "$ref": "#/$defs/updateDescriptionLocales" }
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/updateDescriptionLocales"
+            }
           ]
         },
-        "updatedAt": { "type": "string" }
+        "updatedAt": {
+          "type": "string"
+        }
+      }
+    },
+    "exchangeRatesEntry": {
+      "type": "object",
+      "required": [
+        "version",
+        "forceUpdate",
+        "url"
+      ],
+      "additionalProperties": false,
+      "description": "Pointer to exchange-rates.json (FX vs base currency).",
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "forceUpdate": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/checksum"
+        },
+        "updateDescription": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "$ref": "#/$defs/updateDescriptionLocales"
+            }
+          ]
+        },
+        "updatedAt": {
+          "type": "string"
+        }
       }
     }
   }

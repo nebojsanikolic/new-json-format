@@ -1,10 +1,13 @@
 {
   "dataVersion": "1.0.0",
-  "minAppVersion": "5.0.0",
+  "minAppVersions": {
+    "ios": "5.0.0",
+    "android": "5.0.0",
+    "web": null
+  },
   "note": "Belgrade excerpt — polygons truncated for readability; see parking-config.generated.json for full data.",
   "city": {
     "id": "city-beograd",
-    "legacyId": 11,
     "countryId": "rs",
     "timezone": "Europe/Belgrade",
     "shortName": "BG",
@@ -24,11 +27,22 @@
           "instrumental": "Beogradom"
         }
       },
-      "ru": {
-        "name": "Белград"
+      "sr-Cyrl": {
+        "name": "Beograd",
+        "preposition": "1",
+        "cases": {
+          "genitive": "Beograda",
+          "dative": "Beogradu",
+          "accusative": "Beograd",
+          "locative": "Beogradu",
+          "instrumental": "Beogradom"
+        }
       },
       "en": {
         "name": "Beograd"
+      },
+      "ru": {
+        "name": "Белград"
       }
     },
     "zoneIds": [
@@ -48,7 +62,6 @@
   "zones": [
     {
       "id": "zone-beograd-zona-a",
-      "legacyId": 111,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#802DA6",
@@ -119,7 +132,6 @@
     },
     {
       "id": "zone-beograd-zona-b",
-      "legacyId": 116,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#F9F6EE",
@@ -193,7 +205,6 @@
     },
     {
       "id": "zone-beograd-zona-1",
-      "legacyId": 112,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#FF3932",
@@ -267,7 +278,6 @@
     },
     {
       "id": "zone-beograd-zona-2",
-      "legacyId": 113,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#FFC100",
@@ -334,7 +344,6 @@
     },
     {
       "id": "zone-beograd-zona-3",
-      "legacyId": 115,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#557C55",
@@ -401,7 +410,6 @@
     },
     {
       "id": "zone-beograd-opste-parkiraliste",
-      "legacyId": 114,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#007AFF",
@@ -606,7 +614,6 @@
   "products": [
     {
       "id": "prod-timed-beograd-zona-a",
-      "legacyId": 111,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-a"
@@ -662,7 +669,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-b",
-      "legacyId": 116,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-b"
@@ -721,7 +727,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-1",
-      "legacyId": 112,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-1"
@@ -780,7 +785,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-2",
-      "legacyId": 113,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-2"
@@ -839,7 +843,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-3",
-      "legacyId": 115,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-3"
@@ -898,7 +901,6 @@
     },
     {
       "id": "prod-timed-beograd-opste-parkiraliste",
-      "legacyId": 114,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-opste-parkiraliste"
@@ -954,7 +956,6 @@
     },
     {
       "id": "prod-fullday-beograd-celodnevna-opste-parkiraliste",
-      "legacyId": 1101,
       "kind": "full_day",
       "zoneIds": [
         "zone-beograd-opste-parkiraliste"
@@ -1282,24 +1283,38 @@
   "currencies": [
     {
       "id": "rsd",
-      "legacyId": 1,
       "code": "RSD",
       "symbol": "RSD",
-      "exchangeRate": 1.0,
       "locales": {
+        "sr-Latn": {
+          "name": "Serbian Dinar"
+        },
+        "sr-Cyrl": {
+          "name": "Serbian Dinar"
+        },
         "en": {
+          "name": "Serbian Dinar"
+        },
+        "ru": {
           "name": "Serbian Dinar"
         }
       }
     },
     {
       "id": "eur",
-      "legacyId": 2,
       "code": "EUR",
       "symbol": "€",
-      "exchangeRate": 117.4,
       "locales": {
+        "sr-Latn": {
+          "name": "Euro"
+        },
+        "sr-Cyrl": {
+          "name": "Euro"
+        },
         "en": {
+          "name": "Euro"
+        },
+        "ru": {
           "name": "Euro"
         }
       }

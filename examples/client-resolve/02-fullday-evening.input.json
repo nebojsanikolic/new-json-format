@@ -45,7 +45,6 @@
         "id": "rsd",
         "code": "RSD",
         "symbol": "RSD",
-        "exchangeRate": 1,
         "locales": {
           "sr-Latn": {
             "name": "RSD"
@@ -130,13 +129,11 @@
       "fullDayButtonColor": null,
       "effectiveFrom": null,
       "effectiveTo": null,
-      "legacyId": null,
       "shortName": "BG"
     },
     "zones": [
       {
         "id": "zone-fullday-1",
-        "legacyId": null,
         "cityId": "city-beograd",
         "enabled": true,
         "color": "#1565C0",
@@ -227,7 +224,6 @@
     "products": [
       {
         "id": "prod-fullday-1",
-        "legacyId": null,
         "kind": "full_day",
         "zoneIds": [
           "zone-fullday-1"

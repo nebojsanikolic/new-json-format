@@ -1,6 +1,10 @@
 {
   "schemaVersion": "1.0.0",
-  "minAppVersion": "5.0.0",
+  "minAppVersions": {
+    "ios": "5.0.0",
+    "android": "5.0.0",
+    "web": null
+  },
   "mainVersion": "1.0.0-example",
   "forceUpdate": false,
   "generatedAt": "2026-10-18T13:00:00Z",
@@ -8,8 +12,15 @@
     "version": "2026.10.18.1",
     "forceUpdate": false,
     "url": "shared.json",
-    "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
-    "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
+    "checksum": "sha256:f6657e0b5f81089328c2d6e5ef336dd01d4b5a77c9f2acb7c20553b7e245b049",
+    "contentHash": "sha256:f6657e0b5f81089328c2d6e5ef336dd01d4b5a77c9f2acb7c20553b7e245b049"
+  },
+  "exchangeRates": {
+    "version": "2026.10.24.1",
+    "forceUpdate": false,
+    "url": "exchange-rates.json",
+    "checksum": "sha256:4c2585a413db3bffef96f448196fc77ad077323f45fb36b4dd3f2dbe36b167cc",
+    "contentHash": "sha256:4c2585a413db3bffef96f448196fc77ad077323f45fb36b4dd3f2dbe36b167cc"
   },
   "countries": [
     {
@@ -20,20 +31,20 @@
           "name": "Srbija"
         },
         "sr-Cyrl": {
-          "name": "Srbija"
+          "name": "Србија"
         },
         "en": {
           "name": "Serbia"
         },
         "ru": {
-          "name": "Srbija"
+          "name": "Сербия"
         }
       },
       "version": "2026.10.18.1",
       "forceUpdate": false,
       "url": "shared.json",
-      "checksum": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16",
-      "contentHash": "sha256:c850e16b6589f2535c6dcebb1f1c7346286b72763408acfade37a28d3a05eb16"
+      "checksum": "sha256:f6657e0b5f81089328c2d6e5ef336dd01d4b5a77c9f2acb7c20553b7e245b049",
+      "contentHash": "sha256:f6657e0b5f81089328c2d6e5ef336dd01d4b5a77c9f2acb7c20553b7e245b049"
     }
   ],
   "cities": [
@@ -43,8 +54,8 @@
       "version": "2026.10.18.1",
       "forceUpdate": true,
       "url": "cities/city-beograd.json",
-      "checksum": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d",
-      "contentHash": "sha256:e0f0a24b0b6465de5721a7eb8e6c13712ed3ce0201fec69018a3da7234297c5d"
+      "checksum": "sha256:787499c2ce5de353eeb691e36fb6a69c58f3408e7f92282b8285f899fb22079c",
+      "contentHash": "sha256:787499c2ce5de353eeb691e36fb6a69c58f3408e7f92282b8285f899fb22079c"
     }
   ]
 }

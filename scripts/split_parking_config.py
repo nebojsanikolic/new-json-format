@@ -43,6 +43,84 @@ DEFAULT_CLIENT = {
 
 LOCALE_IDS = ("sr-Latn", "sr-Cyrl", "en", "ru")
 
+DEFAULT_MIN_APP_VERSIONS = {
+    "ios": "5.0.0",
+    "android": "5.0.0",
+    "web": None,
+}
+
+
+def _resolve_min_app_versions(config: dict[str, Any]) -> dict[str, Any]:
+    """Per-platform floors. Accepts new shape or legacy single minAppVersion string."""
+    raw = config.get("minAppVersions")
+    if isinstance(raw, dict):
+        return {
+            "ios": raw.get("ios", DEFAULT_MIN_APP_VERSIONS["ios"]),
+            "android": raw.get("android", DEFAULT_MIN_APP_VERSIONS["android"]),
+            "web": raw.get("web", DEFAULT_MIN_APP_VERSIONS["web"]),
+        }
+    # One-time migration from bare minAppVersion (removed from schema).
+    single = config.get("minAppVersion")
+    if isinstance(single, str) and single.strip():
+        return {"ios": single, "android": single, "web": None}
+    return dict(DEFAULT_MIN_APP_VERSIONS)
+
+
+def _default_exchange_rates(
+    config: dict[str, Any], *, version: str
+) -> dict[str, Any]:
+    """Build exchange-rates.json payload (never bind rates into currencies[])."""
+    existing = config.get("exchangeRates")
+    if isinstance(existing, dict) and existing.get("rates"):
+        out = dict(existing)
+        out.setdefault("schemaVersion", "1.0.0")
+        out.setdefault("version", version)
+        out.setdefault("baseCurrencyId", "rsd")
+        out.setdefault("asOf", config.get("generatedAt") or _utc_now())
+        return out
+
+    rates: dict[str, float] = {}
+    # Prefer explicit rates on monolith; else migrate leftover currency.exchangeRate once.
+    for cur in config.get("currencies") or []:
+        cid = cur.get("id")
+        if not cid:
+            continue
+        if "exchangeRate" in cur and cur["exchangeRate"] is not None:
+            rates[cid] = float(cur["exchangeRate"])
+        else:
+            rates.setdefault(cid, 1.0 if cid == "rsd" else 1.0)
+    if not rates:
+        rates = {"rsd": 1.0}
+    return {
+        "schemaVersion": "1.0.0",
+        "version": version,
+        "baseCurrencyId": "rsd",
+        "asOf": config.get("generatedAt") or _utc_now(),
+        "rates": rates,
+        "notes": None,
+    }
+
+
+def _strip_currency_rates(currencies: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    cleaned: list[dict[str, Any]] = []
+    for cur in currencies:
+        item = {k: v for k, v in cur.items() if k not in ("exchangeRate", "legacyId")}
+        cleaned.append(item)
+    return cleaned
+
+
+def _strip_legacy_ids(obj: Any) -> Any:
+    """Remove legacyId / legacyVersion recursively from delivery payloads."""
+    if isinstance(obj, list):
+        return [_strip_legacy_ids(x) for x in obj]
+    if isinstance(obj, dict):
+        return {
+            k: _strip_legacy_ids(v)
+            for k, v in obj.items()
+            if k not in ("legacyId", "legacyVersion")
+        }
+    return obj
+
 
 def _resolve_client(config: dict[str, Any]) -> dict[str, Any]:
     raw = config.get("client") or {}
@@ -125,17 +203,20 @@ def split_config(
     main_version: str | None = None,
     shared_version: str | None = None,
     city_version: str | None = None,
+    rates_version: str | None = None,
     force_update_main: bool = False,
     force_update_shared: bool = False,
+    force_update_rates: bool = False,
     force_update_cities: set[str] | None = None,
     force_update_all_cities: bool = False,
     include_checksum: bool = True,
-) -> tuple[dict[str, Any], dict[str, Any], dict[str, dict[str, Any]]]:
-    """Return (manifest, shared, cities_by_id)."""
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, dict[str, Any]], dict[str, Any]]:
+    """Return (manifest, shared, cities_by_id, exchange_rates)."""
     force_update_cities = force_update_cities or set()
     main_version = main_version or config.get("dataVersion") or _version_stamp("main")
     shared_version = shared_version or _version_stamp("shared")
     default_city_version = city_version or _version_stamp()
+    rates_version = rates_version or _version_stamp("rates")
 
     shared: dict[str, Any] = {
         "schemaVersion": schema_version,
@@ -144,10 +225,15 @@ def split_config(
         "client": _resolve_client(config),
     }
     for key in SHARED_KEYS:
-        shared[key] = list(config.get(key) or [])
+        value = list(config.get(key) or [])
+        if key == "currencies":
+            value = _strip_currency_rates(value)
+        shared[key] = _strip_legacy_ids(value)
 
     country_holidays, city_holidays = _split_holidays(config)
-    shared["holidays"] = country_holidays
+    shared["holidays"] = _strip_legacy_ids(country_holidays)
+
+    exchange_rates = _default_exchange_rates(config, version=rates_version)
 
     zones = list(config.get("zones") or [])
     zones_by_city: dict[str, list[dict[str, Any]]] = {}
@@ -210,23 +296,25 @@ def split_config(
             h for h in city_holidays if h.get("cityId") == city_id
         ]
 
-        slice_obj: dict[str, Any] = {
-            "cityId": city_id,
-            "countryId": country_id,
-            "version": city_ver,
-            "schemaVersion": schema_version,
-            "generatedAt": config.get("generatedAt") or _utc_now(),
-            "city": city,
-            "zones": city_zones,
-            "polygons": city_polygons,
-            "products": city_products,
-            "paymentMethods": city_payments,
-            "rules": city_rules,
-            "coveragePolicies": city_coverage,
-            "residentPermits": city_residents,
-            "fines": city_fines,
-            "holidays": holidays_for_city,
-        }
+        slice_obj: dict[str, Any] = _strip_legacy_ids(
+            {
+                "cityId": city_id,
+                "countryId": country_id,
+                "version": city_ver,
+                "schemaVersion": schema_version,
+                "generatedAt": config.get("generatedAt") or _utc_now(),
+                "city": city,
+                "zones": city_zones,
+                "polygons": city_polygons,
+                "products": city_products,
+                "paymentMethods": city_payments,
+                "rules": city_rules,
+                "coveragePolicies": city_coverage,
+                "residentPermits": city_residents,
+                "fines": city_fines,
+                "holidays": holidays_for_city,
+            }
+        )
         cities_out[city_id] = slice_obj
 
         entry: dict[str, Any] = {
@@ -259,9 +347,23 @@ def split_config(
         manifest_countries.append(entry)
     manifest_countries.sort(key=lambda c: c["countryId"])
 
+    rates_entry: dict[str, Any] = {
+        "version": rates_version,
+        "forceUpdate": force_update_rates,
+        "url": "exchange-rates.json",
+    }
+    if force_update_rates:
+        rates_entry["updatedAt"] = _utc_now()
+
+    source = config.get("source")
+    if isinstance(source, dict):
+        source = {
+            k: v for k, v in source.items() if k not in ("legacyVersion",)
+        }
+
     manifest: dict[str, Any] = {
         "schemaVersion": schema_version,
-        "minAppVersion": config.get("minAppVersion") or "5.0.0",
+        "minAppVersions": _resolve_min_app_versions(config),
         "mainVersion": main_version,
         "forceUpdate": force_update_main,
         "generatedAt": config.get("generatedAt") or _utc_now(),
@@ -270,13 +372,14 @@ def split_config(
             "forceUpdate": force_update_shared,
             "url": "shared.json",
         },
+        "exchangeRates": rates_entry,
         "countries": manifest_countries,
         "cities": manifest_cities,
     }
-    if config.get("source"):
-        manifest["source"] = config["source"]
+    if source:
+        manifest["source"] = source
 
-    return manifest, shared, cities_out
+    return manifest, shared, cities_out, exchange_rates
 
 
 def write_delivery(
@@ -284,16 +387,20 @@ def write_delivery(
     manifest: dict[str, Any],
     shared: dict[str, Any],
     cities: dict[str, dict[str, Any]],
+    exchange_rates: dict[str, Any],
     *,
     pretty: bool = True,
     include_checksum: bool = True,
 ) -> dict[str, Any]:
-    """Write files; fill checksum + contentHash on shared and city entries."""
+    """Write files; fill checksum + contentHash on shared, rates, and city entries."""
     out_dir.mkdir(parents=True, exist_ok=True)
     cities_dir = out_dir / "cities"
     cities_dir.mkdir(parents=True, exist_ok=True)
 
     shared_raw = _dump_json(out_dir / "shared.json", shared, pretty=pretty)
+    rates_raw = _dump_json(
+        out_dir / "exchange-rates.json", exchange_rates, pretty=pretty
+    )
     if include_checksum:
         digest = _sha256_checksum(shared_raw)
         manifest["shared"]["checksum"] = digest
@@ -302,6 +409,9 @@ def write_delivery(
             if entry.get("url") == "shared.json":
                 entry["checksum"] = digest
                 entry["contentHash"] = digest
+        rates_digest = _sha256_checksum(rates_raw)
+        manifest["exchangeRates"]["checksum"] = rates_digest
+        manifest["exchangeRates"]["contentHash"] = rates_digest
 
     checksum_by_city: dict[str, str] = {}
     for city_id, slice_obj in cities.items():
@@ -379,6 +489,16 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Set shared.forceUpdate",
     )
     p.add_argument(
+        "--force-update-rates",
+        action="store_true",
+        help="Set exchangeRates.forceUpdate",
+    )
+    p.add_argument(
+        "--rates-version",
+        default=None,
+        help="Version stamped on exchange-rates.json",
+    )
+    p.add_argument(
         "--force-update-cities",
         default=None,
         help="Comma-separated cityIds that must forceUpdate (e.g. city-beograd)",
@@ -411,14 +531,16 @@ def main(argv: list[str] | None = None) -> int:
     unused = set(CITY_ARRAY_KEYS)  # documented for readers / future checks
     _ = unused
 
-    manifest, shared, cities = split_config(
+    manifest, shared, cities, exchange_rates = split_config(
         config,
         schema_version=args.schema_version,
         main_version=args.main_version,
         shared_version=args.shared_version,
         city_version=args.city_version,
+        rates_version=args.rates_version,
         force_update_main=args.force_update_main,
         force_update_shared=args.force_update_shared,
+        force_update_rates=args.force_update_rates,
         force_update_cities=parse_force_cities(args.force_update_cities),
         force_update_all_cities=args.force_update_all_cities,
         include_checksum=not args.no_checksum,
@@ -428,6 +550,7 @@ def main(argv: list[str] | None = None) -> int:
         manifest,
         shared,
         cities,
+        exchange_rates,
         pretty=not args.compact,
         include_checksum=not args.no_checksum,
     )

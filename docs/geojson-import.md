@@ -28,7 +28,7 @@ python3 scripts/geojson_to_parking_config.py \
   --sample-cities city-beograd city-podgorica
 ```
 
-Optional: `--data-version`, `--min-app-version`.
+Optional: `--data-version`, `--min-app-version` (sets ios+android; web null), or `--min-app-versions` JSON.
 
 ## Property mapping (summary)
 
@@ -48,7 +48,7 @@ Optional: `--data-version`, `--min-app-version`.
 
 Money is always `{ amount, currencyId }`. Default currency: `rsd` (RS), `eur` (ME).
 
-Every entity `locales` map always emits **all four** keys (`sr-Latn`, `sr-Cyrl`, `en`, `ru`); missing languages are filled from `sr-Latn`/`en`. Extra GeoJSON names (`sk`, `hu`) go into `alternativeNames`, not as locale keys.
+Every entity `locales` map always emits **all four** keys (`sr-Latn`, `sr-Cyrl`, `en`, `ru`). Zone names prefer real Cyrillic from `parkingzone_name:sr-Cyrl-RS` / `*:sr` when present. City names often only have Latin `is_in` — import still emits `sr-Cyrl` by copying Latin (editors should fix foreign brands in Studio). Extra GeoJSON names (`sk`, `hu`) go into `alternativeNames`, not as locale keys.
 
 Coverage policies / `coversZoneIds` are **not** seeded on import (leave absent until back office).
 
@@ -63,6 +63,7 @@ Coverage policies / `coversZoneIds` are **not** seeded on import (leave absent u
 | Seasonal `fee:conditional` date ranges (`Jun 10-Sep 10`) | Not mapped to weekly windows yet |
 | `coversZoneIds` / resident permits | Intentionally absent until back office |
 | `holidays[]`, `holidayPolicy`, `closures[]`, `pricing.byDay`, `free_initial_minutes` | Catalog / zone fields — fill in Studio after import |
+| City `sr-Cyrl` when GeoJSON has no Cyrillic city prop | Latin `is_in` is copied into `sr-Cyrl` so the key is present — fix foreign names in Studio |
 
 ## Next step: publish as manifest + cities
 
@@ -75,7 +76,7 @@ python3 scripts/split_parking_config.py \
   --force-update-cities city-beograd
 ```
 
-That emits `manifest.json`, `shared.json`, and `cities/{cityId}.json`.
+That emits `manifest.json`, `shared.json`, `exchange-rates.json`, and `cities/{cityId}.json`.
 Keep the full delivery folder **local** (or private CDN) — do not commit full
 city polygon dumps to this public repo. Checked-in stub only:
 [`examples/delivery/`](../examples/delivery/).

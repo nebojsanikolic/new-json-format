@@ -6,7 +6,7 @@
   "type": "object",
   "required": [
     "dataVersion",
-    "minAppVersion",
+    "minAppVersions",
     "locales",
     "currencies",
     "countries",
@@ -27,10 +27,6 @@
       "type": "string",
       "description": "Config version for cache freshness."
     },
-    "minAppVersion": {
-      "type": "string",
-      "description": "Minimum app version required to consume this config."
-    },
     "generatedAt": {
       "type": [
         "string",
@@ -44,13 +40,6 @@
       "properties": {
         "url": {
           "type": "string"
-        },
-        "legacyVersion": {
-          "type": [
-            "number",
-            "string",
-            "null"
-          ]
         },
         "notes": {
           "type": "string"
@@ -145,6 +134,13 @@
     "client": {
       "$ref": "#/$defs/clientConstants",
       "description": "Client constants (supported locales + locale fallback). Prefer present on monolith; always present on shared.json after split/export."
+    },
+    "minAppVersions": {
+      "$ref": "#/$defs/minAppVersions"
+    },
+    "exchangeRates": {
+      "$ref": "#/$defs/exchangeRatesDocument",
+      "description": "Optional FX snapshot on the monolith for tooling. Production delivery ships a separate exchange-rates.json referenced from the manifest — not embedded in shared currencies or city/zone payloads."
     }
   },
   "$defs": {
@@ -240,29 +236,18 @@
       "required": [
         "id",
         "code",
-        "symbol",
-        "exchangeRate"
+        "symbol"
       ],
       "additionalProperties": false,
       "properties": {
         "id": {
           "type": "string"
         },
-        "legacyId": {
-          "type": [
-            "integer",
-            "null"
-          ]
-        },
         "code": {
           "type": "string"
         },
         "symbol": {
           "type": "string"
-        },
-        "exchangeRate": {
-          "type": "number",
-          "description": "Rate vs base currency (legacy base = RSD)."
         },
         "locales": {
           "$ref": "#/$defs/localesMap"
@@ -332,12 +317,6 @@
         "id": {
           "type": "string"
         },
-        "legacyId": {
-          "type": [
-            "integer",
-            "null"
-          ]
-        },
         "locales": {
           "$ref": "#/$defs/localesMap"
         },
@@ -359,12 +338,6 @@
       "properties": {
         "id": {
           "type": "string"
-        },
-        "legacyId": {
-          "type": [
-            "integer",
-            "null"
-          ]
         },
         "countryId": {
           "type": "string"
@@ -485,12 +458,6 @@
       "properties": {
         "id": {
           "type": "string"
-        },
-        "legacyId": {
-          "type": [
-            "integer",
-            "null"
-          ]
         },
         "cityId": {
           "type": "string"
@@ -887,12 +854,6 @@
       "properties": {
         "id": {
           "type": "string"
-        },
-        "legacyId": {
-          "type": [
-            "integer",
-            "null"
-          ]
         },
         "kind": {
           "$ref": "#/$defs/productKind"
@@ -1662,6 +1623,79 @@
             "$ref": "#/$defs/localeId"
           },
           "description": "Ordered fallback when a LocalesMap string is empty for the UI locale."
+        }
+      }
+    },
+    "minAppVersions": {
+      "type": "object",
+      "description": "Per-platform minimum app versions. null = platform not gated / not applicable.",
+      "required": [
+        "ios",
+        "android",
+        "web"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ios": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "android": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "web": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "exchangeRatesDocument": {
+      "type": "object",
+      "description": "FX rates vs a base currency. Delivered as exchange-rates.json (not inside currencies[]).",
+      "required": [
+        "schemaVersion",
+        "version",
+        "baseCurrencyId",
+        "asOf",
+        "rates"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "description": "Content stamp for this rates file."
+        },
+        "baseCurrencyId": {
+          "type": "string",
+          "description": "Currency id that rates are quoted against (e.g. rsd)."
+        },
+        "asOf": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When these rates were observed / published."
+        },
+        "rates": {
+          "type": "object",
+          "description": "Map of currencyId → rate vs base (base itself is typically 1).",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     }

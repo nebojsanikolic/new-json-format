@@ -1,11 +1,14 @@
 {
   "dataVersion": "1.0.0",
-  "minAppVersion": "5.0.0",
-  "generatedAt": "2026-10-18T10:06:59Z",
+  "minAppVersions": {
+    "ios": "5.0.0",
+    "android": "5.0.0",
+    "web": null
+  },
+  "generatedAt": "2026-10-24T12:41:00Z",
   "source": {
     "url": "https://raw.githubusercontent.com/nebojsanikolic/jsonHost/refs/heads/main/zonesData_v2.json",
-    "legacyVersion": 3.46,
-    "notes": "Transformed from production zonesData_v2. Empty arrays (operators, residentPermits, fines) and empty pricing ladders/nightRates/seasonalWindows are intentional hooks. pay-webview-card-example is disabled structural sample."
+    "notes": "Transformed from production zonesData_v2. Empty arrays (operators, residentPermits, fines) and empty pricing.ladder[] (use stepIndex+durationMinutes+price when filled), nightRates/seasonalWindows are intentional hooks. pay-webview-card-example is disabled structural sample. FX rates live in exchangeRates (separate delivery file)."
   },
   "locales": [
     {
@@ -32,65 +35,114 @@
   "currencies": [
     {
       "id": "rsd",
-      "legacyId": 1,
       "code": "RSD",
       "symbol": "RSD",
-      "exchangeRate": 1.0,
       "locales": {
+        "sr-Latn": {
+          "name": "Serbian Dinar"
+        },
+        "sr-Cyrl": {
+          "name": "Serbian Dinar"
+        },
         "en": {
+          "name": "Serbian Dinar"
+        },
+        "ru": {
           "name": "Serbian Dinar"
         }
       }
     },
     {
       "id": "eur",
-      "legacyId": 2,
       "code": "EUR",
       "symbol": "€",
-      "exchangeRate": 117.4,
       "locales": {
+        "sr-Latn": {
+          "name": "Euro"
+        },
+        "sr-Cyrl": {
+          "name": "Euro"
+        },
         "en": {
+          "name": "Euro"
+        },
+        "ru": {
           "name": "Euro"
         }
       }
     },
     {
       "id": "bam",
-      "legacyId": 3,
       "code": "BAM",
       "symbol": "KM",
-      "exchangeRate": 60.02,
       "locales": {
+        "sr-Latn": {
+          "name": "Bosnian Marka"
+        },
+        "sr-Cyrl": {
+          "name": "Bosnian Marka"
+        },
         "en": {
+          "name": "Bosnian Marka"
+        },
+        "ru": {
           "name": "Bosnian Marka"
         }
       }
     },
     {
       "id": "mkd",
-      "legacyId": 4,
       "code": "MKD",
       "symbol": "MKD",
-      "exchangeRate": 1.9,
       "locales": {
+        "sr-Latn": {
+          "name": "Macedonian Denar"
+        },
+        "sr-Cyrl": {
+          "name": "Macedonian Denar"
+        },
         "en": {
+          "name": "Macedonian Denar"
+        },
+        "ru": {
           "name": "Macedonian Denar"
         }
       }
     },
     {
       "id": "usd",
-      "legacyId": 5,
       "code": "USD",
       "symbol": "$",
-      "exchangeRate": 101.1,
       "locales": {
+        "sr-Latn": {
+          "name": "US Dollar"
+        },
+        "sr-Cyrl": {
+          "name": "US Dollar"
+        },
         "en": {
+          "name": "US Dollar"
+        },
+        "ru": {
           "name": "US Dollar"
         }
       }
     }
   ],
+  "exchangeRates": {
+    "schemaVersion": "1.0.0",
+    "version": "1.0.0",
+    "baseCurrencyId": "rsd",
+    "asOf": "2026-10-24T12:41:00Z",
+    "rates": {
+      "rsd": 1.0,
+      "eur": 117.4,
+      "bam": 60.02,
+      "mkd": 1.9,
+      "usd": 101.1
+    },
+    "notes": "Seeded from zonesData_v2 currency.exchangeRate at transform time."
+  },
   "countries": [
     {
       "id": "rs",
@@ -153,7 +205,6 @@
   "cities": [
     {
       "id": "city-aleksandrovac",
-      "legacyId": 8,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "AC",
@@ -173,11 +224,22 @@
             "instrumental": "Aleksandrovcem"
           }
         },
-        "ru": {
-          "name": "Александровац"
+        "sr-Cyrl": {
+          "name": "Aleksandrovac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Aleksandrovca",
+            "dative": "Aleksandrovcu",
+            "accusative": "Aleksandrovac",
+            "locative": "Aleksandrovcu",
+            "instrumental": "Aleksandrovcem"
+          }
         },
         "en": {
           "name": "Aleksandrovac"
+        },
+        "ru": {
+          "name": "Александровац"
         }
       },
       "zoneIds": [
@@ -191,7 +253,6 @@
     },
     {
       "id": "city-aleksinac",
-      "legacyId": 18,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "AL",
@@ -211,11 +272,22 @@
             "instrumental": "Aleksincem"
           }
         },
-        "ru": {
-          "name": "Алексинац"
+        "sr-Cyrl": {
+          "name": "Aleksinac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Aleksinca",
+            "dative": "Aleksincu",
+            "accusative": "Aleksinac",
+            "locative": "Aleksincu",
+            "instrumental": "Aleksincem"
+          }
         },
         "en": {
           "name": "Aleksinac"
+        },
+        "ru": {
+          "name": "Алексинац"
         }
       },
       "zoneIds": [
@@ -230,7 +302,6 @@
     },
     {
       "id": "city-aran-elovac",
-      "legacyId": 9,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "AR",
@@ -250,11 +321,22 @@
             "instrumental": "Aranđelovcem"
           }
         },
-        "ru": {
-          "name": "Аранджеловац"
+        "sr-Cyrl": {
+          "name": "Aranđelovac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Aranđelovca",
+            "dative": "Aranđelovcu",
+            "accusative": "Aranđelovac",
+            "locative": "Aranđelovcu",
+            "instrumental": "Aranđelovcem"
+          }
         },
         "en": {
           "name": "Aranđelovac"
+        },
+        "ru": {
+          "name": "Аранджеловац"
         }
       },
       "zoneIds": [
@@ -270,7 +352,6 @@
     },
     {
       "id": "city-bajina-basta",
-      "legacyId": 19,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BB",
@@ -290,11 +371,22 @@
             "instrumental": "Bajinom Baštom"
           }
         },
-        "ru": {
-          "name": "Баина Башта"
+        "sr-Cyrl": {
+          "name": "Bajina Bašta",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Bajine Bašte",
+            "dative": "Bajinoj Bašti",
+            "accusative": "Bajinu Baštu",
+            "locative": "Bajinoj Bašti",
+            "instrumental": "Bajinom Baštom"
+          }
         },
         "en": {
           "name": "Bajina Bašta"
+        },
+        "ru": {
+          "name": "Баина Башта"
         }
       },
       "zoneIds": [
@@ -309,7 +401,6 @@
     },
     {
       "id": "city-backa-palanka",
-      "legacyId": 10,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BP",
@@ -329,11 +420,22 @@
             "instrumental": "Bačkom Palankom"
           }
         },
-        "ru": {
-          "name": "Бачка Паланка"
+        "sr-Cyrl": {
+          "name": "Bačka Palanka",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Bačke Palanke",
+            "dative": "Bačkoj Palanci",
+            "accusative": "Bačku Palanku",
+            "locative": "Bačkoj Palanci",
+            "instrumental": "Bačkom Palankom"
+          }
         },
         "en": {
           "name": "Bačka Palanka"
+        },
+        "ru": {
+          "name": "Бачка Паланка"
         }
       },
       "zoneIds": [
@@ -349,7 +451,6 @@
     },
     {
       "id": "city-batocina",
-      "legacyId": 87,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KG",
@@ -369,11 +470,22 @@
             "instrumental": "Batočinom"
           }
         },
-        "ru": {
-          "name": "Баточина"
+        "sr-Cyrl": {
+          "name": "Batočina",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Batočine",
+            "dative": "Batočini",
+            "accusative": "Batočinu",
+            "locative": "Batočini",
+            "instrumental": "Batočinom"
+          }
         },
         "en": {
           "name": "Batočina"
+        },
+        "ru": {
+          "name": "Баточина"
         }
       },
       "zoneIds": [
@@ -387,7 +499,6 @@
     },
     {
       "id": "city-beograd",
-      "legacyId": 11,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BG",
@@ -407,11 +518,22 @@
             "instrumental": "Beogradom"
           }
         },
-        "ru": {
-          "name": "Белград"
+        "sr-Cyrl": {
+          "name": "Beograd",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Beograda",
+            "dative": "Beogradu",
+            "accusative": "Beograd",
+            "locative": "Beogradu",
+            "instrumental": "Beogradom"
+          }
         },
         "en": {
           "name": "Beograd"
+        },
+        "ru": {
+          "name": "Белград"
         }
       },
       "zoneIds": [
@@ -430,7 +552,6 @@
     },
     {
       "id": "city-becej",
-      "legacyId": 20,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BČ",
@@ -450,11 +571,22 @@
             "instrumental": "Bečejem"
           }
         },
-        "ru": {
-          "name": "Бечей"
+        "sr-Cyrl": {
+          "name": "Bečej",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Bečeja",
+            "dative": "Bečeju",
+            "accusative": "Bečej",
+            "locative": "Bečeju",
+            "instrumental": "Bečejem"
+          }
         },
         "en": {
           "name": "Bečej"
+        },
+        "ru": {
+          "name": "Бечей"
         }
       },
       "zoneIds": [
@@ -468,7 +600,6 @@
     },
     {
       "id": "city-bor",
-      "legacyId": 54,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BO",
@@ -488,11 +619,22 @@
             "instrumental": "Borom"
           }
         },
-        "ru": {
-          "name": "Бор"
+        "sr-Cyrl": {
+          "name": "Bor",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Bora",
+            "dative": "Boru",
+            "accusative": "Bor",
+            "locative": "Boru",
+            "instrumental": "Borom"
+          }
         },
         "en": {
           "name": "Bor"
+        },
+        "ru": {
+          "name": "Бор"
         }
       },
       "zoneIds": [
@@ -507,7 +649,6 @@
     },
     {
       "id": "city-brus",
-      "legacyId": 55,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KŠ",
@@ -527,11 +668,22 @@
             "instrumental": "Brusom"
           }
         },
-        "ru": {
-          "name": "Брус"
+        "sr-Cyrl": {
+          "name": "Brus",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Brusa",
+            "dative": "Brusu",
+            "accusative": "Brus",
+            "locative": "Brusu",
+            "instrumental": "Brusom"
+          }
         },
         "en": {
           "name": "Brus"
+        },
+        "ru": {
+          "name": "Брус"
         }
       },
       "zoneIds": [
@@ -546,7 +698,6 @@
     },
     {
       "id": "city-bujanovac",
-      "legacyId": 21,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BU",
@@ -566,11 +717,22 @@
             "instrumental": "Bujanovcem"
           }
         },
-        "ru": {
-          "name": "Буяновац"
+        "sr-Cyrl": {
+          "name": "Bujanovac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Bujanovca",
+            "dative": "Bujanovcu",
+            "accusative": "Bujanovac",
+            "locative": "Bujanovcu",
+            "instrumental": "Bujanovcem"
+          }
         },
         "en": {
           "name": "Bujanovac"
+        },
+        "ru": {
+          "name": "Буяновац"
         }
       },
       "zoneIds": [
@@ -585,7 +747,6 @@
     },
     {
       "id": "city-despotovac",
-      "legacyId": 24,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "DE",
@@ -605,11 +766,22 @@
             "instrumental": "Despotovcem"
           }
         },
-        "ru": {
-          "name": "Деспотовац"
+        "sr-Cyrl": {
+          "name": "Despotovac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Despotovca",
+            "dative": "Despotovcu",
+            "accusative": "Despotovac",
+            "locative": "Despotovcu",
+            "instrumental": "Despotovcem"
+          }
         },
         "en": {
           "name": "Despotovac"
+        },
+        "ru": {
+          "name": "Деспотовац"
         }
       },
       "zoneIds": [
@@ -624,7 +796,6 @@
     },
     {
       "id": "city-dimitrovgrad",
-      "legacyId": 25,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PI",
@@ -644,11 +815,22 @@
             "instrumental": "Dimitrovgradom"
           }
         },
-        "ru": {
-          "name": "Димитровград"
+        "sr-Cyrl": {
+          "name": "Dimitrovgrad",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Dimitrovgrada",
+            "dative": "Dimitrovgradu",
+            "accusative": "Dimitrovgrad",
+            "locative": "Dimitrovgradu",
+            "instrumental": "Dimitrovgradom"
+          }
         },
         "en": {
           "name": "Dimitrovgrad"
+        },
+        "ru": {
+          "name": "Димитровград"
         }
       },
       "zoneIds": [
@@ -663,7 +845,6 @@
     },
     {
       "id": "city-golubac",
-      "legacyId": 56,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PO",
@@ -683,11 +864,22 @@
             "instrumental": "Golupcem"
           }
         },
-        "ru": {
-          "name": "Голубац"
+        "sr-Cyrl": {
+          "name": "Golubac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Golupca",
+            "dative": "Golupcu",
+            "accusative": "Golubac",
+            "locative": "Golupcu",
+            "instrumental": "Golupcem"
+          }
         },
         "en": {
           "name": "Golubac"
+        },
+        "ru": {
+          "name": "Голубац"
         }
       },
       "zoneIds": [
@@ -701,7 +893,6 @@
     },
     {
       "id": "city-gornji-milanovac",
-      "legacyId": 3,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "GM",
@@ -721,11 +912,22 @@
             "instrumental": "Gornjim Milanovcem"
           }
         },
-        "ru": {
-          "name": "Горни Милановац"
+        "sr-Cyrl": {
+          "name": "Gornji Milanovac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Gornjeg Milanovca",
+            "dative": "Gornjem Milanovcu",
+            "accusative": "Gornji Milanovac",
+            "locative": "Gornjem Milanovcu",
+            "instrumental": "Gornjim Milanovcem"
+          }
         },
         "en": {
           "name": "Gornji Milanovac"
+        },
+        "ru": {
+          "name": "Горни Милановац"
         }
       },
       "zoneIds": [
@@ -741,7 +943,6 @@
     },
     {
       "id": "city-in-ija",
-      "legacyId": 26,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "IN",
@@ -761,11 +962,22 @@
             "instrumental": "Inđijom"
           }
         },
-        "ru": {
-          "name": "Инджия"
+        "sr-Cyrl": {
+          "name": "Inđija",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Inđije",
+            "dative": "Inđiji",
+            "accusative": "Inđiju",
+            "locative": "Inđiji",
+            "instrumental": "Inđijom"
+          }
         },
         "en": {
           "name": "Inđija"
+        },
+        "ru": {
+          "name": "Инджия"
         }
       },
       "zoneIds": [
@@ -781,7 +993,6 @@
     },
     {
       "id": "city-ivanjica",
-      "legacyId": 27,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "IC",
@@ -801,11 +1012,22 @@
             "instrumental": "Ivanjicom"
           }
         },
-        "ru": {
-          "name": "Иваница"
+        "sr-Cyrl": {
+          "name": "Ivanjica",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Ivanjice",
+            "dative": "Ivanjici",
+            "accusative": "Ivanjicu",
+            "locative": "Ivanjici",
+            "instrumental": "Ivanjicom"
+          }
         },
         "en": {
           "name": "Ivanjica"
+        },
+        "ru": {
+          "name": "Иваница"
         }
       },
       "zoneIds": [
@@ -820,7 +1042,6 @@
     },
     {
       "id": "city-jagodina",
-      "legacyId": 28,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "JA",
@@ -840,11 +1061,22 @@
             "instrumental": "Jagodinom"
           }
         },
-        "ru": {
-          "name": "Ягодина"
+        "sr-Cyrl": {
+          "name": "Jagodina",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Jagodine",
+            "dative": "Jagodini",
+            "accusative": "Jagodinu",
+            "locative": "Jagodini",
+            "instrumental": "Jagodinom"
+          }
         },
         "en": {
           "name": "Jagodina"
+        },
+        "ru": {
+          "name": "Ягодина"
         }
       },
       "zoneIds": [
@@ -859,7 +1091,6 @@
     },
     {
       "id": "city-kikinda",
-      "legacyId": 29,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KI",
@@ -879,11 +1110,22 @@
             "instrumental": "Kikindom"
           }
         },
-        "ru": {
-          "name": "Кикинда"
+        "sr-Cyrl": {
+          "name": "Kikinda",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Kikinde",
+            "dative": "Kikindi",
+            "accusative": "Kikindu",
+            "locative": "Kikindi",
+            "instrumental": "Kikindom"
+          }
         },
         "en": {
           "name": "Kikinda"
+        },
+        "ru": {
+          "name": "Кикинда"
         }
       },
       "zoneIds": [
@@ -898,7 +1140,6 @@
     },
     {
       "id": "city-knjazevac",
-      "legacyId": 30,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KŽ",
@@ -918,11 +1159,22 @@
             "instrumental": "Knjaževcem"
           }
         },
-        "ru": {
-          "name": "Княжевац"
+        "sr-Cyrl": {
+          "name": "Knjaževac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Knjaževca",
+            "dative": "Knjaževcu",
+            "accusative": "Knjaževac",
+            "locative": "Knjaževcu",
+            "instrumental": "Knjaževcem"
+          }
         },
         "en": {
           "name": "Knjaževac"
+        },
+        "ru": {
+          "name": "Княжевац"
         }
       },
       "zoneIds": [
@@ -937,7 +1189,6 @@
     },
     {
       "id": "city-kopaonik",
-      "legacyId": 85,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "RA",
@@ -957,11 +1208,22 @@
             "instrumental": "Kopaonikom"
           }
         },
-        "ru": {
-          "name": "Копаоник"
+        "sr-Cyrl": {
+          "name": "Kopaonik",
+          "preposition": "2",
+          "cases": {
+            "genitive": "Kopaonika",
+            "dative": "Kopaoniku",
+            "accusative": "Kopaonik",
+            "locative": "Kopaoniku",
+            "instrumental": "Kopaonikom"
+          }
         },
         "en": {
           "name": "Kopaonik"
+        },
+        "ru": {
+          "name": "Копаоник"
         }
       },
       "zoneIds": [
@@ -975,7 +1237,6 @@
     },
     {
       "id": "city-kragujevac",
-      "legacyId": 6,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KG",
@@ -995,11 +1256,22 @@
             "instrumental": "Kragujevcem"
           }
         },
-        "ru": {
-          "name": "Крагуевац"
+        "sr-Cyrl": {
+          "name": "Kragujevac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Kragujevca",
+            "dative": "Kragujevcu",
+            "accusative": "Kragujevac",
+            "locative": "Kragujevcu",
+            "instrumental": "Kragujevcem"
+          }
         },
         "en": {
           "name": "Kragujevac"
+        },
+        "ru": {
+          "name": "Крагуевац"
         }
       },
       "zoneIds": [
@@ -1015,7 +1287,6 @@
     },
     {
       "id": "city-kraljevo",
-      "legacyId": 4,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KV",
@@ -1035,11 +1306,22 @@
             "instrumental": "Kraljevom"
           }
         },
-        "ru": {
-          "name": "Кралево"
+        "sr-Cyrl": {
+          "name": "Kraljevo",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Kraljeva",
+            "dative": "Kraljevu",
+            "accusative": "Kraljevo",
+            "locative": "Kraljevu",
+            "instrumental": "Kraljevom"
+          }
         },
         "en": {
           "name": "Kraljevo"
+        },
+        "ru": {
+          "name": "Кралево"
         }
       },
       "zoneIds": [
@@ -1054,7 +1336,6 @@
     },
     {
       "id": "city-krupanj",
-      "legacyId": 57,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "LO",
@@ -1074,11 +1355,22 @@
             "instrumental": "Krupnjem"
           }
         },
-        "ru": {
-          "name": "Крупань"
+        "sr-Cyrl": {
+          "name": "Krupanj",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Krupnja",
+            "dative": "Krupnju",
+            "accusative": "Krupanj",
+            "locative": "Krupnju",
+            "instrumental": "Krupnjem"
+          }
         },
         "en": {
           "name": "Krupanj"
+        },
+        "ru": {
+          "name": "Крупань"
         }
       },
       "zoneIds": [
@@ -1092,7 +1384,6 @@
     },
     {
       "id": "city-krusevac",
-      "legacyId": 31,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KŠ",
@@ -1112,11 +1403,22 @@
             "instrumental": "Kruševcem"
           }
         },
-        "ru": {
-          "name": "Крушевац"
+        "sr-Cyrl": {
+          "name": "Kruševac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Kruševca",
+            "dative": "Kruševcu",
+            "accusative": "Kruševac",
+            "locative": "Kruševcu",
+            "instrumental": "Kruševcem"
+          }
         },
         "en": {
           "name": "Kruševac"
+        },
+        "ru": {
+          "name": "Крушевац"
         }
       },
       "zoneIds": [
@@ -1132,7 +1434,6 @@
     },
     {
       "id": "city-kursumlija",
-      "legacyId": 58,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PK",
@@ -1152,11 +1453,22 @@
             "instrumental": "Kuršumlijom"
           }
         },
-        "ru": {
-          "name": "Куршумлия"
+        "sr-Cyrl": {
+          "name": "Kuršumlija",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Kuršumlije",
+            "dative": "Kuršumliji",
+            "accusative": "Kuršumliju",
+            "locative": "Kuršumliji",
+            "instrumental": "Kuršumlijom"
+          }
         },
         "en": {
           "name": "Kuršumlija"
+        },
+        "ru": {
+          "name": "Куршумлия"
         }
       },
       "zoneIds": [
@@ -1171,7 +1483,6 @@
     },
     {
       "id": "city-kucevo",
-      "legacyId": 59,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PO",
@@ -1191,11 +1502,22 @@
             "instrumental": "Kučevom"
           }
         },
-        "ru": {
-          "name": "Кучево"
+        "sr-Cyrl": {
+          "name": "Kučevo",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Kučeva",
+            "dative": "Kučevu",
+            "accusative": "Kučevo",
+            "locative": "Kučevu",
+            "instrumental": "Kučevom"
+          }
         },
         "en": {
           "name": "Kučevo"
+        },
+        "ru": {
+          "name": "Кучево"
         }
       },
       "zoneIds": [
@@ -1209,7 +1531,6 @@
     },
     {
       "id": "city-lapovo",
-      "legacyId": 86,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KG",
@@ -1229,11 +1550,22 @@
             "instrumental": "Lapovom"
           }
         },
-        "ru": {
-          "name": "Лапово"
+        "sr-Cyrl": {
+          "name": "Lapovo",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Lapova",
+            "dative": "Lapovu",
+            "accusative": "Lapovo",
+            "locative": "Lapovu",
+            "instrumental": "Lapovom"
+          }
         },
         "en": {
           "name": "Lapovo"
+        },
+        "ru": {
+          "name": "Лапово"
         }
       },
       "zoneIds": [
@@ -1247,7 +1579,6 @@
     },
     {
       "id": "city-lazarevac",
-      "legacyId": 32,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BG",
@@ -1267,11 +1598,22 @@
             "instrumental": "Lazarevcem"
           }
         },
-        "ru": {
-          "name": "Лазаревац"
+        "sr-Cyrl": {
+          "name": "Lazarevac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Lazarevca",
+            "dative": "Lazarevcu",
+            "accusative": "Lazarevac",
+            "locative": "Lazarevcu",
+            "instrumental": "Lazarevcem"
+          }
         },
         "en": {
           "name": "Lazarevac"
+        },
+        "ru": {
+          "name": "Лазаревац"
         }
       },
       "zoneIds": [
@@ -1286,7 +1628,6 @@
     },
     {
       "id": "city-lebane",
-      "legacyId": 88,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "LB",
@@ -1306,11 +1647,22 @@
             "instrumental": "Lebanom"
           }
         },
-        "ru": {
-          "name": "Лебане"
+        "sr-Cyrl": {
+          "name": "Lebane",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Lebana",
+            "dative": "Lebanu",
+            "accusative": "Lebane",
+            "locative": "Lebanu",
+            "instrumental": "Lebanom"
+          }
         },
         "en": {
           "name": "Lebane"
+        },
+        "ru": {
+          "name": "Лебане"
         }
       },
       "zoneIds": [
@@ -1324,7 +1676,6 @@
     },
     {
       "id": "city-leskovac",
-      "legacyId": 33,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "LE",
@@ -1344,11 +1695,22 @@
             "instrumental": "Leskovcem"
           }
         },
-        "ru": {
-          "name": "Лесковац"
+        "sr-Cyrl": {
+          "name": "Leskovac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Leskovca",
+            "dative": "Leskovcu",
+            "accusative": "Leskovac",
+            "locative": "Leskovcu",
+            "instrumental": "Leskovcem"
+          }
         },
         "en": {
           "name": "Leskovac"
+        },
+        "ru": {
+          "name": "Лесковац"
         }
       },
       "zoneIds": [
@@ -1363,7 +1725,6 @@
     },
     {
       "id": "city-ljig",
-      "legacyId": 60,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VA",
@@ -1383,11 +1744,22 @@
             "instrumental": "Ljigom"
           }
         },
-        "ru": {
-          "name": "Лиг"
+        "sr-Cyrl": {
+          "name": "Ljig",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Ljiga",
+            "dative": "Ljigu",
+            "accusative": "Ljig",
+            "locative": "Ljigu",
+            "instrumental": "Ljigom"
+          }
         },
         "en": {
           "name": "Ljig"
+        },
+        "ru": {
+          "name": "Лиг"
         }
       },
       "zoneIds": [
@@ -1401,7 +1773,6 @@
     },
     {
       "id": "city-ljubovija",
-      "legacyId": 61,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "LO",
@@ -1421,11 +1792,22 @@
             "instrumental": "Ljubovijom"
           }
         },
-        "ru": {
-          "name": "Любовия"
+        "sr-Cyrl": {
+          "name": "Ljubovija",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Ljubovije",
+            "dative": "Ljuboviji",
+            "accusative": "Ljuboviju",
+            "locative": "Ljuboviji",
+            "instrumental": "Ljubovijom"
+          }
         },
         "en": {
           "name": "Ljubovija"
+        },
+        "ru": {
+          "name": "Любовия"
         }
       },
       "zoneIds": [
@@ -1439,7 +1821,6 @@
     },
     {
       "id": "city-loznica",
-      "legacyId": 34,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "LO",
@@ -1459,11 +1840,22 @@
             "instrumental": "Loznicom"
           }
         },
-        "ru": {
-          "name": "Лозница"
+        "sr-Cyrl": {
+          "name": "Loznica",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Loznice",
+            "dative": "Loznici",
+            "accusative": "Loznicu",
+            "locative": "Loznici",
+            "instrumental": "Loznicom"
+          }
         },
         "en": {
           "name": "Loznica"
+        },
+        "ru": {
+          "name": "Лозница"
         }
       },
       "zoneIds": [
@@ -1478,7 +1870,6 @@
     },
     {
       "id": "city-mionica",
-      "legacyId": 62,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VA",
@@ -1498,11 +1889,22 @@
             "instrumental": "Mionicom"
           }
         },
-        "ru": {
-          "name": "Мионица"
+        "sr-Cyrl": {
+          "name": "Mionica",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Mionice",
+            "dative": "Mionici",
+            "accusative": "Mionicu",
+            "locative": "Mionici",
+            "instrumental": "Mionicom"
+          }
         },
         "en": {
           "name": "Mionica"
+        },
+        "ru": {
+          "name": "Мионица"
         }
       },
       "zoneIds": [
@@ -1516,7 +1918,6 @@
     },
     {
       "id": "city-mladenovac",
-      "legacyId": 35,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BG",
@@ -1536,11 +1937,22 @@
             "instrumental": "Mladenovcem"
           }
         },
-        "ru": {
-          "name": "Младеновац"
+        "sr-Cyrl": {
+          "name": "Mladenovac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "MLadenovca",
+            "dative": "Mladenovcu",
+            "accusative": "Mladenovac",
+            "locative": "Mladenovcu",
+            "instrumental": "Mladenovcem"
+          }
         },
         "en": {
           "name": "Mladenovac"
+        },
+        "ru": {
+          "name": "Младеновац"
         }
       },
       "zoneIds": [
@@ -1555,7 +1967,6 @@
     },
     {
       "id": "city-negotin",
-      "legacyId": 63,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "NG",
@@ -1575,11 +1986,22 @@
             "instrumental": "Negotinom"
           }
         },
-        "ru": {
-          "name": "Неготин"
+        "sr-Cyrl": {
+          "name": "Negotin",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Negotina",
+            "dative": "Negotinu",
+            "accusative": "Negotin",
+            "locative": "Negotinu",
+            "instrumental": "Negotinom"
+          }
         },
         "en": {
           "name": "Negotin"
+        },
+        "ru": {
+          "name": "Неготин"
         }
       },
       "zoneIds": [
@@ -1594,7 +2016,6 @@
     },
     {
       "id": "city-nis",
-      "legacyId": 5,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "NI",
@@ -1614,11 +2035,22 @@
             "instrumental": "Nišom"
           }
         },
-        "ru": {
-          "name": "Ниш"
+        "sr-Cyrl": {
+          "name": "Niš",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Niša",
+            "dative": "Nišu",
+            "accusative": "Niš",
+            "locative": "Nišu",
+            "instrumental": "Nišom"
+          }
         },
         "en": {
           "name": "Niš"
+        },
+        "ru": {
+          "name": "Ниш"
         }
       },
       "zoneIds": [
@@ -1634,7 +2066,6 @@
     },
     {
       "id": "city-novi-pazar",
-      "legacyId": 36,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "NP",
@@ -1654,11 +2085,22 @@
             "instrumental": "Novim Pazarom"
           }
         },
-        "ru": {
-          "name": "Нови Пазар"
+        "sr-Cyrl": {
+          "name": "Novi Pazar",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Novog Pazara",
+            "dative": "Novom Pazaru",
+            "accusative": "Novi Pazar",
+            "locative": "Novom Pazaru",
+            "instrumental": "Novim Pazarom"
+          }
         },
         "en": {
           "name": "Novi Pazar"
+        },
+        "ru": {
+          "name": "Нови Пазар"
         }
       },
       "zoneIds": [
@@ -1674,7 +2116,6 @@
     },
     {
       "id": "city-novi-sad",
-      "legacyId": 12,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "NS",
@@ -1694,11 +2135,22 @@
             "instrumental": "Novim Sadom"
           }
         },
-        "ru": {
-          "name": "Нови Сад"
+        "sr-Cyrl": {
+          "name": "Novi Sad",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Novog Sada",
+            "dative": "Novom Sadu",
+            "accusative": "Novi Sad",
+            "locative": "Novom Sadu",
+            "instrumental": "Novim Sadom"
+          }
         },
         "en": {
           "name": "Novi Sad"
+        },
+        "ru": {
+          "name": "Нови Сад"
         }
       },
       "zoneIds": [
@@ -1715,7 +2167,6 @@
     },
     {
       "id": "city-obrenovac",
-      "legacyId": 37,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BG",
@@ -1735,11 +2186,22 @@
             "instrumental": "Obrenovcem"
           }
         },
-        "ru": {
-          "name": "Обреновац"
+        "sr-Cyrl": {
+          "name": "Obrenovac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Obrenovca",
+            "dative": "Obrenovcu",
+            "accusative": "Obrenovac",
+            "locative": "Obrenovcu",
+            "instrumental": "Obrenovcem"
+          }
         },
         "en": {
           "name": "Obrenovac"
+        },
+        "ru": {
+          "name": "Обреновац"
         }
       },
       "zoneIds": [
@@ -1754,7 +2216,6 @@
     },
     {
       "id": "city-osecina",
-      "legacyId": 64,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VA",
@@ -1774,11 +2235,22 @@
             "instrumental": "Osečinom"
           }
         },
-        "ru": {
-          "name": "Осечина"
+        "sr-Cyrl": {
+          "name": "Osečina",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Osečine",
+            "dative": "Osečini",
+            "accusative": "Osečinu",
+            "locative": "Osečini",
+            "instrumental": "Osečinom"
+          }
         },
         "en": {
           "name": "Osečina"
+        },
+        "ru": {
+          "name": "Осечина"
         }
       },
       "zoneIds": [
@@ -1792,7 +2264,6 @@
     },
     {
       "id": "city-pancevo",
-      "legacyId": 42,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PA",
@@ -1812,11 +2283,22 @@
             "instrumental": "Pančevom"
           }
         },
-        "ru": {
-          "name": "Панчево"
+        "sr-Cyrl": {
+          "name": "Pančevo",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Pančeva",
+            "dative": "Pančevu",
+            "accusative": "Pančevo",
+            "locative": "Pančevu",
+            "instrumental": "Pančevom"
+          }
         },
         "en": {
           "name": "Pančevo"
+        },
+        "ru": {
+          "name": "Панчево"
         }
       },
       "zoneIds": [
@@ -1832,7 +2314,6 @@
     },
     {
       "id": "city-paracin",
-      "legacyId": 45,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PN",
@@ -1852,11 +2333,22 @@
             "instrumental": "Paraćinom"
           }
         },
-        "ru": {
-          "name": "Парачин"
+        "sr-Cyrl": {
+          "name": "Paraćin",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Paraćina",
+            "dative": "Paraćinu",
+            "accusative": "Paraćin",
+            "locative": "Paraćinu",
+            "instrumental": "Paraćinom"
+          }
         },
         "en": {
           "name": "Paraćin"
+        },
+        "ru": {
+          "name": "Парачин"
         }
       },
       "zoneIds": [
@@ -1871,7 +2363,6 @@
     },
     {
       "id": "city-petrovac-na-mlavi",
-      "legacyId": 65,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PT",
@@ -1891,11 +2382,22 @@
             "instrumental": "Petrovcem na Mlavi"
           }
         },
-        "ru": {
-          "name": "Петровац на Млави"
+        "sr-Cyrl": {
+          "name": "Petrovac na Mlavi",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Petrovca na Mlavi",
+            "dative": "Petrovcu na Mlavi",
+            "accusative": "Petrovac na Mlavi",
+            "locative": "Petrovcu na Mlavi",
+            "instrumental": "Petrovcem na Mlavi"
+          }
         },
         "en": {
           "name": "Petrovac na Mlavi"
+        },
+        "ru": {
+          "name": "Петровац на Млави"
         }
       },
       "zoneIds": [
@@ -1910,7 +2412,6 @@
     },
     {
       "id": "city-pecinci",
-      "legacyId": 66,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "RU",
@@ -1930,11 +2431,22 @@
             "instrumental": "Pećincima"
           }
         },
-        "ru": {
-          "name": "Печинци"
+        "sr-Cyrl": {
+          "name": "Pećinci",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Pećinaca",
+            "dative": "Pećincima",
+            "accusative": "Pećince",
+            "locative": "Pećincima",
+            "instrumental": "Pećincima"
+          }
         },
         "en": {
           "name": "Pećinci"
+        },
+        "ru": {
+          "name": "Печинци"
         }
       },
       "zoneIds": [
@@ -1948,7 +2460,6 @@
     },
     {
       "id": "city-pirot",
-      "legacyId": 38,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PI",
@@ -1968,11 +2479,22 @@
             "instrumental": "Pirtom"
           }
         },
-        "ru": {
-          "name": "Пирот"
+        "sr-Cyrl": {
+          "name": "Pirot",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Pirota",
+            "dative": "Pirotu",
+            "accusative": "Pirot",
+            "locative": "Pirtou",
+            "instrumental": "Pirtom"
+          }
         },
         "en": {
           "name": "Pirot"
+        },
+        "ru": {
+          "name": "Пирот"
         }
       },
       "zoneIds": [
@@ -1988,7 +2510,6 @@
     },
     {
       "id": "city-pozarevac",
-      "legacyId": 44,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PO",
@@ -2008,11 +2529,22 @@
             "instrumental": "Požarevcem"
           }
         },
-        "ru": {
-          "name": "Пожаревац"
+        "sr-Cyrl": {
+          "name": "Požarevac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Požarevca",
+            "dative": "Požarevcu",
+            "accusative": "Požarevac",
+            "locative": "Požarevcu",
+            "instrumental": "Požarevcem"
+          }
         },
         "en": {
           "name": "Požarevac"
+        },
+        "ru": {
+          "name": "Пожаревац"
         }
       },
       "zoneIds": [
@@ -2029,7 +2561,6 @@
     },
     {
       "id": "city-pozega",
-      "legacyId": 39,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PŽ",
@@ -2049,11 +2580,22 @@
             "instrumental": "Požegom"
           }
         },
-        "ru": {
-          "name": "Пожега"
+        "sr-Cyrl": {
+          "name": "Požega",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Požege",
+            "dative": "Požegi",
+            "accusative": "Požegu",
+            "locative": "Požegi",
+            "instrumental": "Požegom"
+          }
         },
         "en": {
           "name": "Požega"
+        },
+        "ru": {
+          "name": "Пожега"
         }
       },
       "zoneIds": [
@@ -2068,7 +2610,6 @@
     },
     {
       "id": "city-presevo",
-      "legacyId": 67,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VR",
@@ -2088,11 +2629,22 @@
             "instrumental": "Preševom"
           }
         },
-        "ru": {
-          "name": "Прешево"
+        "sr-Cyrl": {
+          "name": "Preševo",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Preševa",
+            "dative": "Preševu",
+            "accusative": "Preševo",
+            "locative": "Preševu",
+            "instrumental": "Preševom"
+          }
         },
         "en": {
           "name": "Preševo"
+        },
+        "ru": {
+          "name": "Прешево"
         }
       },
       "zoneIds": [
@@ -2107,7 +2659,6 @@
     },
     {
       "id": "city-prokuplje",
-      "legacyId": 68,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PK",
@@ -2127,11 +2678,22 @@
             "instrumental": "Prokupljem"
           }
         },
-        "ru": {
-          "name": "Прокупле"
+        "sr-Cyrl": {
+          "name": "Prokuplje",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Prokuplja",
+            "dative": "Prokuplju",
+            "accusative": "Prokuplje",
+            "locative": "Prokuplju",
+            "instrumental": "Prokupljem"
+          }
         },
         "en": {
           "name": "Prokuplje"
+        },
+        "ru": {
+          "name": "Прокупле"
         }
       },
       "zoneIds": [
@@ -2146,7 +2708,6 @@
     },
     {
       "id": "city-raska",
-      "legacyId": 69,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "RA",
@@ -2166,11 +2727,22 @@
             "instrumental": "Raškom"
           }
         },
-        "ru": {
-          "name": "Рашка"
+        "sr-Cyrl": {
+          "name": "Raška",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Raške",
+            "dative": "Raški",
+            "accusative": "Rašku",
+            "locative": "Raški",
+            "instrumental": "Raškom"
+          }
         },
         "en": {
           "name": "Raška"
+        },
+        "ru": {
+          "name": "Рашка"
         }
       },
       "zoneIds": [
@@ -2186,7 +2758,6 @@
     },
     {
       "id": "city-ruma",
-      "legacyId": 52,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "RU",
@@ -2206,11 +2777,22 @@
             "instrumental": "Rumom"
           }
         },
-        "ru": {
-          "name": "Рума"
+        "sr-Cyrl": {
+          "name": "Ruma",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Rume",
+            "dative": "Rumi",
+            "accusative": "Rumu",
+            "locative": "Rumi",
+            "instrumental": "Rumom"
+          }
         },
         "en": {
           "name": "Ruma"
+        },
+        "ru": {
+          "name": "Рума"
         }
       },
       "zoneIds": [
@@ -2224,7 +2806,6 @@
     },
     {
       "id": "city-senta",
-      "legacyId": 70,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "SA",
@@ -2244,11 +2825,22 @@
             "instrumental": "Sentom"
           }
         },
-        "ru": {
-          "name": "Сента"
+        "sr-Cyrl": {
+          "name": "Senta",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Sente",
+            "dative": "Senti",
+            "accusative": "Sentu",
+            "locative": "Senti",
+            "instrumental": "Sentom"
+          }
         },
         "en": {
           "name": "Senta"
+        },
+        "ru": {
+          "name": "Сента"
         }
       },
       "zoneIds": [
@@ -2263,7 +2855,6 @@
     },
     {
       "id": "city-sjenica",
-      "legacyId": 71,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "SJ",
@@ -2283,11 +2874,22 @@
             "instrumental": "Sjenicom"
           }
         },
-        "ru": {
-          "name": "Сьеница"
+        "sr-Cyrl": {
+          "name": "Sjenica",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Sjenice",
+            "dative": "Sjenici",
+            "accusative": "Sjenicu",
+            "locative": "Sjenici",
+            "instrumental": "Sjenicom"
+          }
         },
         "en": {
           "name": "Sjenica"
+        },
+        "ru": {
+          "name": "Сьеница"
         }
       },
       "zoneIds": [
@@ -2302,7 +2904,6 @@
     },
     {
       "id": "city-smederevo",
-      "legacyId": 43,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "SD",
@@ -2322,11 +2923,22 @@
             "instrumental": "Smederevom"
           }
         },
-        "ru": {
-          "name": "Смедерево"
+        "sr-Cyrl": {
+          "name": "Smederevo",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Smedereva",
+            "dative": "Smederevu",
+            "accusative": "Smederevo",
+            "locative": "Smederevu",
+            "instrumental": "Smederevom"
+          }
         },
         "en": {
           "name": "Smederevo"
+        },
+        "ru": {
+          "name": "Смедерево"
         }
       },
       "zoneIds": [
@@ -2342,7 +2954,6 @@
     },
     {
       "id": "city-smederevska-palanka",
-      "legacyId": 53,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "SP",
@@ -2362,11 +2973,22 @@
             "instrumental": "Smederevskom Palankom"
           }
         },
-        "ru": {
-          "name": "Смедеревска Паланка"
+        "sr-Cyrl": {
+          "name": "Smederevska Palanka",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Smederevske Palanke",
+            "dative": "Smederevskoj Palanci",
+            "accusative": "Smederevsku Palanku",
+            "locative": "Smederevskoj Palanci",
+            "instrumental": "Smederevskom Palankom"
+          }
         },
         "en": {
           "name": "Smederevska Palanka"
+        },
+        "ru": {
+          "name": "Смедеревска Паланка"
         }
       },
       "zoneIds": [
@@ -2381,7 +3003,6 @@
     },
     {
       "id": "city-sokobanja",
-      "legacyId": 72,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "ZA",
@@ -2401,11 +3022,22 @@
             "instrumental": "Sokobanjom"
           }
         },
-        "ru": {
-          "name": "Сокобаня"
+        "sr-Cyrl": {
+          "name": "Sokobanja",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Sokobanje",
+            "dative": "Sokobanji",
+            "accusative": "Sokobanju",
+            "locative": "Sokobanji",
+            "instrumental": "Sokobanjom"
+          }
         },
         "en": {
           "name": "Sokobanja"
+        },
+        "ru": {
+          "name": "Сокобаня"
         }
       },
       "zoneIds": [
@@ -2419,7 +3051,6 @@
     },
     {
       "id": "city-sombor",
-      "legacyId": 17,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "SO",
@@ -2439,11 +3070,22 @@
             "instrumental": "Somborom"
           }
         },
-        "ru": {
-          "name": "Сомбор"
+        "sr-Cyrl": {
+          "name": "Sombor",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Sombora",
+            "dative": "Somboru",
+            "accusative": "Sombor",
+            "locative": "Somboru",
+            "instrumental": "Somborom"
+          }
         },
         "en": {
           "name": "Sombor"
+        },
+        "ru": {
+          "name": "Сомбор"
         }
       },
       "zoneIds": [
@@ -2460,7 +3102,6 @@
     },
     {
       "id": "city-sremska-mitrovica",
-      "legacyId": 46,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "SM",
@@ -2480,11 +3121,22 @@
             "instrumental": "Sremskom Mitrovicom"
           }
         },
-        "ru": {
-          "name": "Сремска Митровица"
+        "sr-Cyrl": {
+          "name": "Sremska Mitrovica",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Sremske Mitrovice",
+            "dative": "Sremskoj Mitrovici",
+            "accusative": "Sremsku Mitrovicu",
+            "locative": "Sremskoj Mitrovici",
+            "instrumental": "Sremskom Mitrovicom"
+          }
         },
         "en": {
           "name": "Sremska Mitrovica"
+        },
+        "ru": {
+          "name": "Сремска Митровица"
         }
       },
       "zoneIds": [
@@ -2500,7 +3152,6 @@
     },
     {
       "id": "city-sremski-karlovci",
-      "legacyId": 50,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "NS",
@@ -2520,11 +3171,22 @@
             "instrumental": "Sremskim Karlovcima"
           }
         },
-        "ru": {
-          "name": "Сремски Карловци"
+        "sr-Cyrl": {
+          "name": "Sremski Karlovci",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Sremskih Karlovaca",
+            "dative": "Sremskim Karlovcima",
+            "accusative": "Sremske Karlovce",
+            "locative": "Sremskim Karlovcima",
+            "instrumental": "Sremskim Karlovcima"
+          }
         },
         "en": {
           "name": "Sremski Karlovci"
+        },
+        "ru": {
+          "name": "Сремски Карловци"
         }
       },
       "zoneIds": [
@@ -2538,7 +3200,6 @@
     },
     {
       "id": "city-stara-pazova",
-      "legacyId": 51,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "ST",
@@ -2558,11 +3219,22 @@
             "instrumental": "Starom Pazovom"
           }
         },
-        "ru": {
-          "name": "Стара Пазова"
+        "sr-Cyrl": {
+          "name": "Stara Pazova",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Stare Pazove",
+            "dative": "Staroj Pazovi",
+            "accusative": "Staru Pazovu",
+            "locative": "Staroj Pazovi",
+            "instrumental": "Starom Pazovom"
+          }
         },
         "en": {
           "name": "Stara Pazova"
+        },
+        "ru": {
+          "name": "Стара Пазова"
         }
       },
       "zoneIds": [
@@ -2577,7 +3249,6 @@
     },
     {
       "id": "city-subotica",
-      "legacyId": 13,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "SU",
@@ -2597,11 +3268,22 @@
             "instrumental": "Suboticom"
           }
         },
-        "ru": {
-          "name": "Суботица"
+        "sr-Cyrl": {
+          "name": "Subotica",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Subotice",
+            "dative": "Subotici",
+            "accusative": "Suboticu",
+            "locative": "Subotici",
+            "instrumental": "Suboticom"
+          }
         },
         "en": {
           "name": "Subotica"
+        },
+        "ru": {
+          "name": "Суботица"
         }
       },
       "zoneIds": [
@@ -2617,7 +3299,6 @@
     },
     {
       "id": "city-surcin",
-      "legacyId": 73,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "BG",
@@ -2637,11 +3318,22 @@
             "instrumental": "Surčinom"
           }
         },
-        "ru": {
-          "name": "Сурчин"
+        "sr-Cyrl": {
+          "name": "Surčin",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Surčina",
+            "dative": "Surčinu",
+            "accusative": "Surčin",
+            "locative": "Surčinu",
+            "instrumental": "Surčinom"
+          }
         },
         "en": {
           "name": "Surčin"
+        },
+        "ru": {
+          "name": "Сурчин"
         }
       },
       "zoneIds": [
@@ -2655,7 +3347,6 @@
     },
     {
       "id": "city-svilajnac",
-      "legacyId": 74,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "SV",
@@ -2675,11 +3366,22 @@
             "instrumental": "Scilajncem"
           }
         },
-        "ru": {
-          "name": "Свилайнац"
+        "sr-Cyrl": {
+          "name": "Svilajnac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Svilajnca",
+            "dative": "Svilajncu",
+            "accusative": "Svilajnac",
+            "locative": "Svilajncu",
+            "instrumental": "Scilajncem"
+          }
         },
         "en": {
           "name": "Svilajnac"
+        },
+        "ru": {
+          "name": "Свилайнац"
         }
       },
       "zoneIds": [
@@ -2693,7 +3395,6 @@
     },
     {
       "id": "city-temerin",
-      "legacyId": 75,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "NS",
@@ -2713,11 +3414,22 @@
             "instrumental": "Temerinom"
           }
         },
-        "ru": {
-          "name": "Темерин"
+        "sr-Cyrl": {
+          "name": "Temerin",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Temerina",
+            "dative": "Temerinu",
+            "accusative": "Temerin",
+            "locative": "Temerinu",
+            "instrumental": "Temerinom"
+          }
         },
         "en": {
           "name": "Temerin"
+        },
+        "ru": {
+          "name": "Темерин"
         }
       },
       "zoneIds": [
@@ -2731,7 +3443,6 @@
     },
     {
       "id": "city-topola",
-      "legacyId": 76,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "TO",
@@ -2751,11 +3462,22 @@
             "instrumental": "Topolom"
           }
         },
-        "ru": {
-          "name": "Топола"
+        "sr-Cyrl": {
+          "name": "Topola",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Topole",
+            "dative": "Topoli",
+            "accusative": "Topolu",
+            "locative": "Topoli",
+            "instrumental": "Topolom"
+          }
         },
         "en": {
           "name": "Topola"
+        },
+        "ru": {
+          "name": "Топола"
         }
       },
       "zoneIds": [
@@ -2770,7 +3492,6 @@
     },
     {
       "id": "city-trstenik",
-      "legacyId": 77,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "TS",
@@ -2790,11 +3511,22 @@
             "instrumental": "Trstenikom"
           }
         },
-        "ru": {
-          "name": "Трстеник"
+        "sr-Cyrl": {
+          "name": "Trstenik",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Trstenika",
+            "dative": "Trsteniku",
+            "accusative": "Trstenik",
+            "locative": "Trsteniku",
+            "instrumental": "Trstenikom"
+          }
         },
         "en": {
           "name": "Trstenik"
+        },
+        "ru": {
+          "name": "Трстеник"
         }
       },
       "zoneIds": [
@@ -2809,7 +3541,6 @@
     },
     {
       "id": "city-ub",
-      "legacyId": 78,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "UB",
@@ -2829,11 +3560,22 @@
             "instrumental": "Ubom"
           }
         },
-        "ru": {
-          "name": "Уб"
+        "sr-Cyrl": {
+          "name": "Ub",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Uba",
+            "dative": "Ubu",
+            "accusative": "Ub",
+            "locative": "Ubu",
+            "instrumental": "Ubom"
+          }
         },
         "en": {
           "name": "Ub"
+        },
+        "ru": {
+          "name": "Уб"
         }
       },
       "zoneIds": [
@@ -2849,7 +3591,6 @@
     },
     {
       "id": "city-uzice",
-      "legacyId": 7,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "UE",
@@ -2869,11 +3610,22 @@
             "instrumental": "Užicem"
           }
         },
-        "ru": {
-          "name": "Ужице"
+        "sr-Cyrl": {
+          "name": "Užice",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Užica",
+            "dative": "Užicu",
+            "accusative": "Užice",
+            "locative": "Užicu",
+            "instrumental": "Užicem"
+          }
         },
         "en": {
           "name": "Užice"
+        },
+        "ru": {
+          "name": "Ужице"
         }
       },
       "zoneIds": [
@@ -2888,7 +3640,6 @@
     },
     {
       "id": "city-valjevo",
-      "legacyId": 2,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VA",
@@ -2908,11 +3659,22 @@
             "instrumental": "Valjevom"
           }
         },
-        "ru": {
-          "name": "Валево"
+        "sr-Cyrl": {
+          "name": "Valjevo",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Valjeva",
+            "dative": "Valjevu",
+            "accusative": "Valjevo",
+            "locative": "Valjevu",
+            "instrumental": "Valjevom"
+          }
         },
         "en": {
           "name": "Valjevo"
+        },
+        "ru": {
+          "name": "Валево"
         }
       },
       "zoneIds": [
@@ -2927,7 +3689,6 @@
     },
     {
       "id": "city-velika-plana",
-      "legacyId": 79,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VP",
@@ -2947,11 +3708,22 @@
             "instrumental": "Velikom Planom"
           }
         },
-        "ru": {
-          "name": "Велика Плана"
+        "sr-Cyrl": {
+          "name": "Velika Plana",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Velike Plane",
+            "dative": "Velikoj Plani",
+            "accusative": "Veliku Planu",
+            "locative": "Velikoj Plani",
+            "instrumental": "Velikom Planom"
+          }
         },
         "en": {
           "name": "Velika Plana"
+        },
+        "ru": {
+          "name": "Велика Плана"
         }
       },
       "zoneIds": [
@@ -2967,7 +3739,6 @@
     },
     {
       "id": "city-veliko-gradiste",
-      "legacyId": 80,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "PO",
@@ -2987,11 +3758,22 @@
             "instrumental": "Velikim Gradištem"
           }
         },
-        "ru": {
-          "name": "Велико Градиште"
+        "sr-Cyrl": {
+          "name": "Veliko Gradište",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Velikog Gradišta",
+            "dative": "Velikom Gradištu",
+            "accusative": "Veliko Gradište",
+            "locative": "Velikom Gradištu",
+            "instrumental": "Velikim Gradištem"
+          }
         },
         "en": {
           "name": "Veliko Gradište"
+        },
+        "ru": {
+          "name": "Велико Градиште"
         }
       },
       "zoneIds": [
@@ -3006,7 +3788,6 @@
     },
     {
       "id": "city-vlasotince",
-      "legacyId": 81,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VL",
@@ -3026,11 +3807,22 @@
             "instrumental": "Vlasotincem"
           }
         },
-        "ru": {
-          "name": "Власотинце"
+        "sr-Cyrl": {
+          "name": "Vlasotince",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Vlasotinca",
+            "dative": "Vlasotincu",
+            "accusative": "Vlasotince",
+            "locative": "Vlasotincu",
+            "instrumental": "Vlasotincem"
+          }
         },
         "en": {
           "name": "Vlasotince"
+        },
+        "ru": {
+          "name": "Власотинце"
         }
       },
       "zoneIds": [
@@ -3045,7 +3837,6 @@
     },
     {
       "id": "city-vranje",
-      "legacyId": 16,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VR",
@@ -3065,11 +3856,22 @@
             "instrumental": "Vranjem"
           }
         },
-        "ru": {
-          "name": "Вране"
+        "sr-Cyrl": {
+          "name": "Vranje",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Vranja",
+            "dative": "Vranju",
+            "accusative": "Vranje",
+            "locative": "Vranju",
+            "instrumental": "Vranjem"
+          }
         },
         "en": {
           "name": "Vranje"
+        },
+        "ru": {
+          "name": "Вране"
         }
       },
       "zoneIds": [
@@ -3085,7 +3887,6 @@
     },
     {
       "id": "city-vrbas",
-      "legacyId": 48,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VS",
@@ -3105,11 +3906,22 @@
             "instrumental": "Vrbasom"
           }
         },
-        "ru": {
-          "name": "Врбас"
+        "sr-Cyrl": {
+          "name": "Vrbas",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Vrbasa",
+            "dative": "Vrbasu",
+            "accusative": "Vrbas",
+            "locative": "Vrbasu",
+            "instrumental": "Vrbasom"
+          }
         },
         "en": {
           "name": "Vrbas"
+        },
+        "ru": {
+          "name": "Врбас"
         }
       },
       "zoneIds": [
@@ -3124,7 +3936,6 @@
     },
     {
       "id": "city-vrnjacka-banja",
-      "legacyId": 47,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VB",
@@ -3144,11 +3955,22 @@
             "instrumental": "Vrnjačkom Banjom"
           }
         },
-        "ru": {
-          "name": "Врнячка Баня"
+        "sr-Cyrl": {
+          "name": "Vrnjačka Banja",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Vrnjačke Banje",
+            "dative": "Vrnjačkoj Banji",
+            "accusative": "Vrnjačku Banju",
+            "locative": "Vrnjačkoj Banji",
+            "instrumental": "Vrnjačkom Banjom"
+          }
         },
         "en": {
           "name": "Vrnjačka Banja"
+        },
+        "ru": {
+          "name": "Врнячка Баня"
         }
       },
       "zoneIds": [
@@ -3164,7 +3986,6 @@
     },
     {
       "id": "city-vrsac",
-      "legacyId": 82,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "VŠ",
@@ -3184,11 +4005,22 @@
             "instrumental": "Vršcem"
           }
         },
-        "ru": {
-          "name": "Вршац"
+        "sr-Cyrl": {
+          "name": "Vršac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Vršca",
+            "dative": "Vršcu",
+            "accusative": "Vršac",
+            "locative": "Vršcu",
+            "instrumental": "Vršcem"
+          }
         },
         "en": {
           "name": "Vršac"
+        },
+        "ru": {
+          "name": "Вршац"
         }
       },
       "zoneIds": [
@@ -3203,7 +4035,6 @@
     },
     {
       "id": "city-zajecar",
-      "legacyId": 41,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "ZA",
@@ -3223,11 +4054,22 @@
             "instrumental": "Zaječarom"
           }
         },
-        "ru": {
-          "name": "Заечар"
+        "sr-Cyrl": {
+          "name": "Zaječar",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Zaječara",
+            "dative": "Zaječaru",
+            "accusative": "Zaječar",
+            "locative": "Zaječaru",
+            "instrumental": "Zaječarom"
+          }
         },
         "en": {
           "name": "Zaječar"
+        },
+        "ru": {
+          "name": "Заечар"
         }
       },
       "zoneIds": [
@@ -3243,7 +4085,6 @@
     },
     {
       "id": "city-zlatibor",
-      "legacyId": 22,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "UE",
@@ -3263,11 +4104,22 @@
             "instrumental": "Zlatiborom"
           }
         },
-        "ru": {
-          "name": "Златибор"
+        "sr-Cyrl": {
+          "name": "Zlatibor",
+          "preposition": "2",
+          "cases": {
+            "genitive": "Zlatibora",
+            "dative": "Zlatiboru",
+            "accusative": "Zlatibor",
+            "locative": "Zlatiboru",
+            "instrumental": "Zlatiborom"
+          }
         },
         "en": {
           "name": "Zlatibor"
+        },
+        "ru": {
+          "name": "Златибор"
         }
       },
       "zoneIds": [
@@ -3283,7 +4135,6 @@
     },
     {
       "id": "city-zrenjanin",
-      "legacyId": 40,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "ZR",
@@ -3303,11 +4154,22 @@
             "instrumental": "Zrenjaninom"
           }
         },
-        "ru": {
-          "name": "Зренянин"
+        "sr-Cyrl": {
+          "name": "Zrenjanin",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Zrenjanina",
+            "dative": "Zrenjaninu",
+            "accusative": "Zrenjanin",
+            "locative": "Zrenjaninu",
+            "instrumental": "Zrenjaninom"
+          }
         },
         "en": {
           "name": "Zrenjanin"
+        },
+        "ru": {
+          "name": "Зренянин"
         }
       },
       "zoneIds": [
@@ -3323,7 +4185,6 @@
     },
     {
       "id": "city-cuprija",
-      "legacyId": 23,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "ĆU",
@@ -3343,11 +4204,22 @@
             "instrumental": "Ćuprijom"
           }
         },
-        "ru": {
-          "name": "Чуприя"
+        "sr-Cyrl": {
+          "name": "Ćuprija",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Ćuprije",
+            "dative": "Ćupriji",
+            "accusative": "Ćupriju",
+            "locative": "Ćupriji",
+            "instrumental": "Ćuprijom"
+          }
         },
         "en": {
           "name": "Ćuprija"
+        },
+        "ru": {
+          "name": "Чуприя"
         }
       },
       "zoneIds": [
@@ -3363,7 +4235,6 @@
     },
     {
       "id": "city-cacak",
-      "legacyId": 1,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "ČA",
@@ -3383,11 +4254,22 @@
             "instrumental": "Čačkom"
           }
         },
-        "ru": {
-          "name": "Чачак"
+        "sr-Cyrl": {
+          "name": "Čačak",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Čačka",
+            "dative": "Čačku",
+            "accusative": "Čačak",
+            "locative": "Čačku",
+            "instrumental": "Čačkom"
+          }
         },
         "en": {
           "name": "Čačak"
+        },
+        "ru": {
+          "name": "Чачак"
         }
       },
       "zoneIds": [
@@ -3404,7 +4286,6 @@
     },
     {
       "id": "city-sabac",
-      "legacyId": 14,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "ŠA",
@@ -3424,11 +4305,22 @@
             "instrumental": "Šapcom"
           }
         },
-        "ru": {
-          "name": "Шабац"
+        "sr-Cyrl": {
+          "name": "Šabac",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Šapca",
+            "dative": "Šapcu",
+            "accusative": "Šabac",
+            "locative": "Šapcu",
+            "instrumental": "Šapcom"
+          }
         },
         "en": {
           "name": "Šabac"
+        },
+        "ru": {
+          "name": "Шабац"
         }
       },
       "zoneIds": [
@@ -3443,7 +4335,6 @@
     },
     {
       "id": "city-sid",
-      "legacyId": 49,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "ŠI",
@@ -3463,11 +4354,22 @@
             "instrumental": "Šidom"
           }
         },
-        "ru": {
-          "name": "Шид"
+        "sr-Cyrl": {
+          "name": "Šid",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Šida",
+            "dative": "Šidu",
+            "accusative": "Šid",
+            "locative": "Šidu",
+            "instrumental": "Šidom"
+          }
         },
         "en": {
           "name": "Šid"
+        },
+        "ru": {
+          "name": "Шид"
         }
       },
       "zoneIds": [
@@ -3482,7 +4384,6 @@
     },
     {
       "id": "city-zabalj",
-      "legacyId": 84,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "NS",
@@ -3502,11 +4403,22 @@
             "instrumental": "Žabljom"
           }
         },
-        "ru": {
-          "name": "Жабаль"
+        "sr-Cyrl": {
+          "name": "Žabalj",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Žablja",
+            "dative": "Žablju",
+            "accusative": "Žabalj",
+            "locative": "Žablju",
+            "instrumental": "Žabljom"
+          }
         },
         "en": {
           "name": "Žabalj"
+        },
+        "ru": {
+          "name": "Жабаль"
         }
       },
       "zoneIds": [
@@ -3520,7 +4432,6 @@
     },
     {
       "id": "city-brzece",
-      "legacyId": 89,
       "countryId": "rs",
       "timezone": "Europe/Belgrade",
       "shortName": "KŠ",
@@ -3540,11 +4451,22 @@
             "instrumental": "Brzećem"
           }
         },
-        "ru": {
-          "name": "Брзече"
+        "sr-Cyrl": {
+          "name": "Brzeće",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Brzeća",
+            "dative": "Brzeću",
+            "accusative": "Brzeće",
+            "locative": "Brzeću",
+            "instrumental": "Brzećem"
+          }
         },
         "en": {
           "name": "Brzeće"
+        },
+        "ru": {
+          "name": "Брзече"
         }
       },
       "zoneIds": [],
@@ -3556,7 +4478,6 @@
     },
     {
       "id": "city-berane",
-      "legacyId": 1008,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "BA",
@@ -3576,11 +4497,22 @@
             "instrumental": "Beranom"
           }
         },
-        "ru": {
-          "name": "Беране"
+        "sr-Cyrl": {
+          "name": "Berane",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Berana",
+            "dative": "Beranu",
+            "accusative": "Berane",
+            "locative": "Beranu",
+            "instrumental": "Beranom"
+          }
         },
         "en": {
           "name": "Berane"
+        },
+        "ru": {
+          "name": "Беране"
         }
       },
       "zoneIds": [
@@ -3595,7 +4527,6 @@
     },
     {
       "id": "city-bijelo-polje",
-      "legacyId": 1010,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "BP",
@@ -3615,11 +4546,22 @@
             "instrumental": "Bijelim Poljem"
           }
         },
-        "ru": {
-          "name": "Биело Поле"
+        "sr-Cyrl": {
+          "name": "Bijelo Polje",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Bijelog Polja",
+            "dative": "Bijelom Polju",
+            "accusative": "Bijelo Polje",
+            "locative": "Bijelom Polju",
+            "instrumental": "Bijelim Poljem"
+          }
         },
         "en": {
           "name": "Bijelo Polje"
+        },
+        "ru": {
+          "name": "Биело Поле"
         }
       },
       "zoneIds": [
@@ -3635,7 +4577,6 @@
     },
     {
       "id": "city-budva",
-      "legacyId": 1004,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "BD",
@@ -3655,11 +4596,22 @@
             "instrumental": "Budvom"
           }
         },
-        "ru": {
-          "name": "Будва"
+        "sr-Cyrl": {
+          "name": "Budva",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Budve",
+            "dative": "Budvi",
+            "accusative": "Budvu",
+            "locative": "Budvi",
+            "instrumental": "Budvom"
+          }
         },
         "en": {
           "name": "Budva"
+        },
+        "ru": {
+          "name": "Будва"
         }
       },
       "zoneIds": [
@@ -3676,7 +4628,6 @@
     },
     {
       "id": "city-cetinje",
-      "legacyId": 1002,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "CT",
@@ -3696,11 +4647,22 @@
             "instrumental": "Cetinjem"
           }
         },
-        "ru": {
-          "name": "Цетине"
+        "sr-Cyrl": {
+          "name": "Cetinje",
+          "preposition": "2",
+          "cases": {
+            "genitive": "Cetinja",
+            "dative": "Cetinju",
+            "accusative": "Cetinje",
+            "locative": "Cetinju",
+            "instrumental": "Cetinjem"
+          }
         },
         "en": {
           "name": "Cetinje"
+        },
+        "ru": {
+          "name": "Цетине"
         }
       },
       "zoneIds": [
@@ -3714,7 +4676,6 @@
     },
     {
       "id": "city-herceg-novi",
-      "legacyId": 1009,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "HN",
@@ -3734,11 +4695,22 @@
             "instrumental": "Herceg Novim"
           }
         },
-        "ru": {
-          "name": "Херцег Нови"
+        "sr-Cyrl": {
+          "name": "Herceg Novi",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Herceg Novog",
+            "dative": "Herceg Novom",
+            "accusative": "Herceg Novi",
+            "locative": "Herceg Novom",
+            "instrumental": "Herceg Novim"
+          }
         },
         "en": {
           "name": "Herceg Novi"
+        },
+        "ru": {
+          "name": "Херцег Нови"
         }
       },
       "zoneIds": [
@@ -3755,7 +4727,6 @@
     },
     {
       "id": "city-niksic",
-      "legacyId": 1007,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "NK",
@@ -3775,11 +4746,22 @@
             "instrumental": "Nikšićem"
           }
         },
-        "ru": {
-          "name": "Никшич"
+        "sr-Cyrl": {
+          "name": "Nikšić",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Nikšić",
+            "dative": "Nikšiću",
+            "accusative": "Nikšić",
+            "locative": "Nikšiću",
+            "instrumental": "Nikšićem"
+          }
         },
         "en": {
           "name": "Nikšić"
+        },
+        "ru": {
+          "name": "Никшич"
         }
       },
       "zoneIds": [
@@ -3795,7 +4777,6 @@
     },
     {
       "id": "city-pljevlja",
-      "legacyId": 1011,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "PV",
@@ -3815,11 +4796,22 @@
             "instrumental": "Pljevljom"
           }
         },
-        "ru": {
-          "name": "Плевля"
+        "sr-Cyrl": {
+          "name": "Pljevlja",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Pljevlje",
+            "dative": "Pljevlji",
+            "accusative": "Pljevlju",
+            "locative": "Pljevlji",
+            "instrumental": "Pljevljom"
+          }
         },
         "en": {
           "name": "Pljevlja"
+        },
+        "ru": {
+          "name": "Плевля"
         }
       },
       "zoneIds": [
@@ -3833,7 +4825,6 @@
     },
     {
       "id": "city-podgorica",
-      "legacyId": 1001,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "PG",
@@ -3853,11 +4844,22 @@
             "instrumental": "Podgoricom"
           }
         },
-        "ru": {
-          "name": "Подгорица"
+        "sr-Cyrl": {
+          "name": "Podgorica",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Podgorice",
+            "dative": "Podgorici",
+            "accusative": "Podgoricu",
+            "locative": "Podgorici",
+            "instrumental": "Podgoricom"
+          }
         },
         "en": {
           "name": "Podgorica"
+        },
+        "ru": {
+          "name": "Подгорица"
         }
       },
       "zoneIds": [
@@ -3873,7 +4875,6 @@
     },
     {
       "id": "city-tivat",
-      "legacyId": 1006,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "TV",
@@ -3893,11 +4894,22 @@
             "instrumental": "Tivtom"
           }
         },
-        "ru": {
-          "name": "Тиват"
+        "sr-Cyrl": {
+          "name": "Tivat",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Tivta",
+            "dative": "Tivtu",
+            "accusative": "Tivat",
+            "locative": "Tivtu",
+            "instrumental": "Tivtom"
+          }
         },
         "en": {
           "name": "Tivat"
+        },
+        "ru": {
+          "name": "Тиват"
         }
       },
       "zoneIds": [
@@ -3912,7 +4924,6 @@
     },
     {
       "id": "city-ulcinj",
-      "legacyId": 1005,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "UL",
@@ -3932,11 +4943,22 @@
             "instrumental": "Ulcinjem"
           }
         },
-        "ru": {
-          "name": "Улцин"
+        "sr-Cyrl": {
+          "name": "Ulcinj",
+          "preposition": "1",
+          "cases": {
+            "genitive": "Ulcinja",
+            "dative": "Ulcinju",
+            "accusative": "Ulcinj",
+            "locative": "Ulcinju",
+            "instrumental": "Ulcinjem"
+          }
         },
         "en": {
           "name": "Ulcinj"
+        },
+        "ru": {
+          "name": "Улцин"
         }
       },
       "zoneIds": [
@@ -3951,7 +4973,6 @@
     },
     {
       "id": "city-zabljak",
-      "legacyId": 1012,
       "countryId": "me",
       "timezone": "Europe/Podgorica",
       "shortName": "ŽB",
@@ -3971,11 +4992,22 @@
             "instrumental": "Žabljakom"
           }
         },
-        "ru": {
-          "name": "Жабляк"
+        "sr-Cyrl": {
+          "name": "Žabljak",
+          "preposition": "2",
+          "cases": {
+            "genitive": "Žabljaka",
+            "dative": "Žabljaku",
+            "accusative": "Žabljak",
+            "locative": "Žabljaku",
+            "instrumental": "Žabljakom"
+          }
         },
         "en": {
           "name": "Žabljak"
+        },
+        "ru": {
+          "name": "Жабляк"
         }
       },
       "zoneIds": [
@@ -3991,7 +5023,6 @@
   "zones": [
     {
       "id": "zone-aleksandrovac-zona-1",
-      "legacyId": 81,
       "cityId": "city-aleksandrovac",
       "enabled": true,
       "color": "#FF3932",
@@ -4071,7 +5102,6 @@
     },
     {
       "id": "zone-aleksinac-zona-1",
-      "legacyId": 181,
       "cityId": "city-aleksinac",
       "enabled": true,
       "color": "#FF3932",
@@ -4148,7 +5178,6 @@
     },
     {
       "id": "zone-aleksinac-zona-2",
-      "legacyId": 182,
       "cityId": "city-aleksinac",
       "enabled": true,
       "color": "#557C55",
@@ -4223,7 +5252,6 @@
     },
     {
       "id": "zone-aran-elovac-zona-1",
-      "legacyId": 91,
       "cityId": "city-aran-elovac",
       "enabled": true,
       "color": "#FF3932",
@@ -4307,7 +5335,6 @@
     },
     {
       "id": "zone-aran-elovac-zona-2",
-      "legacyId": 92,
       "cityId": "city-aran-elovac",
       "enabled": true,
       "color": "#FFC100",
@@ -4399,7 +5426,6 @@
     },
     {
       "id": "zone-aran-elovac-zona-3",
-      "legacyId": 93,
       "cityId": "city-aran-elovac",
       "enabled": true,
       "color": "#557C55",
@@ -4466,7 +5492,6 @@
     },
     {
       "id": "zone-bajina-basta-zona-1",
-      "legacyId": 191,
       "cityId": "city-bajina-basta",
       "enabled": true,
       "color": "#FF3932",
@@ -4541,7 +5566,6 @@
     },
     {
       "id": "zone-bajina-basta-zona-2",
-      "legacyId": 192,
       "cityId": "city-bajina-basta",
       "enabled": true,
       "color": "#FFC100",
@@ -4623,7 +5647,6 @@
     },
     {
       "id": "zone-backa-palanka-ekstra-zona",
-      "legacyId": 101,
       "cityId": "city-backa-palanka",
       "enabled": true,
       "color": "#FF3932",
@@ -4693,7 +5716,6 @@
     },
     {
       "id": "zone-backa-palanka-zona-1",
-      "legacyId": 102,
       "cityId": "city-backa-palanka",
       "enabled": true,
       "color": "#FFC100",
@@ -4780,7 +5802,6 @@
     },
     {
       "id": "zone-backa-palanka-zona-2",
-      "legacyId": 103,
       "cityId": "city-backa-palanka",
       "enabled": true,
       "color": "#007AFF",
@@ -4864,7 +5885,6 @@
     },
     {
       "id": "zone-batocina-zona-1",
-      "legacyId": 871,
       "cityId": "city-batocina",
       "enabled": true,
       "color": "#557C55",
@@ -4924,7 +5944,6 @@
     },
     {
       "id": "zone-beograd-zona-a",
-      "legacyId": 111,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#802DA6",
@@ -4996,7 +6015,6 @@
     },
     {
       "id": "zone-beograd-zona-b",
-      "legacyId": 116,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#F9F6EE",
@@ -5074,7 +6092,6 @@
     },
     {
       "id": "zone-beograd-zona-1",
-      "legacyId": 112,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#FF3932",
@@ -5149,7 +6166,6 @@
     },
     {
       "id": "zone-beograd-zona-2",
-      "legacyId": 113,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#FFC100",
@@ -5218,7 +6234,6 @@
     },
     {
       "id": "zone-beograd-zona-3",
-      "legacyId": 115,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#557C55",
@@ -5537,7 +6552,6 @@
     },
     {
       "id": "zone-beograd-opste-parkiraliste",
-      "legacyId": 114,
       "cityId": "city-beograd",
       "enabled": true,
       "color": "#007AFF",
@@ -5680,7 +6694,6 @@
     },
     {
       "id": "zone-becej-centralna-zona",
-      "legacyId": 201,
       "cityId": "city-becej",
       "enabled": true,
       "color": "#007AFF",
@@ -5762,7 +6775,6 @@
     },
     {
       "id": "zone-bor-zona-1",
-      "legacyId": 541,
       "cityId": "city-bor",
       "enabled": true,
       "color": "#FF3932",
@@ -5829,7 +6841,6 @@
     },
     {
       "id": "zone-bor-zona-2",
-      "legacyId": 542,
       "cityId": "city-bor",
       "enabled": true,
       "color": "#FFC100",
@@ -5898,7 +6909,6 @@
     },
     {
       "id": "zone-brus-zona-1",
-      "legacyId": 551,
       "cityId": "city-brus",
       "enabled": true,
       "color": "#FF3932",
@@ -5965,7 +6975,6 @@
     },
     {
       "id": "zone-brus-zona-2",
-      "legacyId": 552,
       "cityId": "city-brus",
       "enabled": true,
       "color": "#FFC100",
@@ -6048,7 +7057,6 @@
     },
     {
       "id": "zone-bujanovac-zona-1",
-      "legacyId": 211,
       "cityId": "city-bujanovac",
       "enabled": true,
       "color": "#FF3932",
@@ -6119,7 +7127,6 @@
     },
     {
       "id": "zone-bujanovac-zona-2",
-      "legacyId": 212,
       "cityId": "city-bujanovac",
       "enabled": true,
       "color": "#FFC100",
@@ -6189,7 +7196,6 @@
     },
     {
       "id": "zone-despotovac-zona-1",
-      "legacyId": 241,
       "cityId": "city-despotovac",
       "enabled": true,
       "color": "#FF3932",
@@ -6260,7 +7266,6 @@
     },
     {
       "id": "zone-despotovac-zona-2",
-      "legacyId": 242,
       "cityId": "city-despotovac",
       "enabled": true,
       "color": "#007AFF",
@@ -6332,7 +7337,6 @@
     },
     {
       "id": "zone-dimitrovgrad-zona-1",
-      "legacyId": 251,
       "cityId": "city-dimitrovgrad",
       "enabled": true,
       "color": "#FF3932",
@@ -6399,7 +7403,6 @@
     },
     {
       "id": "zone-dimitrovgrad-zona-2",
-      "legacyId": 252,
       "cityId": "city-dimitrovgrad",
       "enabled": true,
       "color": "#557C55",
@@ -6469,7 +7472,6 @@
     },
     {
       "id": "zone-golubac-zona-1",
-      "legacyId": 561,
       "cityId": "city-golubac",
       "enabled": true,
       "color": "#007AFF",
@@ -6541,7 +7543,6 @@
     },
     {
       "id": "zone-gornji-milanovac-ekstra-zona",
-      "legacyId": 7,
       "cityId": "city-gornji-milanovac",
       "enabled": true,
       "color": "#FF3932",
@@ -6613,7 +7614,6 @@
     },
     {
       "id": "zone-gornji-milanovac-zona-1",
-      "legacyId": 8,
       "cityId": "city-gornji-milanovac",
       "enabled": true,
       "color": "#007AFF",
@@ -6696,7 +7696,6 @@
     },
     {
       "id": "zone-gornji-milanovac-zona-2",
-      "legacyId": 9,
       "cityId": "city-gornji-milanovac",
       "enabled": true,
       "color": "#557C55",
@@ -6766,7 +7765,6 @@
     },
     {
       "id": "zone-in-ija-ekstra-zona",
-      "legacyId": 263,
       "cityId": "city-in-ija",
       "enabled": true,
       "color": "#557C55",
@@ -6836,7 +7834,6 @@
     },
     {
       "id": "zone-in-ija-zona-1",
-      "legacyId": 261,
       "cityId": "city-in-ija",
       "enabled": true,
       "color": "#FF3932",
@@ -6910,7 +7907,6 @@
     },
     {
       "id": "zone-in-ija-zona-2",
-      "legacyId": 262,
       "cityId": "city-in-ija",
       "enabled": true,
       "color": "#FFC100",
@@ -6979,7 +7975,6 @@
     },
     {
       "id": "zone-ivanjica-zona-1",
-      "legacyId": 271,
       "cityId": "city-ivanjica",
       "enabled": true,
       "color": "#FF3932",
@@ -7051,7 +8046,6 @@
     },
     {
       "id": "zone-ivanjica-zona-2",
-      "legacyId": 272,
       "cityId": "city-ivanjica",
       "enabled": true,
       "color": "#007AFF",
@@ -7125,7 +8119,6 @@
     },
     {
       "id": "zone-jagodina-zona-1",
-      "legacyId": 281,
       "cityId": "city-jagodina",
       "enabled": true,
       "color": "#FF3932",
@@ -7216,7 +8209,6 @@
     },
     {
       "id": "zone-jagodina-zona-2",
-      "legacyId": 282,
       "cityId": "city-jagodina",
       "enabled": true,
       "color": "#FFC100",
@@ -7293,7 +8285,6 @@
     },
     {
       "id": "zone-kikinda-zona-1-crvena",
-      "legacyId": 291,
       "cityId": "city-kikinda",
       "enabled": true,
       "color": "#FF3932",
@@ -7369,7 +8360,6 @@
     },
     {
       "id": "zone-kikinda-zona-2-zuta",
-      "legacyId": 292,
       "cityId": "city-kikinda",
       "enabled": true,
       "color": "#FFC100",
@@ -7449,7 +8439,6 @@
     },
     {
       "id": "zone-knjazevac-zona-1",
-      "legacyId": 301,
       "cityId": "city-knjazevac",
       "enabled": true,
       "color": "#FF3932",
@@ -7516,7 +8505,6 @@
     },
     {
       "id": "zone-knjazevac-zona-2",
-      "legacyId": 302,
       "cityId": "city-knjazevac",
       "enabled": true,
       "color": "#557C55",
@@ -7589,7 +8577,6 @@
     },
     {
       "id": "zone-kopaonik-zona",
-      "legacyId": 851,
       "cityId": "city-kopaonik",
       "enabled": true,
       "color": "#007AFF",
@@ -7657,7 +8644,6 @@
     },
     {
       "id": "zone-kragujevac-zona-0",
-      "legacyId": 61,
       "cityId": "city-kragujevac",
       "enabled": true,
       "color": "#FF3932",
@@ -7772,7 +8758,6 @@
     },
     {
       "id": "zone-kragujevac-zona-1",
-      "legacyId": 62,
       "cityId": "city-kragujevac",
       "enabled": true,
       "color": "#FFC100",
@@ -7901,7 +8886,6 @@
     },
     {
       "id": "zone-kragujevac-zona-2",
-      "legacyId": 63,
       "cityId": "city-kragujevac",
       "enabled": true,
       "color": "#557C55",
@@ -7984,7 +8968,6 @@
     },
     {
       "id": "zone-kraljevo-zona-1",
-      "legacyId": 10,
       "cityId": "city-kraljevo",
       "enabled": true,
       "color": "#FF3932",
@@ -8062,7 +9045,6 @@
     },
     {
       "id": "zone-kraljevo-zona-2",
-      "legacyId": 11,
       "cityId": "city-kraljevo",
       "enabled": true,
       "color": "#FFC100",
@@ -8147,7 +9129,6 @@
     },
     {
       "id": "zone-krupanj-zona-1",
-      "legacyId": 571,
       "cityId": "city-krupanj",
       "enabled": true,
       "color": "#FF3932",
@@ -8217,7 +9198,6 @@
     },
     {
       "id": "zone-krusevac-ekstra-zona",
-      "legacyId": 311,
       "cityId": "city-krusevac",
       "enabled": true,
       "color": "#FF3932",
@@ -8292,7 +9272,6 @@
     },
     {
       "id": "zone-krusevac-zona-1",
-      "legacyId": 312,
       "cityId": "city-krusevac",
       "enabled": true,
       "color": "#FFC100",
@@ -8425,7 +9404,6 @@
     },
     {
       "id": "zone-krusevac-zona-2",
-      "legacyId": 313,
       "cityId": "city-krusevac",
       "enabled": true,
       "color": "#557C55",
@@ -8489,7 +9467,6 @@
     },
     {
       "id": "zone-kursumlija-zona-1",
-      "legacyId": 581,
       "cityId": "city-kursumlija",
       "enabled": true,
       "color": "#FFC100",
@@ -8574,7 +9551,6 @@
     },
     {
       "id": "zone-kursumlija-zona-2",
-      "legacyId": 582,
       "cityId": "city-kursumlija",
       "enabled": true,
       "color": "#557C55",
@@ -8639,7 +9615,6 @@
     },
     {
       "id": "zone-kucevo-zona-1",
-      "legacyId": 591,
       "cityId": "city-kucevo",
       "enabled": true,
       "color": "#FF3932",
@@ -8712,7 +9687,6 @@
     },
     {
       "id": "zone-lapovo-zona",
-      "legacyId": 861,
       "cityId": "city-lapovo",
       "enabled": true,
       "color": "#FFC100",
@@ -8782,7 +9756,6 @@
     },
     {
       "id": "zone-lazarevac-zona-1",
-      "legacyId": 322,
       "cityId": "city-lazarevac",
       "enabled": true,
       "color": "#FF3932",
@@ -8859,7 +9832,6 @@
     },
     {
       "id": "zone-lazarevac-zona-2",
-      "legacyId": 323,
       "cityId": "city-lazarevac",
       "enabled": true,
       "color": "#FFC100",
@@ -8958,7 +9930,6 @@
     },
     {
       "id": "zone-lebane-zona-1",
-      "legacyId": 881,
       "cityId": "city-lebane",
       "enabled": true,
       "color": "#557C55",
@@ -9027,7 +9998,6 @@
     },
     {
       "id": "zone-leskovac-zona-1",
-      "legacyId": 331,
       "cityId": "city-leskovac",
       "enabled": true,
       "color": "#FF3932",
@@ -9117,7 +10087,6 @@
     },
     {
       "id": "zone-leskovac-zona-2",
-      "legacyId": 332,
       "cityId": "city-leskovac",
       "enabled": true,
       "color": "#FFC100",
@@ -9203,7 +10172,6 @@
     },
     {
       "id": "zone-ljig-zona-plava",
-      "legacyId": 601,
       "cityId": "city-ljig",
       "enabled": true,
       "color": "#007AFF",
@@ -9273,7 +10241,6 @@
     },
     {
       "id": "zone-ljubovija-zona-1",
-      "legacyId": 611,
       "cityId": "city-ljubovija",
       "enabled": true,
       "color": "#FF3932",
@@ -9355,7 +10322,6 @@
     },
     {
       "id": "zone-loznica-zona-1",
-      "legacyId": 341,
       "cityId": "city-loznica",
       "enabled": true,
       "color": "#FF3932",
@@ -9436,7 +10402,6 @@
     },
     {
       "id": "zone-loznica-zona-2",
-      "legacyId": 342,
       "cityId": "city-loznica",
       "enabled": true,
       "color": "#007AFF",
@@ -9530,7 +10495,6 @@
     },
     {
       "id": "zone-mionica-zona-crvena",
-      "legacyId": 621,
       "cityId": "city-mionica",
       "enabled": true,
       "color": "#FF3932",
@@ -9606,7 +10570,6 @@
     },
     {
       "id": "zone-mladenovac-zona-1",
-      "legacyId": 351,
       "cityId": "city-mladenovac",
       "enabled": true,
       "color": "#FF3932",
@@ -9696,7 +10659,6 @@
     },
     {
       "id": "zone-mladenovac-zona-2",
-      "legacyId": 352,
       "cityId": "city-mladenovac",
       "enabled": true,
       "color": "#FFC100",
@@ -9775,7 +10737,6 @@
     },
     {
       "id": "zone-negotin-zona-1",
-      "legacyId": 631,
       "cityId": "city-negotin",
       "enabled": true,
       "color": "#FF3932",
@@ -9845,7 +10806,6 @@
     },
     {
       "id": "zone-negotin-zona-2",
-      "legacyId": 632,
       "cityId": "city-negotin",
       "enabled": true,
       "color": "#FFC100",
@@ -9918,7 +10878,6 @@
     },
     {
       "id": "zone-nis-ekstra-zona",
-      "legacyId": 51,
       "cityId": "city-nis",
       "enabled": true,
       "color": "#FFC100",
@@ -9991,7 +10950,6 @@
     },
     {
       "id": "zone-nis-zona-1",
-      "legacyId": 52,
       "cityId": "city-nis",
       "enabled": true,
       "color": "#FF3932",
@@ -10099,7 +11057,6 @@
     },
     {
       "id": "zone-nis-zona-2",
-      "legacyId": 53,
       "cityId": "city-nis",
       "enabled": true,
       "color": "#557C55",
@@ -10191,7 +11148,6 @@
     },
     {
       "id": "zone-novi-pazar-ekstra-zona",
-      "legacyId": 361,
       "cityId": "city-novi-pazar",
       "enabled": true,
       "color": "#F9F6EE",
@@ -10257,7 +11213,6 @@
     },
     {
       "id": "zone-novi-pazar-zona-1",
-      "legacyId": 362,
       "cityId": "city-novi-pazar",
       "enabled": true,
       "color": "#FF3932",
@@ -10329,7 +11284,6 @@
     },
     {
       "id": "zone-novi-pazar-zona-2",
-      "legacyId": 363,
       "cityId": "city-novi-pazar",
       "enabled": true,
       "color": "#FFC100",
@@ -10409,7 +11363,6 @@
     },
     {
       "id": "zone-novi-sad-zona-ekstra",
-      "legacyId": 123,
       "cityId": "city-novi-sad",
       "enabled": true,
       "color": "#B59763",
@@ -10480,7 +11433,6 @@
     },
     {
       "id": "zone-novi-sad-zona-crvena",
-      "legacyId": 121,
       "cityId": "city-novi-sad",
       "enabled": true,
       "color": "#FF3932",
@@ -10579,7 +11531,6 @@
     },
     {
       "id": "zone-novi-sad-zona-plava",
-      "legacyId": 124,
       "cityId": "city-novi-sad",
       "enabled": true,
       "color": "#007AFF",
@@ -10899,7 +11850,6 @@
     },
     {
       "id": "zone-novi-sad-zona-bela",
-      "legacyId": 122,
       "cityId": "city-novi-sad",
       "enabled": true,
       "color": "#F9F6EE",
@@ -10965,7 +11915,6 @@
     },
     {
       "id": "zone-obrenovac-zona-1",
-      "legacyId": 371,
       "cityId": "city-obrenovac",
       "enabled": true,
       "color": "#FF3932",
@@ -11032,7 +11981,6 @@
     },
     {
       "id": "zone-obrenovac-zona-2",
-      "legacyId": 372,
       "cityId": "city-obrenovac",
       "enabled": true,
       "color": "#FFC100",
@@ -11115,7 +12063,6 @@
     },
     {
       "id": "zone-osecina-zona-plava",
-      "legacyId": 641,
       "cityId": "city-osecina",
       "enabled": true,
       "color": "#007AFF",
@@ -11184,7 +12131,6 @@
     },
     {
       "id": "zone-pancevo-zona-1",
-      "legacyId": 421,
       "cityId": "city-pancevo",
       "enabled": true,
       "color": "#FF3932",
@@ -11264,7 +12210,6 @@
     },
     {
       "id": "zone-pancevo-zona-2",
-      "legacyId": 422,
       "cityId": "city-pancevo",
       "enabled": true,
       "color": "#ffc100",
@@ -11340,7 +12285,6 @@
     },
     {
       "id": "zone-pancevo-zona-3",
-      "legacyId": 423,
       "cityId": "city-pancevo",
       "enabled": true,
       "color": "#557C55",
@@ -11433,7 +12377,6 @@
     },
     {
       "id": "zone-paracin-zona-1",
-      "legacyId": 451,
       "cityId": "city-paracin",
       "enabled": true,
       "color": "#FF3932",
@@ -11505,7 +12448,6 @@
     },
     {
       "id": "zone-paracin-zona-2",
-      "legacyId": 452,
       "cityId": "city-paracin",
       "enabled": true,
       "color": "#FFC100",
@@ -11589,7 +12531,6 @@
     },
     {
       "id": "zone-petrovac-na-mlavi-zona-crvena",
-      "legacyId": 651,
       "cityId": "city-petrovac-na-mlavi",
       "enabled": true,
       "color": "#FF3932",
@@ -11662,7 +12603,6 @@
     },
     {
       "id": "zone-petrovac-na-mlavi-zona-zelena",
-      "legacyId": 652,
       "cityId": "city-petrovac-na-mlavi",
       "enabled": true,
       "color": "#557C55",
@@ -11733,7 +12673,6 @@
     },
     {
       "id": "zone-pecinci-zona-crvena",
-      "legacyId": 661,
       "cityId": "city-pecinci",
       "enabled": true,
       "color": "#FF3932",
@@ -11804,7 +12743,6 @@
     },
     {
       "id": "zone-pirot-ekstra-zona",
-      "legacyId": 383,
       "cityId": "city-pirot",
       "enabled": true,
       "color": "#906145",
@@ -11875,7 +12813,6 @@
     },
     {
       "id": "zone-pirot-zona-1",
-      "legacyId": 381,
       "cityId": "city-pirot",
       "enabled": true,
       "color": "#FF3932",
@@ -11943,7 +12880,6 @@
     },
     {
       "id": "zone-pirot-zona-2",
-      "legacyId": 382,
       "cityId": "city-pirot",
       "enabled": true,
       "color": "#557C55",
@@ -12026,7 +12962,6 @@
     },
     {
       "id": "zone-pozarevac-zona-1",
-      "legacyId": 441,
       "cityId": "city-pozarevac",
       "enabled": true,
       "color": "#FF3932",
@@ -12110,7 +13045,6 @@
     },
     {
       "id": "zone-pozarevac-zona-2",
-      "legacyId": 442,
       "cityId": "city-pozarevac",
       "enabled": true,
       "color": "#FFC100",
@@ -12190,7 +13124,6 @@
     },
     {
       "id": "zone-pozarevac-ekstra-zona-b",
-      "legacyId": 444,
       "cityId": "city-pozarevac",
       "enabled": true,
       "color": "#E97C23",
@@ -12254,7 +13187,6 @@
     },
     {
       "id": "zone-pozarevac-zona-b",
-      "legacyId": 443,
       "cityId": "city-pozarevac",
       "enabled": true,
       "color": "#802DA6",
@@ -12318,7 +13250,6 @@
     },
     {
       "id": "zone-pozega-zona-1",
-      "legacyId": 391,
       "cityId": "city-pozega",
       "enabled": true,
       "color": "#FF3932",
@@ -12389,7 +13320,6 @@
     },
     {
       "id": "zone-pozega-zona-2",
-      "legacyId": 392,
       "cityId": "city-pozega",
       "enabled": true,
       "color": "#007AFF",
@@ -12471,7 +13401,6 @@
     },
     {
       "id": "zone-presevo-zona-1",
-      "legacyId": 671,
       "cityId": "city-presevo",
       "enabled": true,
       "color": "#FF3932",
@@ -12537,7 +13466,6 @@
     },
     {
       "id": "zone-presevo-zona-2",
-      "legacyId": 672,
       "cityId": "city-presevo",
       "enabled": true,
       "color": "#007AFF",
@@ -12614,7 +13542,6 @@
     },
     {
       "id": "zone-prokuplje-ekstra-zona",
-      "legacyId": 681,
       "cityId": "city-prokuplje",
       "enabled": true,
       "color": "#FF3932",
@@ -12681,7 +13608,6 @@
     },
     {
       "id": "zone-prokuplje-zona-1",
-      "legacyId": 682,
       "cityId": "city-prokuplje",
       "enabled": true,
       "color": "#557C55",
@@ -12763,7 +13689,6 @@
     },
     {
       "id": "zone-raska-ekstra-zona",
-      "legacyId": 693,
       "cityId": "city-raska",
       "enabled": true,
       "color": "#DF6296",
@@ -12831,7 +13756,6 @@
     },
     {
       "id": "zone-raska-zona-1",
-      "legacyId": 691,
       "cityId": "city-raska",
       "enabled": true,
       "color": "#FF3932",
@@ -12903,7 +13827,6 @@
     },
     {
       "id": "zone-raska-zona-2",
-      "legacyId": 692,
       "cityId": "city-raska",
       "enabled": true,
       "color": "#557C55",
@@ -12972,7 +13895,6 @@
     },
     {
       "id": "zone-ruma-zona-1-crvena-zona",
-      "legacyId": 521,
       "cityId": "city-ruma",
       "enabled": true,
       "color": "#FF3932",
@@ -13105,7 +14027,6 @@
     },
     {
       "id": "zone-senta-zona-1",
-      "legacyId": 701,
       "cityId": "city-senta",
       "enabled": true,
       "color": "#FF3932",
@@ -13170,7 +14091,6 @@
     },
     {
       "id": "zone-senta-zona-2",
-      "legacyId": 702,
       "cityId": "city-senta",
       "enabled": true,
       "color": "#007AFF",
@@ -13242,7 +14162,6 @@
     },
     {
       "id": "zone-sjenica-ekstra-zona",
-      "legacyId": 711,
       "cityId": "city-sjenica",
       "enabled": true,
       "color": "#557C55",
@@ -13310,7 +14229,6 @@
     },
     {
       "id": "zone-sjenica-zona-1",
-      "legacyId": 712,
       "cityId": "city-sjenica",
       "enabled": true,
       "color": "#FF3932",
@@ -13378,7 +14296,6 @@
     },
     {
       "id": "zone-smederevo-zona-1",
-      "legacyId": 431,
       "cityId": "city-smederevo",
       "enabled": true,
       "color": "#FF3932",
@@ -13459,7 +14376,6 @@
     },
     {
       "id": "zone-smederevo-zona-2",
-      "legacyId": 432,
       "cityId": "city-smederevo",
       "enabled": true,
       "color": "#FFC100",
@@ -13540,7 +14456,6 @@
     },
     {
       "id": "zone-smederevo-zona-3",
-      "legacyId": 433,
       "cityId": "city-smederevo",
       "enabled": true,
       "color": "#557C55",
@@ -13612,7 +14527,6 @@
     },
     {
       "id": "zone-smederevska-palanka-zona-1",
-      "legacyId": 531,
       "cityId": "city-smederevska-palanka",
       "enabled": true,
       "color": "#FF3932",
@@ -13685,7 +14599,6 @@
     },
     {
       "id": "zone-smederevska-palanka-zona-2",
-      "legacyId": 532,
       "cityId": "city-smederevska-palanka",
       "enabled": true,
       "color": "#FFC100",
@@ -13762,7 +14675,6 @@
     },
     {
       "id": "zone-sokobanja-zona-1",
-      "legacyId": 721,
       "cityId": "city-sokobanja",
       "enabled": true,
       "color": "#FF3932",
@@ -13839,7 +14751,6 @@
     },
     {
       "id": "zone-sombor-zona-ekstra",
-      "legacyId": 171,
       "cityId": "city-sombor",
       "enabled": true,
       "color": "#11A1DD",
@@ -13911,7 +14822,6 @@
     },
     {
       "id": "zone-sombor-zona-1",
-      "legacyId": 172,
       "cityId": "city-sombor",
       "enabled": true,
       "color": "#FF3932",
@@ -13991,7 +14901,6 @@
     },
     {
       "id": "zone-sombor-zona-2",
-      "legacyId": 173,
       "cityId": "city-sombor",
       "enabled": true,
       "color": "#FFC100",
@@ -14059,7 +14968,6 @@
     },
     {
       "id": "zone-sombor-zona-3",
-      "legacyId": 174,
       "cityId": "city-sombor",
       "enabled": true,
       "color": "#557C55",
@@ -14137,7 +15045,6 @@
     },
     {
       "id": "zone-sremska-mitrovica-zona-1-crvena-zona",
-      "legacyId": 461,
       "cityId": "city-sremska-mitrovica",
       "enabled": true,
       "color": "#FF3932",
@@ -14210,7 +15117,6 @@
     },
     {
       "id": "zone-sremska-mitrovica-zona-2-zelena-zona",
-      "legacyId": 462,
       "cityId": "city-sremska-mitrovica",
       "enabled": true,
       "color": "#557C55",
@@ -14281,7 +15187,6 @@
     },
     {
       "id": "zone-sremska-mitrovica-zona-3-zuta-zona",
-      "legacyId": 463,
       "cityId": "city-sremska-mitrovica",
       "enabled": true,
       "color": "#FFC100",
@@ -14356,7 +15261,6 @@
     },
     {
       "id": "zone-sremski-karlovci-zona-1",
-      "legacyId": 501,
       "cityId": "city-sremski-karlovci",
       "enabled": true,
       "color": "#557C55",
@@ -14439,7 +15343,6 @@
     },
     {
       "id": "zone-stara-pazova-zona-bela",
-      "legacyId": 511,
       "cityId": "city-stara-pazova",
       "enabled": true,
       "color": "#F9F6EE",
@@ -14498,7 +15401,6 @@
     },
     {
       "id": "zone-stara-pazova-zona-crvena",
-      "legacyId": 512,
       "cityId": "city-stara-pazova",
       "enabled": true,
       "color": "#FF3932",
@@ -14568,7 +15470,6 @@
     },
     {
       "id": "zone-subotica-zona-1",
-      "legacyId": 131,
       "cityId": "city-subotica",
       "enabled": true,
       "color": "#FF3932",
@@ -14656,7 +15557,6 @@
     },
     {
       "id": "zone-subotica-zona-2",
-      "legacyId": 132,
       "cityId": "city-subotica",
       "enabled": true,
       "color": "#FFC100",
@@ -14745,7 +15645,6 @@
     },
     {
       "id": "zone-subotica-zona-4",
-      "legacyId": 133,
       "cityId": "city-subotica",
       "enabled": true,
       "color": "#007AFF",
@@ -14814,7 +15713,6 @@
     },
     {
       "id": "zone-surcin-zona-1",
-      "legacyId": 731,
       "cityId": "city-surcin",
       "enabled": true,
       "color": "#FF3932",
@@ -14884,7 +15782,6 @@
     },
     {
       "id": "zone-svilajnac-zona",
-      "legacyId": 741,
       "cityId": "city-svilajnac",
       "enabled": true,
       "color": "#007AFF",
@@ -14997,7 +15894,6 @@
     },
     {
       "id": "zone-temerin-zona-1",
-      "legacyId": 751,
       "cityId": "city-temerin",
       "enabled": true,
       "color": "#FF3932",
@@ -15073,7 +15969,6 @@
     },
     {
       "id": "zone-topola-zona-1",
-      "legacyId": 761,
       "cityId": "city-topola",
       "enabled": true,
       "color": "#FF3932",
@@ -15139,7 +16034,6 @@
     },
     {
       "id": "zone-topola-zona-2",
-      "legacyId": 762,
       "cityId": "city-topola",
       "enabled": true,
       "color": "#FFC100",
@@ -15207,7 +16101,6 @@
     },
     {
       "id": "zone-trstenik-zona-1",
-      "legacyId": 771,
       "cityId": "city-trstenik",
       "enabled": true,
       "color": "#FF3932",
@@ -15275,7 +16168,6 @@
     },
     {
       "id": "zone-trstenik-zona-2",
-      "legacyId": 772,
       "cityId": "city-trstenik",
       "enabled": true,
       "color": "#FFC100",
@@ -15387,7 +16279,6 @@
     },
     {
       "id": "zone-ub-ekstra-zona",
-      "legacyId": 781,
       "cityId": "city-ub",
       "enabled": true,
       "color": "#007AFF",
@@ -15450,7 +16341,6 @@
     },
     {
       "id": "zone-ub-zona-1",
-      "legacyId": 782,
       "cityId": "city-ub",
       "enabled": true,
       "color": "#FF3932",
@@ -15518,7 +16408,6 @@
     },
     {
       "id": "zone-ub-zona-2",
-      "legacyId": 783,
       "cityId": "city-ub",
       "enabled": true,
       "color": "#FFC100",
@@ -15597,7 +16486,6 @@
     },
     {
       "id": "zone-uzice-zona-1",
-      "legacyId": 71,
       "cityId": "city-uzice",
       "enabled": true,
       "color": "#FF3932",
@@ -15689,7 +16577,6 @@
     },
     {
       "id": "zone-uzice-zona-2",
-      "legacyId": 72,
       "cityId": "city-uzice",
       "enabled": true,
       "color": "#007AFF",
@@ -15772,7 +16659,6 @@
     },
     {
       "id": "zone-valjevo-zona-crvena",
-      "legacyId": 5,
       "cityId": "city-valjevo",
       "enabled": true,
       "color": "#ff3932",
@@ -15846,7 +16732,6 @@
     },
     {
       "id": "zone-valjevo-zona-plava",
-      "legacyId": 6,
       "cityId": "city-valjevo",
       "enabled": true,
       "color": "#007AFF",
@@ -15976,7 +16861,6 @@
     },
     {
       "id": "zone-velika-plana-zona-1",
-      "legacyId": 791,
       "cityId": "city-velika-plana",
       "enabled": true,
       "color": "#FF3932",
@@ -16051,7 +16935,6 @@
     },
     {
       "id": "zone-velika-plana-zona-2",
-      "legacyId": 792,
       "cityId": "city-velika-plana",
       "enabled": true,
       "color": "#FFC100",
@@ -16124,7 +17007,6 @@
     },
     {
       "id": "zone-velika-plana-zona-3",
-      "legacyId": 793,
       "cityId": "city-velika-plana",
       "enabled": true,
       "color": "#557C55",
@@ -16202,7 +17084,6 @@
     },
     {
       "id": "zone-veliko-gradiste-zona-1",
-      "legacyId": 801,
       "cityId": "city-veliko-gradiste",
       "enabled": true,
       "color": "#FF3932",
@@ -16288,7 +17169,6 @@
     },
     {
       "id": "zone-veliko-gradiste-srebrno-jezero",
-      "legacyId": 802,
       "cityId": "city-veliko-gradiste",
       "enabled": true,
       "color": "#FF3932",
@@ -16362,7 +17242,6 @@
     },
     {
       "id": "zone-vlasotince-zona-1",
-      "legacyId": 811,
       "cityId": "city-vlasotince",
       "enabled": true,
       "color": "#FF3932",
@@ -16427,7 +17306,6 @@
     },
     {
       "id": "zone-vlasotince-zona-2",
-      "legacyId": 812,
       "cityId": "city-vlasotince",
       "enabled": true,
       "color": "#FFC100",
@@ -16497,7 +17375,6 @@
     },
     {
       "id": "zone-vranje-ekstra-zona",
-      "legacyId": 161,
       "cityId": "city-vranje",
       "enabled": true,
       "color": "#802DA6",
@@ -16570,7 +17447,6 @@
     },
     {
       "id": "zone-vranje-zona-1",
-      "legacyId": 162,
       "cityId": "city-vranje",
       "enabled": true,
       "color": "#FF3932",
@@ -16660,7 +17536,6 @@
     },
     {
       "id": "zone-vranje-zona-2",
-      "legacyId": 163,
       "cityId": "city-vranje",
       "enabled": true,
       "color": "#FFC100",
@@ -16741,7 +17616,6 @@
     },
     {
       "id": "zone-vrbas-zona-zuta",
-      "legacyId": 481,
       "cityId": "city-vrbas",
       "enabled": true,
       "color": "#FFC100",
@@ -16806,7 +17680,6 @@
     },
     {
       "id": "zone-vrbas-zona-plava",
-      "legacyId": 482,
       "cityId": "city-vrbas",
       "enabled": true,
       "color": "#007AFF",
@@ -16881,7 +17754,6 @@
     },
     {
       "id": "zone-vrnjacka-banja-ekstra-zona",
-      "legacyId": 471,
       "cityId": "city-vrnjacka-banja",
       "enabled": true,
       "color": "#FFC100",
@@ -16956,7 +17828,6 @@
     },
     {
       "id": "zone-vrnjacka-banja-zona-1",
-      "legacyId": 472,
       "cityId": "city-vrnjacka-banja",
       "enabled": true,
       "color": "#FF3932",
@@ -17038,7 +17909,6 @@
     },
     {
       "id": "zone-vrnjacka-banja-zona-2",
-      "legacyId": 473,
       "cityId": "city-vrnjacka-banja",
       "enabled": true,
       "color": "#557C55",
@@ -17115,7 +17985,6 @@
     },
     {
       "id": "zone-vrsac-zona-1",
-      "legacyId": 821,
       "cityId": "city-vrsac",
       "enabled": true,
       "color": "#FF3932",
@@ -17203,7 +18072,6 @@
     },
     {
       "id": "zone-vrsac-zona-2",
-      "legacyId": 822,
       "cityId": "city-vrsac",
       "enabled": true,
       "color": "#007AFF",
@@ -17279,7 +18147,6 @@
     },
     {
       "id": "zone-zajecar-zona-1",
-      "legacyId": 411,
       "cityId": "city-zajecar",
       "enabled": true,
       "color": "#FF3932",
@@ -17372,7 +18239,6 @@
     },
     {
       "id": "zone-zajecar-zona-2",
-      "legacyId": 412,
       "cityId": "city-zajecar",
       "enabled": true,
       "color": "#FFC100",
@@ -17456,7 +18322,6 @@
     },
     {
       "id": "zone-zajecar-zona-3",
-      "legacyId": 413,
       "cityId": "city-zajecar",
       "enabled": true,
       "color": "#007AFF",
@@ -17528,7 +18393,6 @@
     },
     {
       "id": "zone-zlatibor-ekstra-zona",
-      "legacyId": 221,
       "cityId": "city-zlatibor",
       "enabled": true,
       "color": "#802DA6",
@@ -17602,7 +18466,6 @@
     },
     {
       "id": "zone-zlatibor-zona-1",
-      "legacyId": 222,
       "cityId": "city-zlatibor",
       "enabled": true,
       "color": "#FF3932",
@@ -17681,7 +18544,6 @@
     },
     {
       "id": "zone-zlatibor-zona-2",
-      "legacyId": 223,
       "cityId": "city-zlatibor",
       "enabled": true,
       "color": "#007AFF",
@@ -17760,7 +18622,6 @@
     },
     {
       "id": "zone-zrenjanin-zona-1",
-      "legacyId": 401,
       "cityId": "city-zrenjanin",
       "enabled": true,
       "color": "#FF3932",
@@ -17836,7 +18697,6 @@
     },
     {
       "id": "zone-zrenjanin-zona-2",
-      "legacyId": 402,
       "cityId": "city-zrenjanin",
       "enabled": true,
       "color": "#FFC100",
@@ -17914,7 +18774,6 @@
     },
     {
       "id": "zone-zrenjanin-zona-3",
-      "legacyId": 403,
       "cityId": "city-zrenjanin",
       "enabled": true,
       "color": "#557C55",
@@ -18005,7 +18864,6 @@
     },
     {
       "id": "zone-cuprija-ekstra-zona",
-      "legacyId": 231,
       "cityId": "city-cuprija",
       "enabled": true,
       "color": "#FF3932",
@@ -18070,7 +18928,6 @@
     },
     {
       "id": "zone-cuprija-zona-1",
-      "legacyId": 232,
       "cityId": "city-cuprija",
       "enabled": true,
       "color": "#007AFF",
@@ -18145,7 +19002,6 @@
     },
     {
       "id": "zone-cuprija-zona-2",
-      "legacyId": 233,
       "cityId": "city-cuprija",
       "enabled": true,
       "color": "#557C55",
@@ -18222,7 +19078,6 @@
     },
     {
       "id": "zone-cacak-ekstra-zona",
-      "legacyId": 4,
       "cityId": "city-cacak",
       "enabled": true,
       "color": "#FF3932",
@@ -18296,7 +19151,6 @@
     },
     {
       "id": "zone-cacak-zona-1",
-      "legacyId": 3,
       "cityId": "city-cacak",
       "enabled": true,
       "color": "#FFC100",
@@ -18369,7 +19223,6 @@
     },
     {
       "id": "zone-cacak-zona-2",
-      "legacyId": 2,
       "cityId": "city-cacak",
       "enabled": true,
       "color": "#557C55",
@@ -18447,7 +19300,6 @@
     },
     {
       "id": "zone-cacak-zona-3",
-      "legacyId": 1,
       "cityId": "city-cacak",
       "enabled": true,
       "color": "#007AFF",
@@ -18533,7 +19385,6 @@
     },
     {
       "id": "zone-sabac-zona-1-crvena",
-      "legacyId": 141,
       "cityId": "city-sabac",
       "enabled": true,
       "color": "#FF3932",
@@ -18682,7 +19533,6 @@
     },
     {
       "id": "zone-sabac-zona-2-plava",
-      "legacyId": 142,
       "cityId": "city-sabac",
       "enabled": true,
       "color": "#007AFF",
@@ -18768,7 +19618,6 @@
     },
     {
       "id": "zone-sid-zona-1-crvena",
-      "legacyId": 491,
       "cityId": "city-sid",
       "enabled": true,
       "color": "#FF3932",
@@ -18834,7 +19683,6 @@
     },
     {
       "id": "zone-sid-zona-2-plava",
-      "legacyId": 492,
       "cityId": "city-sid",
       "enabled": true,
       "color": "#007AFF",
@@ -18901,7 +19749,6 @@
     },
     {
       "id": "zone-zabalj-zona-1",
-      "legacyId": 841,
       "cityId": "city-zabalj",
       "enabled": true,
       "color": "#007AFF",
@@ -18960,7 +19807,6 @@
     },
     {
       "id": "zone-berane-zona-1",
-      "legacyId": 10081,
       "cityId": "city-berane",
       "enabled": true,
       "color": "#FF3932",
@@ -19034,7 +19880,6 @@
     },
     {
       "id": "zone-berane-zona-2",
-      "legacyId": 10082,
       "cityId": "city-berane",
       "enabled": true,
       "color": "#FFC100",
@@ -19134,7 +19979,6 @@
     },
     {
       "id": "zone-bijelo-polje-zona-1",
-      "legacyId": 10101,
       "cityId": "city-bijelo-polje",
       "enabled": true,
       "color": "#FF3932",
@@ -19207,7 +20051,6 @@
     },
     {
       "id": "zone-bijelo-polje-zona-2",
-      "legacyId": 10102,
       "cityId": "city-bijelo-polje",
       "enabled": true,
       "color": "#FFC100",
@@ -19288,7 +20131,6 @@
     },
     {
       "id": "zone-bijelo-polje-zona-3",
-      "legacyId": 10103,
       "cityId": "city-bijelo-polje",
       "enabled": true,
       "color": "#557C55",
@@ -19361,7 +20203,6 @@
     },
     {
       "id": "zone-budva-zona-1-ljubicasta",
-      "legacyId": 10041,
       "cityId": "city-budva",
       "enabled": true,
       "color": "#802DA6",
@@ -19431,7 +20272,6 @@
     },
     {
       "id": "zone-budva-zona-2-crvena",
-      "legacyId": 10042,
       "cityId": "city-budva",
       "enabled": true,
       "color": "#FF3932",
@@ -19506,7 +20346,6 @@
     },
     {
       "id": "zone-budva-zona-3-zuta",
-      "legacyId": 10043,
       "cityId": "city-budva",
       "enabled": true,
       "color": "#FFC100",
@@ -19605,7 +20444,6 @@
     },
     {
       "id": "zone-budva-zona-4-zelena",
-      "legacyId": 10044,
       "cityId": "city-budva",
       "enabled": true,
       "color": "#557C55",
@@ -19677,7 +20515,6 @@
     },
     {
       "id": "zone-cetinje-zona-1",
-      "legacyId": 10021,
       "cityId": "city-cetinje",
       "enabled": true,
       "color": "#FF3932",
@@ -19762,7 +20599,6 @@
     },
     {
       "id": "zone-herceg-novi-vip-zona-ljubicasta",
-      "legacyId": 10094,
       "cityId": "city-herceg-novi",
       "enabled": true,
       "color": "#802DA6",
@@ -19836,7 +20672,6 @@
     },
     {
       "id": "zone-herceg-novi-zona-1-crvena",
-      "legacyId": 10091,
       "cityId": "city-herceg-novi",
       "enabled": true,
       "color": "#FF3932",
@@ -19912,7 +20747,6 @@
     },
     {
       "id": "zone-herceg-novi-zona-2-plava",
-      "legacyId": 10092,
       "cityId": "city-herceg-novi",
       "enabled": true,
       "color": "#007AFF",
@@ -19986,7 +20820,6 @@
     },
     {
       "id": "zone-herceg-novi-zona-3-zuta",
-      "legacyId": 10093,
       "cityId": "city-herceg-novi",
       "enabled": true,
       "color": "#FFC100",
@@ -20092,7 +20925,6 @@
     },
     {
       "id": "zone-niksic-zona-1",
-      "legacyId": 10071,
       "cityId": "city-niksic",
       "enabled": true,
       "color": "#FF3932",
@@ -20165,7 +20997,6 @@
     },
     {
       "id": "zone-niksic-zona-2",
-      "legacyId": 10072,
       "cityId": "city-niksic",
       "enabled": true,
       "color": "#FFC100",
@@ -20258,7 +21089,6 @@
     },
     {
       "id": "zone-niksic-zona-3",
-      "legacyId": 10073,
       "cityId": "city-niksic",
       "enabled": true,
       "color": "#557C55",
@@ -20337,7 +21167,6 @@
     },
     {
       "id": "zone-pljevlja-zona-1",
-      "legacyId": 10111,
       "cityId": "city-pljevlja",
       "enabled": true,
       "color": "#FF3932",
@@ -20406,7 +21235,6 @@
     },
     {
       "id": "zone-podgorica-zona-1",
-      "legacyId": 10011,
       "cityId": "city-podgorica",
       "enabled": true,
       "color": "#FF3932",
@@ -20477,7 +21305,6 @@
     },
     {
       "id": "zone-podgorica-zona-2",
-      "legacyId": 10012,
       "cityId": "city-podgorica",
       "enabled": true,
       "color": "#FFC100",
@@ -20567,7 +21394,6 @@
     },
     {
       "id": "zone-podgorica-zona-3",
-      "legacyId": 10013,
       "cityId": "city-podgorica",
       "enabled": true,
       "color": "#557C55",
@@ -20858,7 +21684,6 @@
     },
     {
       "id": "zone-tivat-zona-1",
-      "legacyId": 10061,
       "cityId": "city-tivat",
       "enabled": true,
       "color": "#FF3932",
@@ -20938,7 +21763,6 @@
     },
     {
       "id": "zone-tivat-zona-2",
-      "legacyId": 10062,
       "cityId": "city-tivat",
       "enabled": true,
       "color": "#FFC100",
@@ -21020,7 +21844,6 @@
     },
     {
       "id": "zone-ulcinj-zona-1",
-      "legacyId": 10051,
       "cityId": "city-ulcinj",
       "enabled": true,
       "color": "#FF3932",
@@ -21120,7 +21943,6 @@
     },
     {
       "id": "zone-ulcinj-zona-2",
-      "legacyId": 10052,
       "cityId": "city-ulcinj",
       "enabled": true,
       "color": "#FFC100",
@@ -21202,7 +22024,6 @@
     },
     {
       "id": "zone-zabljak-zona-1",
-      "legacyId": 10121,
       "cityId": "city-zabljak",
       "enabled": true,
       "color": "#FF3932",
@@ -191187,7 +192008,6 @@
   "products": [
     {
       "id": "prod-timed-aleksandrovac-zona-1",
-      "legacyId": 81,
       "kind": "timed",
       "zoneIds": [
         "zone-aleksandrovac-zona-1"
@@ -191240,7 +192060,6 @@
     },
     {
       "id": "prod-fullday-aleksandrovac-celodnevna-zona-1",
-      "legacyId": 801,
       "kind": "full_day",
       "zoneIds": [
         "zone-aleksandrovac-zona-1"
@@ -191293,7 +192112,6 @@
     },
     {
       "id": "prod-timed-aleksinac-zona-1",
-      "legacyId": 181,
       "kind": "timed",
       "zoneIds": [
         "zone-aleksinac-zona-1"
@@ -191349,7 +192167,6 @@
     },
     {
       "id": "prod-timed-aleksinac-zona-2",
-      "legacyId": 182,
       "kind": "timed",
       "zoneIds": [
         "zone-aleksinac-zona-2"
@@ -191402,7 +192219,6 @@
     },
     {
       "id": "prod-fullday-aleksinac-celodnevna-zona-1",
-      "legacyId": 1801,
       "kind": "full_day",
       "zoneIds": [
         "zone-aleksinac-zona-1"
@@ -191455,7 +192271,6 @@
     },
     {
       "id": "prod-fullday-aleksinac-celodnevna-zona-2",
-      "legacyId": 1802,
       "kind": "full_day",
       "zoneIds": [
         "zone-aleksinac-zona-2"
@@ -191508,7 +192323,6 @@
     },
     {
       "id": "prod-timed-aran-elovac-zona-1",
-      "legacyId": 91,
       "kind": "timed",
       "zoneIds": [
         "zone-aran-elovac-zona-1"
@@ -191564,7 +192378,6 @@
     },
     {
       "id": "prod-timed-aran-elovac-zona-2",
-      "legacyId": 92,
       "kind": "timed",
       "zoneIds": [
         "zone-aran-elovac-zona-2"
@@ -191617,7 +192430,6 @@
     },
     {
       "id": "prod-timed-aran-elovac-zona-3",
-      "legacyId": 93,
       "kind": "timed",
       "zoneIds": [
         "zone-aran-elovac-zona-3"
@@ -191670,7 +192482,6 @@
     },
     {
       "id": "prod-fullday-aran-elovac-celodnevna-zona-2",
-      "legacyId": 901,
       "kind": "full_day",
       "zoneIds": [
         "zone-aran-elovac-zona-2"
@@ -191723,7 +192534,6 @@
     },
     {
       "id": "prod-fullday-aran-elovac-celodnevna-zona-3",
-      "legacyId": 902,
       "kind": "full_day",
       "zoneIds": [
         "zone-aran-elovac-zona-3"
@@ -191776,7 +192586,6 @@
     },
     {
       "id": "prod-timed-bajina-basta-zona-1",
-      "legacyId": 191,
       "kind": "timed",
       "zoneIds": [
         "zone-bajina-basta-zona-1"
@@ -191835,7 +192644,6 @@
     },
     {
       "id": "prod-timed-bajina-basta-zona-2",
-      "legacyId": 192,
       "kind": "timed",
       "zoneIds": [
         "zone-bajina-basta-zona-2"
@@ -191888,7 +192696,6 @@
     },
     {
       "id": "prod-fullday-bajina-basta-celodnevna-zona-2",
-      "legacyId": 1901,
       "kind": "full_day",
       "zoneIds": [
         "zone-bajina-basta-zona-2"
@@ -191941,7 +192748,6 @@
     },
     {
       "id": "prod-timed-backa-palanka-ekstra-zona",
-      "legacyId": 101,
       "kind": "timed",
       "zoneIds": [
         "zone-backa-palanka-ekstra-zona"
@@ -191997,7 +192803,6 @@
     },
     {
       "id": "prod-timed-backa-palanka-zona-1",
-      "legacyId": 102,
       "kind": "timed",
       "zoneIds": [
         "zone-backa-palanka-zona-1"
@@ -192050,7 +192855,6 @@
     },
     {
       "id": "prod-timed-backa-palanka-zona-2",
-      "legacyId": 103,
       "kind": "timed",
       "zoneIds": [
         "zone-backa-palanka-zona-2"
@@ -192103,7 +192907,6 @@
     },
     {
       "id": "prod-fullday-backa-palanka-celodnevna-zona-2",
-      "legacyId": 1001,
       "kind": "full_day",
       "zoneIds": [
         "zone-backa-palanka-zona-2"
@@ -192156,7 +192959,6 @@
     },
     {
       "id": "prod-timed-batocina-zona-1",
-      "legacyId": 871,
       "kind": "timed",
       "zoneIds": [
         "zone-batocina-zona-1"
@@ -192209,7 +193011,6 @@
     },
     {
       "id": "prod-fullday-batocina-celodnevna-zona-1",
-      "legacyId": 8701,
       "kind": "full_day",
       "zoneIds": [
         "zone-batocina-zona-1"
@@ -192262,7 +193063,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-a",
-      "legacyId": 111,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-a"
@@ -192318,7 +193118,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-b",
-      "legacyId": 116,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-b"
@@ -192377,7 +193176,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-1",
-      "legacyId": 112,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-1"
@@ -192436,7 +193234,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-2",
-      "legacyId": 113,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-2"
@@ -192495,7 +193292,6 @@
     },
     {
       "id": "prod-timed-beograd-zona-3",
-      "legacyId": 115,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-zona-3"
@@ -192554,7 +193350,6 @@
     },
     {
       "id": "prod-timed-beograd-opste-parkiraliste",
-      "legacyId": 114,
       "kind": "timed",
       "zoneIds": [
         "zone-beograd-opste-parkiraliste"
@@ -192610,7 +193405,6 @@
     },
     {
       "id": "prod-fullday-beograd-celodnevna-opste-parkiraliste",
-      "legacyId": 1101,
       "kind": "full_day",
       "zoneIds": [
         "zone-beograd-opste-parkiraliste"
@@ -192663,7 +193457,6 @@
     },
     {
       "id": "prod-timed-becej-centralna-zona",
-      "legacyId": 201,
       "kind": "timed",
       "zoneIds": [
         "zone-becej-centralna-zona"
@@ -192716,7 +193509,6 @@
     },
     {
       "id": "prod-fullday-becej-celodnevna-centralna-zona",
-      "legacyId": 2001,
       "kind": "full_day",
       "zoneIds": [
         "zone-becej-centralna-zona"
@@ -192769,7 +193561,6 @@
     },
     {
       "id": "prod-timed-bor-zona-1",
-      "legacyId": 541,
       "kind": "timed",
       "zoneIds": [
         "zone-bor-zona-1"
@@ -192825,7 +193616,6 @@
     },
     {
       "id": "prod-timed-bor-zona-2",
-      "legacyId": 542,
       "kind": "timed",
       "zoneIds": [
         "zone-bor-zona-2"
@@ -192881,7 +193671,6 @@
     },
     {
       "id": "prod-fullday-bor-celodnevna-zona-1",
-      "legacyId": 5402,
       "kind": "full_day",
       "zoneIds": [
         "zone-bor-zona-1"
@@ -192934,7 +193723,6 @@
     },
     {
       "id": "prod-fullday-bor-celodnevna-zona-2",
-      "legacyId": 5401,
       "kind": "full_day",
       "zoneIds": [
         "zone-bor-zona-2"
@@ -192987,7 +193775,6 @@
     },
     {
       "id": "prod-timed-brus-zona-1",
-      "legacyId": 551,
       "kind": "timed",
       "zoneIds": [
         "zone-brus-zona-1"
@@ -193040,7 +193827,6 @@
     },
     {
       "id": "prod-timed-brus-zona-2",
-      "legacyId": 552,
       "kind": "timed",
       "zoneIds": [
         "zone-brus-zona-2"
@@ -193093,7 +193879,6 @@
     },
     {
       "id": "prod-fullday-brus-celodnevna-zona-1",
-      "legacyId": 5502,
       "kind": "full_day",
       "zoneIds": [
         "zone-brus-zona-1"
@@ -193146,7 +193931,6 @@
     },
     {
       "id": "prod-fullday-brus-celodnevna-zona-2",
-      "legacyId": 5501,
       "kind": "full_day",
       "zoneIds": [
         "zone-brus-zona-2"
@@ -193199,7 +193983,6 @@
     },
     {
       "id": "prod-timed-bujanovac-zona-1",
-      "legacyId": 211,
       "kind": "timed",
       "zoneIds": [
         "zone-bujanovac-zona-1"
@@ -193252,7 +194035,6 @@
     },
     {
       "id": "prod-timed-bujanovac-zona-2",
-      "legacyId": 212,
       "kind": "timed",
       "zoneIds": [
         "zone-bujanovac-zona-2"
@@ -193305,7 +194087,6 @@
     },
     {
       "id": "prod-fullday-bujanovac-celodnevna-zona-1",
-      "legacyId": 2101,
       "kind": "full_day",
       "zoneIds": [
         "zone-bujanovac-zona-1"
@@ -193358,7 +194139,6 @@
     },
     {
       "id": "prod-fullday-bujanovac-celodnevna-zona-2",
-      "legacyId": 2102,
       "kind": "full_day",
       "zoneIds": [
         "zone-bujanovac-zona-2"
@@ -193411,7 +194191,6 @@
     },
     {
       "id": "prod-timed-despotovac-zona-1",
-      "legacyId": 241,
       "kind": "timed",
       "zoneIds": [
         "zone-despotovac-zona-1"
@@ -193464,7 +194243,6 @@
     },
     {
       "id": "prod-timed-despotovac-zona-2",
-      "legacyId": 242,
       "kind": "timed",
       "zoneIds": [
         "zone-despotovac-zona-2"
@@ -193517,7 +194295,6 @@
     },
     {
       "id": "prod-fullday-despotovac-celodnevna-karta",
-      "legacyId": 2401,
       "kind": "full_day",
       "zoneIds": [
         "zone-despotovac-zona-1",
@@ -193571,7 +194348,6 @@
     },
     {
       "id": "prod-timed-dimitrovgrad-zona-1",
-      "legacyId": 251,
       "kind": "timed",
       "zoneIds": [
         "zone-dimitrovgrad-zona-1"
@@ -193627,7 +194403,6 @@
     },
     {
       "id": "prod-timed-dimitrovgrad-zona-2",
-      "legacyId": 252,
       "kind": "timed",
       "zoneIds": [
         "zone-dimitrovgrad-zona-2"
@@ -193680,7 +194455,6 @@
     },
     {
       "id": "prod-fullday-dimitrovgrad-celodnevna-zona-1",
-      "legacyId": 2501,
       "kind": "full_day",
       "zoneIds": [
         "zone-dimitrovgrad-zona-1"
@@ -193733,7 +194507,6 @@
     },
     {
       "id": "prod-fullday-dimitrovgrad-celodnevna-zona-2",
-      "legacyId": 2502,
       "kind": "full_day",
       "zoneIds": [
         "zone-dimitrovgrad-zona-2"
@@ -193786,7 +194559,6 @@
     },
     {
       "id": "prod-timed-golubac-zona-1",
-      "legacyId": 561,
       "kind": "timed",
       "zoneIds": [
         "zone-golubac-zona-1"
@@ -193839,7 +194611,6 @@
     },
     {
       "id": "prod-fullday-golubac-celodnevna-zona-1",
-      "legacyId": 5601,
       "kind": "full_day",
       "zoneIds": [
         "zone-golubac-zona-1"
@@ -193892,7 +194663,6 @@
     },
     {
       "id": "prod-timed-gornji-milanovac-ekstra-zona",
-      "legacyId": 7,
       "kind": "timed",
       "zoneIds": [
         "zone-gornji-milanovac-ekstra-zona"
@@ -193948,7 +194718,6 @@
     },
     {
       "id": "prod-timed-gornji-milanovac-zona-1",
-      "legacyId": 8,
       "kind": "timed",
       "zoneIds": [
         "zone-gornji-milanovac-zona-1"
@@ -194001,7 +194770,6 @@
     },
     {
       "id": "prod-timed-gornji-milanovac-zona-2",
-      "legacyId": 9,
       "kind": "timed",
       "zoneIds": [
         "zone-gornji-milanovac-zona-2"
@@ -194054,7 +194822,6 @@
     },
     {
       "id": "prod-fullday-gornji-milanovac-celodnevna-karta",
-      "legacyId": 301,
       "kind": "full_day",
       "zoneIds": [
         "zone-gornji-milanovac-zona-1",
@@ -194108,7 +194875,6 @@
     },
     {
       "id": "prod-timed-in-ija-ekstra-zona",
-      "legacyId": 263,
       "kind": "timed",
       "zoneIds": [
         "zone-in-ija-ekstra-zona"
@@ -194167,7 +194933,6 @@
     },
     {
       "id": "prod-timed-in-ija-zona-1",
-      "legacyId": 261,
       "kind": "timed",
       "zoneIds": [
         "zone-in-ija-zona-1"
@@ -194220,7 +194985,6 @@
     },
     {
       "id": "prod-timed-in-ija-zona-2",
-      "legacyId": 262,
       "kind": "timed",
       "zoneIds": [
         "zone-in-ija-zona-2"
@@ -194273,7 +195037,6 @@
     },
     {
       "id": "prod-timed-ivanjica-zona-1",
-      "legacyId": 271,
       "kind": "timed",
       "zoneIds": [
         "zone-ivanjica-zona-1"
@@ -194326,7 +195089,6 @@
     },
     {
       "id": "prod-timed-ivanjica-zona-2",
-      "legacyId": 272,
       "kind": "timed",
       "zoneIds": [
         "zone-ivanjica-zona-2"
@@ -194379,7 +195141,6 @@
     },
     {
       "id": "prod-fullday-ivanjica-celodnevna-zona-2",
-      "legacyId": 2701,
       "kind": "full_day",
       "zoneIds": [
         "zone-ivanjica-zona-2"
@@ -194432,7 +195193,6 @@
     },
     {
       "id": "prod-timed-jagodina-zona-1",
-      "legacyId": 281,
       "kind": "timed",
       "zoneIds": [
         "zone-jagodina-zona-1"
@@ -194485,7 +195245,6 @@
     },
     {
       "id": "prod-timed-jagodina-zona-2",
-      "legacyId": 282,
       "kind": "timed",
       "zoneIds": [
         "zone-jagodina-zona-2"
@@ -194538,7 +195297,6 @@
     },
     {
       "id": "prod-fullday-jagodina-celodnevna-zona-2",
-      "legacyId": 2801,
       "kind": "full_day",
       "zoneIds": [
         "zone-jagodina-zona-2"
@@ -194591,7 +195349,6 @@
     },
     {
       "id": "prod-timed-kikinda-zona-1-crvena",
-      "legacyId": 291,
       "kind": "timed",
       "zoneIds": [
         "zone-kikinda-zona-1-crvena"
@@ -194644,7 +195401,6 @@
     },
     {
       "id": "prod-timed-kikinda-zona-2-zuta",
-      "legacyId": 292,
       "kind": "timed",
       "zoneIds": [
         "zone-kikinda-zona-2-zuta"
@@ -194697,7 +195453,6 @@
     },
     {
       "id": "prod-fullday-kikinda-celodnevna-karta",
-      "legacyId": 2901,
       "kind": "full_day",
       "zoneIds": [
         "zone-kikinda-zona-1-crvena",
@@ -194751,7 +195506,6 @@
     },
     {
       "id": "prod-fullday-kikinda-celodnevna-zona-3-narandzasta",
-      "legacyId": 2902,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -194802,7 +195556,6 @@
     },
     {
       "id": "prod-timed-knjazevac-zona-1",
-      "legacyId": 301,
       "kind": "timed",
       "zoneIds": [
         "zone-knjazevac-zona-1"
@@ -194855,7 +195608,6 @@
     },
     {
       "id": "prod-timed-knjazevac-zona-2",
-      "legacyId": 302,
       "kind": "timed",
       "zoneIds": [
         "zone-knjazevac-zona-2"
@@ -194908,7 +195660,6 @@
     },
     {
       "id": "prod-fullday-knjazevac-celodnevna-karta",
-      "legacyId": 3001,
       "kind": "full_day",
       "zoneIds": [
         "zone-knjazevac-zona-1",
@@ -194962,7 +195713,6 @@
     },
     {
       "id": "prod-timed-kopaonik-zona",
-      "legacyId": 851,
       "kind": "timed",
       "zoneIds": [
         "zone-kopaonik-zona"
@@ -195015,7 +195765,6 @@
     },
     {
       "id": "prod-fullday-kopaonik-celodnevna-zona",
-      "legacyId": 8501,
       "kind": "full_day",
       "zoneIds": [
         "zone-kopaonik-zona"
@@ -195068,7 +195817,6 @@
     },
     {
       "id": "prod-timed-kragujevac-zona-0",
-      "legacyId": 61,
       "kind": "timed",
       "zoneIds": [
         "zone-kragujevac-zona-0"
@@ -195124,7 +195872,6 @@
     },
     {
       "id": "prod-timed-kragujevac-zona-1",
-      "legacyId": 62,
       "kind": "timed",
       "zoneIds": [
         "zone-kragujevac-zona-1"
@@ -195177,7 +195924,6 @@
     },
     {
       "id": "prod-timed-kragujevac-zona-2",
-      "legacyId": 63,
       "kind": "timed",
       "zoneIds": [
         "zone-kragujevac-zona-2"
@@ -195230,7 +195976,6 @@
     },
     {
       "id": "prod-fullday-kragujevac-celodnevna-zona-1",
-      "legacyId": 601,
       "kind": "full_day",
       "zoneIds": [
         "zone-kragujevac-zona-1"
@@ -195283,7 +196028,6 @@
     },
     {
       "id": "prod-fullday-kragujevac-celodnevna-zona-2",
-      "legacyId": 602,
       "kind": "full_day",
       "zoneIds": [
         "zone-kragujevac-zona-2"
@@ -195336,7 +196080,6 @@
     },
     {
       "id": "prod-timed-kraljevo-zona-1",
-      "legacyId": 10,
       "kind": "timed",
       "zoneIds": [
         "zone-kraljevo-zona-1"
@@ -195392,7 +196135,6 @@
     },
     {
       "id": "prod-timed-kraljevo-zona-2",
-      "legacyId": 11,
       "kind": "timed",
       "zoneIds": [
         "zone-kraljevo-zona-2"
@@ -195445,7 +196187,6 @@
     },
     {
       "id": "prod-fullday-kraljevo-celodnevna-zona-2",
-      "legacyId": 401,
       "kind": "full_day",
       "zoneIds": [
         "zone-kraljevo-zona-2"
@@ -195498,7 +196239,6 @@
     },
     {
       "id": "prod-timed-krupanj-zona-1",
-      "legacyId": 571,
       "kind": "timed",
       "zoneIds": [
         "zone-krupanj-zona-1"
@@ -195551,7 +196291,6 @@
     },
     {
       "id": "prod-fullday-krupanj-celodnevna-zona-1",
-      "legacyId": 5701,
       "kind": "full_day",
       "zoneIds": [
         "zone-krupanj-zona-1"
@@ -195604,7 +196343,6 @@
     },
     {
       "id": "prod-timed-krusevac-ekstra-zona",
-      "legacyId": 311,
       "kind": "timed",
       "zoneIds": [
         "zone-krusevac-ekstra-zona"
@@ -195660,7 +196398,6 @@
     },
     {
       "id": "prod-timed-krusevac-zona-1",
-      "legacyId": 312,
       "kind": "timed",
       "zoneIds": [
         "zone-krusevac-zona-1"
@@ -195713,7 +196450,6 @@
     },
     {
       "id": "prod-timed-krusevac-zona-2",
-      "legacyId": 313,
       "kind": "timed",
       "zoneIds": [
         "zone-krusevac-zona-2"
@@ -195769,7 +196505,6 @@
     },
     {
       "id": "prod-fullday-krusevac-celodnevna-zona-1",
-      "legacyId": 3101,
       "kind": "full_day",
       "zoneIds": [
         "zone-krusevac-zona-1"
@@ -195822,7 +196557,6 @@
     },
     {
       "id": "prod-timed-kursumlija-zona-1",
-      "legacyId": 581,
       "kind": "timed",
       "zoneIds": [
         "zone-kursumlija-zona-1"
@@ -195875,7 +196609,6 @@
     },
     {
       "id": "prod-timed-kursumlija-zona-2",
-      "legacyId": 582,
       "kind": "timed",
       "zoneIds": [
         "zone-kursumlija-zona-2"
@@ -195928,7 +196661,6 @@
     },
     {
       "id": "prod-fullday-kursumlija-celodnevna-zona-1",
-      "legacyId": 5802,
       "kind": "full_day",
       "zoneIds": [
         "zone-kursumlija-zona-1"
@@ -195981,7 +196713,6 @@
     },
     {
       "id": "prod-fullday-kursumlija-celodnevna-zona-2",
-      "legacyId": 5801,
       "kind": "full_day",
       "zoneIds": [
         "zone-kursumlija-zona-2"
@@ -196034,7 +196765,6 @@
     },
     {
       "id": "prod-timed-kucevo-zona-1",
-      "legacyId": 591,
       "kind": "timed",
       "zoneIds": [
         "zone-kucevo-zona-1"
@@ -196087,7 +196817,6 @@
     },
     {
       "id": "prod-timed-lapovo-zona",
-      "legacyId": 861,
       "kind": "timed",
       "zoneIds": [
         "zone-lapovo-zona"
@@ -196140,7 +196869,6 @@
     },
     {
       "id": "prod-fullday-lapovo-celodnevna-zona",
-      "legacyId": 8601,
       "kind": "full_day",
       "zoneIds": [
         "zone-lapovo-zona"
@@ -196193,7 +196921,6 @@
     },
     {
       "id": "prod-timed-lazarevac-zona-1",
-      "legacyId": 322,
       "kind": "timed",
       "zoneIds": [
         "zone-lazarevac-zona-1"
@@ -196249,7 +196976,6 @@
     },
     {
       "id": "prod-timed-lazarevac-zona-2",
-      "legacyId": 323,
       "kind": "timed",
       "zoneIds": [
         "zone-lazarevac-zona-2"
@@ -196302,7 +197028,6 @@
     },
     {
       "id": "prod-fullday-lazarevac-celodnevna-zona-2",
-      "legacyId": 3201,
       "kind": "full_day",
       "zoneIds": [
         "zone-lazarevac-zona-2"
@@ -196355,7 +197080,6 @@
     },
     {
       "id": "prod-timed-lebane-zona-1",
-      "legacyId": 881,
       "kind": "timed",
       "zoneIds": [
         "zone-lebane-zona-1"
@@ -196408,7 +197132,6 @@
     },
     {
       "id": "prod-fullday-lebane-celodnevna-zona-1",
-      "legacyId": 8801,
       "kind": "full_day",
       "zoneIds": [
         "zone-lebane-zona-1"
@@ -196461,7 +197184,6 @@
     },
     {
       "id": "prod-timed-leskovac-zona-1",
-      "legacyId": 331,
       "kind": "timed",
       "zoneIds": [
         "zone-leskovac-zona-1"
@@ -196514,7 +197236,6 @@
     },
     {
       "id": "prod-timed-leskovac-zona-2",
-      "legacyId": 332,
       "kind": "timed",
       "zoneIds": [
         "zone-leskovac-zona-2"
@@ -196567,7 +197288,6 @@
     },
     {
       "id": "prod-fullday-leskovac-celodnevna-karta",
-      "legacyId": 3301,
       "kind": "full_day",
       "zoneIds": [
         "zone-leskovac-zona-1",
@@ -196621,7 +197341,6 @@
     },
     {
       "id": "prod-timed-ljig-zona-plava",
-      "legacyId": 601,
       "kind": "timed",
       "zoneIds": [
         "zone-ljig-zona-plava"
@@ -196674,7 +197393,6 @@
     },
     {
       "id": "prod-fullday-ljig-celodnevna-zona-plava",
-      "legacyId": 6001,
       "kind": "full_day",
       "zoneIds": [
         "zone-ljig-zona-plava"
@@ -196727,7 +197445,6 @@
     },
     {
       "id": "prod-timed-ljubovija-zona-1",
-      "legacyId": 611,
       "kind": "timed",
       "zoneIds": [
         "zone-ljubovija-zona-1"
@@ -196780,7 +197497,6 @@
     },
     {
       "id": "prod-fullday-ljubovija-celodnevna-zona-1",
-      "legacyId": 6101,
       "kind": "full_day",
       "zoneIds": [
         "zone-ljubovija-zona-1"
@@ -196833,7 +197549,6 @@
     },
     {
       "id": "prod-timed-loznica-zona-1",
-      "legacyId": 341,
       "kind": "timed",
       "zoneIds": [
         "zone-loznica-zona-1"
@@ -196892,7 +197607,6 @@
     },
     {
       "id": "prod-timed-loznica-zona-2",
-      "legacyId": 342,
       "kind": "timed",
       "zoneIds": [
         "zone-loznica-zona-2"
@@ -196945,7 +197659,6 @@
     },
     {
       "id": "prod-fullday-loznica-celodnevna-zona-2",
-      "legacyId": 3401,
       "kind": "full_day",
       "zoneIds": [
         "zone-loznica-zona-2"
@@ -196998,7 +197711,6 @@
     },
     {
       "id": "prod-timed-mionica-zona-crvena",
-      "legacyId": 621,
       "kind": "timed",
       "zoneIds": [
         "zone-mionica-zona-crvena"
@@ -197051,7 +197763,6 @@
     },
     {
       "id": "prod-fullday-mionica-celodnevna-zona-crvena",
-      "legacyId": 6201,
       "kind": "full_day",
       "zoneIds": [
         "zone-mionica-zona-crvena"
@@ -197104,7 +197815,6 @@
     },
     {
       "id": "prod-timed-mladenovac-zona-1",
-      "legacyId": 351,
       "kind": "timed",
       "zoneIds": [
         "zone-mladenovac-zona-1"
@@ -197160,7 +197870,6 @@
     },
     {
       "id": "prod-timed-mladenovac-zona-2",
-      "legacyId": 352,
       "kind": "timed",
       "zoneIds": [
         "zone-mladenovac-zona-2"
@@ -197213,7 +197922,6 @@
     },
     {
       "id": "prod-fullday-mladenovac-celodnevna-zona-2",
-      "legacyId": 3501,
       "kind": "full_day",
       "zoneIds": [
         "zone-mladenovac-zona-2"
@@ -197266,7 +197974,6 @@
     },
     {
       "id": "prod-timed-negotin-zona-1",
-      "legacyId": 631,
       "kind": "timed",
       "zoneIds": [
         "zone-negotin-zona-1"
@@ -197322,7 +198029,6 @@
     },
     {
       "id": "prod-timed-negotin-zona-2",
-      "legacyId": 632,
       "kind": "timed",
       "zoneIds": [
         "zone-negotin-zona-2"
@@ -197375,7 +198081,6 @@
     },
     {
       "id": "prod-fullday-negotin-celodnevna-zona-1",
-      "legacyId": 6301,
       "kind": "full_day",
       "zoneIds": [
         "zone-negotin-zona-1"
@@ -197428,7 +198133,6 @@
     },
     {
       "id": "prod-fullday-negotin-celodnevna-zona-2",
-      "legacyId": 6302,
       "kind": "full_day",
       "zoneIds": [
         "zone-negotin-zona-2"
@@ -197481,7 +198185,6 @@
     },
     {
       "id": "prod-timed-nis-ekstra-zona",
-      "legacyId": 51,
       "kind": "timed",
       "zoneIds": [
         "zone-nis-ekstra-zona"
@@ -197537,7 +198240,6 @@
     },
     {
       "id": "prod-timed-nis-zona-1",
-      "legacyId": 52,
       "kind": "timed",
       "zoneIds": [
         "zone-nis-zona-1"
@@ -197593,7 +198295,6 @@
     },
     {
       "id": "prod-timed-nis-zona-2",
-      "legacyId": 53,
       "kind": "timed",
       "zoneIds": [
         "zone-nis-zona-2"
@@ -197649,7 +198350,6 @@
     },
     {
       "id": "prod-fullday-nis-celodnevna-zona-1",
-      "legacyId": 502,
       "kind": "full_day",
       "zoneIds": [
         "zone-nis-zona-1"
@@ -197702,7 +198402,6 @@
     },
     {
       "id": "prod-fullday-nis-celodnevna-zona-2",
-      "legacyId": 501,
       "kind": "full_day",
       "zoneIds": [
         "zone-nis-zona-2"
@@ -197755,7 +198454,6 @@
     },
     {
       "id": "prod-timed-novi-pazar-ekstra-zona",
-      "legacyId": 361,
       "kind": "timed",
       "zoneIds": [
         "zone-novi-pazar-ekstra-zona"
@@ -197811,7 +198509,6 @@
     },
     {
       "id": "prod-timed-novi-pazar-zona-1",
-      "legacyId": 362,
       "kind": "timed",
       "zoneIds": [
         "zone-novi-pazar-zona-1"
@@ -197867,7 +198564,6 @@
     },
     {
       "id": "prod-timed-novi-pazar-zona-2",
-      "legacyId": 363,
       "kind": "timed",
       "zoneIds": [
         "zone-novi-pazar-zona-2"
@@ -197923,7 +198619,6 @@
     },
     {
       "id": "prod-fullday-novi-pazar-celodnevna-zona-2",
-      "legacyId": 3601,
       "kind": "full_day",
       "zoneIds": [
         "zone-novi-pazar-zona-2"
@@ -197976,7 +198671,6 @@
     },
     {
       "id": "prod-timed-novi-sad-zona-ekstra",
-      "legacyId": 123,
       "kind": "timed",
       "zoneIds": [
         "zone-novi-sad-zona-ekstra"
@@ -198032,7 +198726,6 @@
     },
     {
       "id": "prod-timed-novi-sad-zona-crvena",
-      "legacyId": 121,
       "kind": "timed",
       "zoneIds": [
         "zone-novi-sad-zona-crvena"
@@ -198088,7 +198781,6 @@
     },
     {
       "id": "prod-timed-novi-sad-zona-plava",
-      "legacyId": 124,
       "kind": "timed",
       "zoneIds": [
         "zone-novi-sad-zona-plava"
@@ -198144,7 +198836,6 @@
     },
     {
       "id": "prod-timed-novi-sad-zona-bela",
-      "legacyId": 122,
       "kind": "timed",
       "zoneIds": [
         "zone-novi-sad-zona-bela"
@@ -198197,7 +198888,6 @@
     },
     {
       "id": "prod-fullday-novi-sad-celodnevna-karta",
-      "legacyId": 1203,
       "kind": "full_day",
       "zoneIds": [
         "zone-novi-sad-zona-plava",
@@ -198251,7 +198941,6 @@
     },
     {
       "id": "prod-fullday-novi-sad-celodnevna-novosadski-sajam",
-      "legacyId": 1201,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -198302,7 +198991,6 @@
     },
     {
       "id": "prod-fullday-novi-sad-celodnevna-najlon",
-      "legacyId": 1202,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -198353,7 +199041,6 @@
     },
     {
       "id": "prod-fullday-novi-sad-celodnevna-strand",
-      "legacyId": 1204,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -198404,7 +199091,6 @@
     },
     {
       "id": "prod-timed-obrenovac-zona-1",
-      "legacyId": 371,
       "kind": "timed",
       "zoneIds": [
         "zone-obrenovac-zona-1"
@@ -198460,7 +199146,6 @@
     },
     {
       "id": "prod-timed-obrenovac-zona-2",
-      "legacyId": 372,
       "kind": "timed",
       "zoneIds": [
         "zone-obrenovac-zona-2"
@@ -198513,7 +199198,6 @@
     },
     {
       "id": "prod-fullday-obrenovac-celodnevna-zona-2",
-      "legacyId": 3701,
       "kind": "full_day",
       "zoneIds": [
         "zone-obrenovac-zona-2"
@@ -198566,7 +199250,6 @@
     },
     {
       "id": "prod-timed-osecina-zona-plava",
-      "legacyId": 641,
       "kind": "timed",
       "zoneIds": [
         "zone-osecina-zona-plava"
@@ -198619,7 +199302,6 @@
     },
     {
       "id": "prod-fullday-osecina-celodnevna-zona-plava",
-      "legacyId": 6401,
       "kind": "full_day",
       "zoneIds": [
         "zone-osecina-zona-plava"
@@ -198672,7 +199354,6 @@
     },
     {
       "id": "prod-timed-pancevo-zona-1",
-      "legacyId": 421,
       "kind": "timed",
       "zoneIds": [
         "zone-pancevo-zona-1"
@@ -198728,7 +199409,6 @@
     },
     {
       "id": "prod-timed-pancevo-zona-2",
-      "legacyId": 422,
       "kind": "timed",
       "zoneIds": [
         "zone-pancevo-zona-2"
@@ -198784,7 +199464,6 @@
     },
     {
       "id": "prod-timed-pancevo-zona-3",
-      "legacyId": 423,
       "kind": "timed",
       "zoneIds": [
         "zone-pancevo-zona-3"
@@ -198837,7 +199516,6 @@
     },
     {
       "id": "prod-fullday-pancevo-celodnevna-zona-3",
-      "legacyId": 4201,
       "kind": "full_day",
       "zoneIds": [
         "zone-pancevo-zona-3"
@@ -198890,7 +199568,6 @@
     },
     {
       "id": "prod-timed-paracin-zona-1",
-      "legacyId": 451,
       "kind": "timed",
       "zoneIds": [
         "zone-paracin-zona-1"
@@ -198943,7 +199620,6 @@
     },
     {
       "id": "prod-timed-paracin-zona-2",
-      "legacyId": 452,
       "kind": "timed",
       "zoneIds": [
         "zone-paracin-zona-2"
@@ -198996,7 +199672,6 @@
     },
     {
       "id": "prod-fullday-paracin-celodnevna-zona-1",
-      "legacyId": 4501,
       "kind": "full_day",
       "zoneIds": [
         "zone-paracin-zona-1"
@@ -199049,7 +199724,6 @@
     },
     {
       "id": "prod-fullday-paracin-celodnevna-zona-2",
-      "legacyId": 4503,
       "kind": "full_day",
       "zoneIds": [
         "zone-paracin-zona-2"
@@ -199102,7 +199776,6 @@
     },
     {
       "id": "prod-fullday-paracin-celodnevna-zona-3",
-      "legacyId": 4502,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -199153,7 +199826,6 @@
     },
     {
       "id": "prod-timed-petrovac-na-mlavi-zona-crvena",
-      "legacyId": 651,
       "kind": "timed",
       "zoneIds": [
         "zone-petrovac-na-mlavi-zona-crvena"
@@ -199206,7 +199878,6 @@
     },
     {
       "id": "prod-timed-petrovac-na-mlavi-zona-zelena",
-      "legacyId": 652,
       "kind": "timed",
       "zoneIds": [
         "zone-petrovac-na-mlavi-zona-zelena"
@@ -199259,7 +199930,6 @@
     },
     {
       "id": "prod-timed-pecinci-zona-crvena",
-      "legacyId": 661,
       "kind": "timed",
       "zoneIds": [
         "zone-pecinci-zona-crvena"
@@ -199312,7 +199982,6 @@
     },
     {
       "id": "prod-fullday-pecinci-celodnevna-zona-crvena",
-      "legacyId": 6601,
       "kind": "full_day",
       "zoneIds": [
         "zone-pecinci-zona-crvena"
@@ -199365,7 +200034,6 @@
     },
     {
       "id": "prod-timed-pirot-ekstra-zona",
-      "legacyId": 383,
       "kind": "timed",
       "zoneIds": [
         "zone-pirot-ekstra-zona"
@@ -199424,7 +200092,6 @@
     },
     {
       "id": "prod-timed-pirot-zona-1",
-      "legacyId": 381,
       "kind": "timed",
       "zoneIds": [
         "zone-pirot-zona-1"
@@ -199480,7 +200147,6 @@
     },
     {
       "id": "prod-timed-pirot-zona-2",
-      "legacyId": 382,
       "kind": "timed",
       "zoneIds": [
         "zone-pirot-zona-2"
@@ -199533,7 +200199,6 @@
     },
     {
       "id": "prod-fullday-pirot-celodnevna-zona-1",
-      "legacyId": 3802,
       "kind": "full_day",
       "zoneIds": [
         "zone-pirot-zona-1"
@@ -199586,7 +200251,6 @@
     },
     {
       "id": "prod-fullday-pirot-celodnevna-zona-2",
-      "legacyId": 3801,
       "kind": "full_day",
       "zoneIds": [
         "zone-pirot-zona-2"
@@ -199639,7 +200303,6 @@
     },
     {
       "id": "prod-timed-pozarevac-zona-1",
-      "legacyId": 441,
       "kind": "timed",
       "zoneIds": [
         "zone-pozarevac-zona-1"
@@ -199695,7 +200358,6 @@
     },
     {
       "id": "prod-timed-pozarevac-zona-2",
-      "legacyId": 442,
       "kind": "timed",
       "zoneIds": [
         "zone-pozarevac-zona-2"
@@ -199748,7 +200410,6 @@
     },
     {
       "id": "prod-timed-pozarevac-ekstra-zona-b",
-      "legacyId": 444,
       "kind": "timed",
       "zoneIds": [
         "zone-pozarevac-ekstra-zona-b"
@@ -199804,7 +200465,6 @@
     },
     {
       "id": "prod-timed-pozarevac-zona-b",
-      "legacyId": 443,
       "kind": "timed",
       "zoneIds": [
         "zone-pozarevac-zona-b"
@@ -199860,7 +200520,6 @@
     },
     {
       "id": "prod-fullday-pozarevac-celodnevna-zona-2",
-      "legacyId": 4401,
       "kind": "full_day",
       "zoneIds": [
         "zone-pozarevac-zona-2"
@@ -199913,7 +200572,6 @@
     },
     {
       "id": "prod-timed-pozega-zona-1",
-      "legacyId": 391,
       "kind": "timed",
       "zoneIds": [
         "zone-pozega-zona-1"
@@ -199966,7 +200624,6 @@
     },
     {
       "id": "prod-timed-pozega-zona-2",
-      "legacyId": 392,
       "kind": "timed",
       "zoneIds": [
         "zone-pozega-zona-2"
@@ -200019,7 +200676,6 @@
     },
     {
       "id": "prod-fullday-pozega-celodnevna-zona-2",
-      "legacyId": 3901,
       "kind": "full_day",
       "zoneIds": [
         "zone-pozega-zona-2"
@@ -200072,7 +200728,6 @@
     },
     {
       "id": "prod-timed-presevo-zona-1",
-      "legacyId": 671,
       "kind": "timed",
       "zoneIds": [
         "zone-presevo-zona-1"
@@ -200125,7 +200780,6 @@
     },
     {
       "id": "prod-timed-presevo-zona-2",
-      "legacyId": 672,
       "kind": "timed",
       "zoneIds": [
         "zone-presevo-zona-2"
@@ -200178,7 +200832,6 @@
     },
     {
       "id": "prod-fullday-presevo-celodnevna-zona-1",
-      "legacyId": 6701,
       "kind": "full_day",
       "zoneIds": [
         "zone-presevo-zona-1"
@@ -200231,7 +200884,6 @@
     },
     {
       "id": "prod-fullday-presevo-celodnevna-zona-2",
-      "legacyId": 6702,
       "kind": "full_day",
       "zoneIds": [
         "zone-presevo-zona-2"
@@ -200284,7 +200936,6 @@
     },
     {
       "id": "prod-timed-prokuplje-ekstra-zona",
-      "legacyId": 681,
       "kind": "timed",
       "zoneIds": [
         "zone-prokuplje-ekstra-zona"
@@ -200340,7 +200991,6 @@
     },
     {
       "id": "prod-timed-prokuplje-zona-1",
-      "legacyId": 682,
       "kind": "timed",
       "zoneIds": [
         "zone-prokuplje-zona-1"
@@ -200396,7 +201046,6 @@
     },
     {
       "id": "prod-fullday-prokuplje-celodnevna-ekstra-zona",
-      "legacyId": 6802,
       "kind": "full_day",
       "zoneIds": [
         "zone-prokuplje-ekstra-zona"
@@ -200449,7 +201098,6 @@
     },
     {
       "id": "prod-fullday-prokuplje-celodnevna-zona-1",
-      "legacyId": 6801,
       "kind": "full_day",
       "zoneIds": [
         "zone-prokuplje-zona-1"
@@ -200502,7 +201150,6 @@
     },
     {
       "id": "prod-timed-raska-ekstra-zona",
-      "legacyId": 693,
       "kind": "timed",
       "zoneIds": [
         "zone-raska-ekstra-zona"
@@ -200558,7 +201205,6 @@
     },
     {
       "id": "prod-timed-raska-zona-1",
-      "legacyId": 691,
       "kind": "timed",
       "zoneIds": [
         "zone-raska-zona-1"
@@ -200611,7 +201257,6 @@
     },
     {
       "id": "prod-timed-raska-zona-2",
-      "legacyId": 692,
       "kind": "timed",
       "zoneIds": [
         "zone-raska-zona-2"
@@ -200664,7 +201309,6 @@
     },
     {
       "id": "prod-fullday-raska-celodnevna-zona-2",
-      "legacyId": 6901,
       "kind": "full_day",
       "zoneIds": [
         "zone-raska-zona-2"
@@ -200717,7 +201361,6 @@
     },
     {
       "id": "prod-timed-ruma-zona-1-crvena-zona",
-      "legacyId": 521,
       "kind": "timed",
       "zoneIds": [
         "zone-ruma-zona-1-crvena-zona"
@@ -200770,7 +201413,6 @@
     },
     {
       "id": "prod-fullday-ruma-celodnevna-zona-1-crvena-zona",
-      "legacyId": 5201,
       "kind": "full_day",
       "zoneIds": [
         "zone-ruma-zona-1-crvena-zona"
@@ -200823,7 +201465,6 @@
     },
     {
       "id": "prod-fullday-ruma-celodnevna-zona-2-zelena-zona",
-      "legacyId": 5202,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -200874,7 +201515,6 @@
     },
     {
       "id": "prod-timed-senta-zona-1",
-      "legacyId": 701,
       "kind": "timed",
       "zoneIds": [
         "zone-senta-zona-1"
@@ -200927,7 +201567,6 @@
     },
     {
       "id": "prod-timed-senta-zona-2",
-      "legacyId": 702,
       "kind": "timed",
       "zoneIds": [
         "zone-senta-zona-2"
@@ -200980,7 +201619,6 @@
     },
     {
       "id": "prod-fullday-senta-celodnevna-zona-2",
-      "legacyId": 7001,
       "kind": "full_day",
       "zoneIds": [
         "zone-senta-zona-2"
@@ -201033,7 +201671,6 @@
     },
     {
       "id": "prod-timed-sjenica-ekstra-zona",
-      "legacyId": 711,
       "kind": "timed",
       "zoneIds": [
         "zone-sjenica-ekstra-zona"
@@ -201086,7 +201723,6 @@
     },
     {
       "id": "prod-timed-sjenica-zona-1",
-      "legacyId": 712,
       "kind": "timed",
       "zoneIds": [
         "zone-sjenica-zona-1"
@@ -201139,7 +201775,6 @@
     },
     {
       "id": "prod-fullday-sjenica-celodnevna-zona-1",
-      "legacyId": 7101,
       "kind": "full_day",
       "zoneIds": [
         "zone-sjenica-zona-1"
@@ -201192,7 +201827,6 @@
     },
     {
       "id": "prod-timed-smederevo-zona-1",
-      "legacyId": 431,
       "kind": "timed",
       "zoneIds": [
         "zone-smederevo-zona-1"
@@ -201248,7 +201882,6 @@
     },
     {
       "id": "prod-timed-smederevo-zona-2",
-      "legacyId": 432,
       "kind": "timed",
       "zoneIds": [
         "zone-smederevo-zona-2"
@@ -201304,7 +201937,6 @@
     },
     {
       "id": "prod-timed-smederevo-zona-3",
-      "legacyId": 433,
       "kind": "timed",
       "zoneIds": [
         "zone-smederevo-zona-3"
@@ -201357,7 +201989,6 @@
     },
     {
       "id": "prod-fullday-smederevo-celodnevna-zona-3",
-      "legacyId": 4301,
       "kind": "full_day",
       "zoneIds": [
         "zone-smederevo-zona-3"
@@ -201410,7 +202041,6 @@
     },
     {
       "id": "prod-timed-smederevska-palanka-zona-1",
-      "legacyId": 531,
       "kind": "timed",
       "zoneIds": [
         "zone-smederevska-palanka-zona-1"
@@ -201463,7 +202093,6 @@
     },
     {
       "id": "prod-timed-smederevska-palanka-zona-2",
-      "legacyId": 532,
       "kind": "timed",
       "zoneIds": [
         "zone-smederevska-palanka-zona-2"
@@ -201516,7 +202145,6 @@
     },
     {
       "id": "prod-fullday-smederevska-palanka-celodnevna-zona-1",
-      "legacyId": 5301,
       "kind": "full_day",
       "zoneIds": [
         "zone-smederevska-palanka-zona-1"
@@ -201569,7 +202197,6 @@
     },
     {
       "id": "prod-fullday-smederevska-palanka-celodnevna-zona-2",
-      "legacyId": 5302,
       "kind": "full_day",
       "zoneIds": [
         "zone-smederevska-palanka-zona-2"
@@ -201622,7 +202249,6 @@
     },
     {
       "id": "prod-timed-sokobanja-zona-1",
-      "legacyId": 721,
       "kind": "timed",
       "zoneIds": [
         "zone-sokobanja-zona-1"
@@ -201675,7 +202301,6 @@
     },
     {
       "id": "prod-fullday-sokobanja-celodnevna-zona-1",
-      "legacyId": 7201,
       "kind": "full_day",
       "zoneIds": [
         "zone-sokobanja-zona-1"
@@ -201728,7 +202353,6 @@
     },
     {
       "id": "prod-timed-sombor-zona-ekstra",
-      "legacyId": 171,
       "kind": "timed",
       "zoneIds": [
         "zone-sombor-zona-ekstra"
@@ -201784,7 +202408,6 @@
     },
     {
       "id": "prod-timed-sombor-zona-1",
-      "legacyId": 172,
       "kind": "timed",
       "zoneIds": [
         "zone-sombor-zona-1"
@@ -201837,7 +202460,6 @@
     },
     {
       "id": "prod-timed-sombor-zona-2",
-      "legacyId": 173,
       "kind": "timed",
       "zoneIds": [
         "zone-sombor-zona-2"
@@ -201890,7 +202512,6 @@
     },
     {
       "id": "prod-timed-sombor-zona-3",
-      "legacyId": 174,
       "kind": "timed",
       "zoneIds": [
         "zone-sombor-zona-3"
@@ -201943,7 +202564,6 @@
     },
     {
       "id": "prod-fullday-sombor-celodnevna-karta",
-      "legacyId": 1701,
       "kind": "full_day",
       "zoneIds": [
         "zone-sombor-zona-1",
@@ -201998,7 +202618,6 @@
     },
     {
       "id": "prod-timed-sremska-mitrovica-zona-1-crvena-zona",
-      "legacyId": 461,
       "kind": "timed",
       "zoneIds": [
         "zone-sremska-mitrovica-zona-1-crvena-zona"
@@ -202051,7 +202670,6 @@
     },
     {
       "id": "prod-timed-sremska-mitrovica-zona-2-zelena-zona",
-      "legacyId": 462,
       "kind": "timed",
       "zoneIds": [
         "zone-sremska-mitrovica-zona-2-zelena-zona"
@@ -202104,7 +202722,6 @@
     },
     {
       "id": "prod-timed-sremska-mitrovica-zona-3-zuta-zona",
-      "legacyId": 463,
       "kind": "timed",
       "zoneIds": [
         "zone-sremska-mitrovica-zona-3-zuta-zona"
@@ -202157,7 +202774,6 @@
     },
     {
       "id": "prod-fullday-sremska-mitrovica-celodnevna-zona-1-crvena-zona",
-      "legacyId": 4603,
       "kind": "full_day",
       "zoneIds": [
         "zone-sremska-mitrovica-zona-1-crvena-zona"
@@ -202210,7 +202826,6 @@
     },
     {
       "id": "prod-fullday-sremska-mitrovica-celodnevna-zona-2-zelena-zona",
-      "legacyId": 4601,
       "kind": "full_day",
       "zoneIds": [
         "zone-sremska-mitrovica-zona-2-zelena-zona"
@@ -202263,7 +202878,6 @@
     },
     {
       "id": "prod-fullday-sremska-mitrovica-celodnevna-zona-3-zuta-zona",
-      "legacyId": 4602,
       "kind": "full_day",
       "zoneIds": [
         "zone-sremska-mitrovica-zona-3-zuta-zona"
@@ -202316,7 +202930,6 @@
     },
     {
       "id": "prod-timed-sremski-karlovci-zona-1",
-      "legacyId": 501,
       "kind": "timed",
       "zoneIds": [
         "zone-sremski-karlovci-zona-1"
@@ -202369,7 +202982,6 @@
     },
     {
       "id": "prod-fullday-sremski-karlovci-celodnevna-zona-1",
-      "legacyId": 5001,
       "kind": "full_day",
       "zoneIds": [
         "zone-sremski-karlovci-zona-1"
@@ -202422,7 +203034,6 @@
     },
     {
       "id": "prod-timed-stara-pazova-zona-bela",
-      "legacyId": 511,
       "kind": "timed",
       "zoneIds": [
         "zone-stara-pazova-zona-bela"
@@ -202475,7 +203086,6 @@
     },
     {
       "id": "prod-timed-stara-pazova-zona-crvena",
-      "legacyId": 512,
       "kind": "timed",
       "zoneIds": [
         "zone-stara-pazova-zona-crvena"
@@ -202528,7 +203138,6 @@
     },
     {
       "id": "prod-fullday-stara-pazova-celodnevna-karta",
-      "legacyId": 5101,
       "kind": "full_day",
       "zoneIds": [
         "zone-stara-pazova-zona-crvena",
@@ -202582,7 +203191,6 @@
     },
     {
       "id": "prod-timed-subotica-zona-1",
-      "legacyId": 131,
       "kind": "timed",
       "zoneIds": [
         "zone-subotica-zona-1"
@@ -202635,7 +203243,6 @@
     },
     {
       "id": "prod-timed-subotica-zona-2",
-      "legacyId": 132,
       "kind": "timed",
       "zoneIds": [
         "zone-subotica-zona-2"
@@ -202688,7 +203295,6 @@
     },
     {
       "id": "prod-timed-subotica-zona-4",
-      "legacyId": 133,
       "kind": "timed",
       "zoneIds": [
         "zone-subotica-zona-4"
@@ -202741,7 +203347,6 @@
     },
     {
       "id": "prod-fullday-subotica-celodnevna-zona-1",
-      "legacyId": 1301,
       "kind": "full_day",
       "zoneIds": [
         "zone-subotica-zona-1"
@@ -202794,7 +203399,6 @@
     },
     {
       "id": "prod-fullday-subotica-celodnevna-zona-2",
-      "legacyId": 1302,
       "kind": "full_day",
       "zoneIds": [
         "zone-subotica-zona-2"
@@ -202847,7 +203451,6 @@
     },
     {
       "id": "prod-fullday-subotica-celodnevna-zona-3",
-      "legacyId": 1304,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -202898,7 +203501,6 @@
     },
     {
       "id": "prod-fullday-subotica-celodnevna-zona-4",
-      "legacyId": 1303,
       "kind": "full_day",
       "zoneIds": [
         "zone-subotica-zona-4"
@@ -202951,7 +203553,6 @@
     },
     {
       "id": "prod-timed-surcin-zona-1",
-      "legacyId": 731,
       "kind": "timed",
       "zoneIds": [
         "zone-surcin-zona-1"
@@ -203004,7 +203605,6 @@
     },
     {
       "id": "prod-fullday-surcin-celodnevna-zona-1",
-      "legacyId": 7301,
       "kind": "full_day",
       "zoneIds": [
         "zone-surcin-zona-1"
@@ -203057,7 +203657,6 @@
     },
     {
       "id": "prod-timed-svilajnac-zona",
-      "legacyId": 741,
       "kind": "timed",
       "zoneIds": [
         "zone-svilajnac-zona"
@@ -203110,7 +203709,6 @@
     },
     {
       "id": "prod-fullday-svilajnac-celodnevna-zona",
-      "legacyId": 7401,
       "kind": "full_day",
       "zoneIds": [
         "zone-svilajnac-zona"
@@ -203163,7 +203761,6 @@
     },
     {
       "id": "prod-timed-temerin-zona-1",
-      "legacyId": 751,
       "kind": "timed",
       "zoneIds": [
         "zone-temerin-zona-1"
@@ -203216,7 +203813,6 @@
     },
     {
       "id": "prod-fullday-temerin-celodnevna-zona-1",
-      "legacyId": 7501,
       "kind": "full_day",
       "zoneIds": [
         "zone-temerin-zona-1"
@@ -203269,7 +203865,6 @@
     },
     {
       "id": "prod-timed-topola-zona-1",
-      "legacyId": 761,
       "kind": "timed",
       "zoneIds": [
         "zone-topola-zona-1"
@@ -203325,7 +203920,6 @@
     },
     {
       "id": "prod-timed-topola-zona-2",
-      "legacyId": 762,
       "kind": "timed",
       "zoneIds": [
         "zone-topola-zona-2"
@@ -203378,7 +203972,6 @@
     },
     {
       "id": "prod-timed-trstenik-zona-1",
-      "legacyId": 771,
       "kind": "timed",
       "zoneIds": [
         "zone-trstenik-zona-1"
@@ -203431,7 +204024,6 @@
     },
     {
       "id": "prod-timed-trstenik-zona-2",
-      "legacyId": 772,
       "kind": "timed",
       "zoneIds": [
         "zone-trstenik-zona-2"
@@ -203484,7 +204076,6 @@
     },
     {
       "id": "prod-fullday-trstenik-celodnevna-zona-2",
-      "legacyId": 7701,
       "kind": "full_day",
       "zoneIds": [
         "zone-trstenik-zona-2"
@@ -203537,7 +204128,6 @@
     },
     {
       "id": "prod-timed-ub-ekstra-zona",
-      "legacyId": 781,
       "kind": "timed",
       "zoneIds": [
         "zone-ub-ekstra-zona"
@@ -203593,7 +204183,6 @@
     },
     {
       "id": "prod-timed-ub-zona-1",
-      "legacyId": 782,
       "kind": "timed",
       "zoneIds": [
         "zone-ub-zona-1"
@@ -203649,7 +204238,6 @@
     },
     {
       "id": "prod-timed-ub-zona-2",
-      "legacyId": 783,
       "kind": "timed",
       "zoneIds": [
         "zone-ub-zona-2"
@@ -203702,7 +204290,6 @@
     },
     {
       "id": "prod-fullday-ub-celodnevna-zona-2",
-      "legacyId": 7801,
       "kind": "full_day",
       "zoneIds": [
         "zone-ub-zona-2"
@@ -203755,7 +204342,6 @@
     },
     {
       "id": "prod-timed-uzice-zona-1",
-      "legacyId": 71,
       "kind": "timed",
       "zoneIds": [
         "zone-uzice-zona-1"
@@ -203811,7 +204397,6 @@
     },
     {
       "id": "prod-timed-uzice-zona-2",
-      "legacyId": 72,
       "kind": "timed",
       "zoneIds": [
         "zone-uzice-zona-2"
@@ -203864,7 +204449,6 @@
     },
     {
       "id": "prod-fullday-uzice-celodnevna-zona-2",
-      "legacyId": 701,
       "kind": "full_day",
       "zoneIds": [
         "zone-uzice-zona-2"
@@ -203917,7 +204501,6 @@
     },
     {
       "id": "prod-timed-valjevo-zona-crvena",
-      "legacyId": 5,
       "kind": "timed",
       "zoneIds": [
         "zone-valjevo-zona-crvena"
@@ -203973,7 +204556,6 @@
     },
     {
       "id": "prod-timed-valjevo-zona-plava",
-      "legacyId": 6,
       "kind": "timed",
       "zoneIds": [
         "zone-valjevo-zona-plava"
@@ -204026,7 +204608,6 @@
     },
     {
       "id": "prod-fullday-valjevo-celodnevna-zona-plava",
-      "legacyId": 201,
       "kind": "full_day",
       "zoneIds": [
         "zone-valjevo-zona-plava"
@@ -204079,7 +204660,6 @@
     },
     {
       "id": "prod-timed-velika-plana-zona-1",
-      "legacyId": 791,
       "kind": "timed",
       "zoneIds": [
         "zone-velika-plana-zona-1"
@@ -204135,7 +204715,6 @@
     },
     {
       "id": "prod-timed-velika-plana-zona-2",
-      "legacyId": 792,
       "kind": "timed",
       "zoneIds": [
         "zone-velika-plana-zona-2"
@@ -204191,7 +204770,6 @@
     },
     {
       "id": "prod-timed-velika-plana-zona-3",
-      "legacyId": 793,
       "kind": "timed",
       "zoneIds": [
         "zone-velika-plana-zona-3"
@@ -204244,7 +204822,6 @@
     },
     {
       "id": "prod-fullday-velika-plana-celodnevna-zona-2",
-      "legacyId": 7901,
       "kind": "full_day",
       "zoneIds": [
         "zone-velika-plana-zona-2"
@@ -204297,7 +204874,6 @@
     },
     {
       "id": "prod-fullday-velika-plana-celodnevna-zona-3",
-      "legacyId": 7902,
       "kind": "full_day",
       "zoneIds": [
         "zone-velika-plana-zona-3"
@@ -204350,7 +204926,6 @@
     },
     {
       "id": "prod-timed-veliko-gradiste-zona-1",
-      "legacyId": 801,
       "kind": "timed",
       "zoneIds": [
         "zone-veliko-gradiste-zona-1"
@@ -204403,7 +204978,6 @@
     },
     {
       "id": "prod-timed-veliko-gradiste-srebrno-jezero",
-      "legacyId": 802,
       "kind": "timed",
       "zoneIds": [
         "zone-veliko-gradiste-srebrno-jezero"
@@ -204456,7 +205030,6 @@
     },
     {
       "id": "prod-fullday-veliko-gradiste-celodnevna-zona-1",
-      "legacyId": 8002,
       "kind": "full_day",
       "zoneIds": [
         "zone-veliko-gradiste-zona-1"
@@ -204509,7 +205082,6 @@
     },
     {
       "id": "prod-fullday-veliko-gradiste-celodnevna-srebrno-jezero",
-      "legacyId": 8001,
       "kind": "full_day",
       "zoneIds": [
         "zone-veliko-gradiste-srebrno-jezero"
@@ -204562,7 +205134,6 @@
     },
     {
       "id": "prod-timed-vlasotince-zona-1",
-      "legacyId": 811,
       "kind": "timed",
       "zoneIds": [
         "zone-vlasotince-zona-1"
@@ -204618,7 +205189,6 @@
     },
     {
       "id": "prod-timed-vlasotince-zona-2",
-      "legacyId": 812,
       "kind": "timed",
       "zoneIds": [
         "zone-vlasotince-zona-2"
@@ -204671,7 +205241,6 @@
     },
     {
       "id": "prod-fullday-vlasotince-celodnevna-zona-2",
-      "legacyId": 8101,
       "kind": "full_day",
       "zoneIds": [
         "zone-vlasotince-zona-2"
@@ -204724,7 +205293,6 @@
     },
     {
       "id": "prod-timed-vranje-ekstra-zona",
-      "legacyId": 161,
       "kind": "timed",
       "zoneIds": [
         "zone-vranje-ekstra-zona"
@@ -204780,7 +205348,6 @@
     },
     {
       "id": "prod-timed-vranje-zona-1",
-      "legacyId": 162,
       "kind": "timed",
       "zoneIds": [
         "zone-vranje-zona-1"
@@ -204833,7 +205400,6 @@
     },
     {
       "id": "prod-timed-vranje-zona-2",
-      "legacyId": 163,
       "kind": "timed",
       "zoneIds": [
         "zone-vranje-zona-2"
@@ -204886,7 +205452,6 @@
     },
     {
       "id": "prod-fullday-vranje-celodnevna-zona-1",
-      "legacyId": 1601,
       "kind": "full_day",
       "zoneIds": [
         "zone-vranje-zona-1"
@@ -204939,7 +205504,6 @@
     },
     {
       "id": "prod-fullday-vranje-celodnevna-zona-2",
-      "legacyId": 1602,
       "kind": "full_day",
       "zoneIds": [
         "zone-vranje-zona-2"
@@ -204992,7 +205556,6 @@
     },
     {
       "id": "prod-timed-vrbas-zona-zuta",
-      "legacyId": 481,
       "kind": "timed",
       "zoneIds": [
         "zone-vrbas-zona-zuta"
@@ -205045,7 +205608,6 @@
     },
     {
       "id": "prod-timed-vrbas-zona-plava",
-      "legacyId": 482,
       "kind": "timed",
       "zoneIds": [
         "zone-vrbas-zona-plava"
@@ -205098,7 +205660,6 @@
     },
     {
       "id": "prod-fullday-vrbas-celodnevna-zona-plava",
-      "legacyId": 4801,
       "kind": "full_day",
       "zoneIds": [
         "zone-vrbas-zona-plava"
@@ -205151,7 +205712,6 @@
     },
     {
       "id": "prod-timed-vrnjacka-banja-ekstra-zona",
-      "legacyId": 471,
       "kind": "timed",
       "zoneIds": [
         "zone-vrnjacka-banja-ekstra-zona"
@@ -205207,7 +205767,6 @@
     },
     {
       "id": "prod-timed-vrnjacka-banja-zona-1",
-      "legacyId": 472,
       "kind": "timed",
       "zoneIds": [
         "zone-vrnjacka-banja-zona-1"
@@ -205263,7 +205822,6 @@
     },
     {
       "id": "prod-timed-vrnjacka-banja-zona-2",
-      "legacyId": 473,
       "kind": "timed",
       "zoneIds": [
         "zone-vrnjacka-banja-zona-2"
@@ -205316,7 +205874,6 @@
     },
     {
       "id": "prod-fullday-vrnjacka-banja-celodnevna-zona-1",
-      "legacyId": 4702,
       "kind": "full_day",
       "zoneIds": [
         "zone-vrnjacka-banja-zona-1"
@@ -205369,7 +205926,6 @@
     },
     {
       "id": "prod-fullday-vrnjacka-banja-celodnevna-zona-2",
-      "legacyId": 4701,
       "kind": "full_day",
       "zoneIds": [
         "zone-vrnjacka-banja-zona-2"
@@ -205422,7 +205978,6 @@
     },
     {
       "id": "prod-timed-vrsac-zona-1",
-      "legacyId": 821,
       "kind": "timed",
       "zoneIds": [
         "zone-vrsac-zona-1"
@@ -205475,7 +206030,6 @@
     },
     {
       "id": "prod-timed-vrsac-zona-2",
-      "legacyId": 822,
       "kind": "timed",
       "zoneIds": [
         "zone-vrsac-zona-2"
@@ -205528,7 +206082,6 @@
     },
     {
       "id": "prod-fullday-vrsac-celodnevna-karta",
-      "legacyId": 8201,
       "kind": "full_day",
       "zoneIds": [
         "zone-vrsac-zona-1",
@@ -205582,7 +206135,6 @@
     },
     {
       "id": "prod-fullday-vrsac-celodnevna-posebno-parkiraliste",
-      "legacyId": 8202,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -205633,7 +206185,6 @@
     },
     {
       "id": "prod-timed-zajecar-zona-1",
-      "legacyId": 411,
       "kind": "timed",
       "zoneIds": [
         "zone-zajecar-zona-1"
@@ -205686,7 +206237,6 @@
     },
     {
       "id": "prod-timed-zajecar-zona-2",
-      "legacyId": 412,
       "kind": "timed",
       "zoneIds": [
         "zone-zajecar-zona-2"
@@ -205739,7 +206289,6 @@
     },
     {
       "id": "prod-timed-zajecar-zona-3",
-      "legacyId": 413,
       "kind": "timed",
       "zoneIds": [
         "zone-zajecar-zona-3"
@@ -205792,7 +206341,6 @@
     },
     {
       "id": "prod-fullday-zajecar-celodnevna-zona-1",
-      "legacyId": 4101,
       "kind": "full_day",
       "zoneIds": [
         "zone-zajecar-zona-1"
@@ -205845,7 +206393,6 @@
     },
     {
       "id": "prod-fullday-zajecar-celodnevna-zona-2",
-      "legacyId": 4103,
       "kind": "full_day",
       "zoneIds": [
         "zone-zajecar-zona-2"
@@ -205898,7 +206445,6 @@
     },
     {
       "id": "prod-fullday-zajecar-celodnevna-zona-3",
-      "legacyId": 4102,
       "kind": "full_day",
       "zoneIds": [
         "zone-zajecar-zona-3"
@@ -205951,7 +206497,6 @@
     },
     {
       "id": "prod-timed-zlatibor-ekstra-zona",
-      "legacyId": 221,
       "kind": "timed",
       "zoneIds": [
         "zone-zlatibor-ekstra-zona"
@@ -206004,7 +206549,6 @@
     },
     {
       "id": "prod-timed-zlatibor-zona-1",
-      "legacyId": 222,
       "kind": "timed",
       "zoneIds": [
         "zone-zlatibor-zona-1"
@@ -206057,7 +206601,6 @@
     },
     {
       "id": "prod-timed-zlatibor-zona-2",
-      "legacyId": 223,
       "kind": "timed",
       "zoneIds": [
         "zone-zlatibor-zona-2"
@@ -206110,7 +206653,6 @@
     },
     {
       "id": "prod-fullday-zlatibor-celodnevna-karta",
-      "legacyId": 2201,
       "kind": "full_day",
       "zoneIds": [
         "zone-zlatibor-zona-1",
@@ -206164,7 +206706,6 @@
     },
     {
       "id": "prod-timed-zrenjanin-zona-1",
-      "legacyId": 401,
       "kind": "timed",
       "zoneIds": [
         "zone-zrenjanin-zona-1"
@@ -206217,7 +206758,6 @@
     },
     {
       "id": "prod-timed-zrenjanin-zona-2",
-      "legacyId": 402,
       "kind": "timed",
       "zoneIds": [
         "zone-zrenjanin-zona-2"
@@ -206270,7 +206810,6 @@
     },
     {
       "id": "prod-timed-zrenjanin-zona-3",
-      "legacyId": 403,
       "kind": "timed",
       "zoneIds": [
         "zone-zrenjanin-zona-3"
@@ -206323,7 +206862,6 @@
     },
     {
       "id": "prod-fullday-zrenjanin-celodnevna-zona-1",
-      "legacyId": 4003,
       "kind": "full_day",
       "zoneIds": [
         "zone-zrenjanin-zona-1"
@@ -206376,7 +206914,6 @@
     },
     {
       "id": "prod-fullday-zrenjanin-celodnevna-zona-2",
-      "legacyId": 4002,
       "kind": "full_day",
       "zoneIds": [
         "zone-zrenjanin-zona-2"
@@ -206429,7 +206966,6 @@
     },
     {
       "id": "prod-fullday-zrenjanin-celodnevna-zona-3",
-      "legacyId": 4001,
       "kind": "full_day",
       "zoneIds": [
         "zone-zrenjanin-zona-3"
@@ -206482,7 +207018,6 @@
     },
     {
       "id": "prod-timed-cuprija-ekstra-zona",
-      "legacyId": 231,
       "kind": "timed",
       "zoneIds": [
         "zone-cuprija-ekstra-zona"
@@ -206535,7 +207070,6 @@
     },
     {
       "id": "prod-timed-cuprija-zona-1",
-      "legacyId": 232,
       "kind": "timed",
       "zoneIds": [
         "zone-cuprija-zona-1"
@@ -206588,7 +207122,6 @@
     },
     {
       "id": "prod-timed-cuprija-zona-2",
-      "legacyId": 233,
       "kind": "timed",
       "zoneIds": [
         "zone-cuprija-zona-2"
@@ -206641,7 +207174,6 @@
     },
     {
       "id": "prod-fullday-cuprija-celodnevna-zona-1",
-      "legacyId": 2301,
       "kind": "full_day",
       "zoneIds": [
         "zone-cuprija-zona-1"
@@ -206694,7 +207226,6 @@
     },
     {
       "id": "prod-fullday-cuprija-celodnevna-zona-2",
-      "legacyId": 2302,
       "kind": "full_day",
       "zoneIds": [
         "zone-cuprija-zona-2"
@@ -206747,7 +207278,6 @@
     },
     {
       "id": "prod-timed-cacak-ekstra-zona",
-      "legacyId": 4,
       "kind": "timed",
       "zoneIds": [
         "zone-cacak-ekstra-zona"
@@ -206803,7 +207333,6 @@
     },
     {
       "id": "prod-timed-cacak-zona-1",
-      "legacyId": 3,
       "kind": "timed",
       "zoneIds": [
         "zone-cacak-zona-1"
@@ -206856,7 +207385,6 @@
     },
     {
       "id": "prod-timed-cacak-zona-2",
-      "legacyId": 2,
       "kind": "timed",
       "zoneIds": [
         "zone-cacak-zona-2"
@@ -206909,7 +207437,6 @@
     },
     {
       "id": "prod-timed-cacak-zona-3",
-      "legacyId": 1,
       "kind": "timed",
       "zoneIds": [
         "zone-cacak-zona-3"
@@ -206962,7 +207489,6 @@
     },
     {
       "id": "prod-fullday-cacak-celodnevna-karta",
-      "legacyId": 101,
       "kind": "full_day",
       "zoneIds": [
         "zone-cacak-zona-2",
@@ -207016,7 +207542,6 @@
     },
     {
       "id": "prod-timed-sabac-zona-1-crvena",
-      "legacyId": 141,
       "kind": "timed",
       "zoneIds": [
         "zone-sabac-zona-1-crvena"
@@ -207072,7 +207597,6 @@
     },
     {
       "id": "prod-timed-sabac-zona-2-plava",
-      "legacyId": 142,
       "kind": "timed",
       "zoneIds": [
         "zone-sabac-zona-2-plava"
@@ -207128,7 +207652,6 @@
     },
     {
       "id": "prod-fullday-sabac-celodnevna-karta",
-      "legacyId": 1401,
       "kind": "full_day",
       "zoneIds": [
         "zone-sabac-zona-1-crvena",
@@ -207182,7 +207705,6 @@
     },
     {
       "id": "prod-timed-sid-zona-1-crvena",
-      "legacyId": 491,
       "kind": "timed",
       "zoneIds": [
         "zone-sid-zona-1-crvena"
@@ -207238,7 +207760,6 @@
     },
     {
       "id": "prod-timed-sid-zona-2-plava",
-      "legacyId": 492,
       "kind": "timed",
       "zoneIds": [
         "zone-sid-zona-2-plava"
@@ -207291,7 +207812,6 @@
     },
     {
       "id": "prod-fullday-sid-celodnevna-karta",
-      "legacyId": 4901,
       "kind": "full_day",
       "zoneIds": [
         "zone-sid-zona-1-crvena",
@@ -207345,7 +207865,6 @@
     },
     {
       "id": "prod-timed-zabalj-zona-1",
-      "legacyId": 841,
       "kind": "timed",
       "zoneIds": [
         "zone-zabalj-zona-1"
@@ -207398,7 +207917,6 @@
     },
     {
       "id": "prod-fullday-brzece-celodnevna-zona",
-      "legacyId": 8901,
       "kind": "full_day",
       "zoneIds": [],
       "coversZoneIds": [],
@@ -207449,7 +207967,6 @@
     },
     {
       "id": "prod-timed-berane-zona-1",
-      "legacyId": 10081,
       "kind": "timed",
       "zoneIds": [
         "zone-berane-zona-1"
@@ -207505,7 +208022,6 @@
     },
     {
       "id": "prod-timed-berane-zona-2",
-      "legacyId": 10082,
       "kind": "timed",
       "zoneIds": [
         "zone-berane-zona-2"
@@ -207561,7 +208077,6 @@
     },
     {
       "id": "prod-timed-bijelo-polje-zona-1",
-      "legacyId": 10101,
       "kind": "timed",
       "zoneIds": [
         "zone-bijelo-polje-zona-1"
@@ -207614,7 +208129,6 @@
     },
     {
       "id": "prod-timed-bijelo-polje-zona-2",
-      "legacyId": 10102,
       "kind": "timed",
       "zoneIds": [
         "zone-bijelo-polje-zona-2"
@@ -207670,7 +208184,6 @@
     },
     {
       "id": "prod-timed-bijelo-polje-zona-3",
-      "legacyId": 10103,
       "kind": "timed",
       "zoneIds": [
         "zone-bijelo-polje-zona-3"
@@ -207723,7 +208236,6 @@
     },
     {
       "id": "prod-timed-budva-zona-1-ljubicasta",
-      "legacyId": 10041,
       "kind": "timed",
       "zoneIds": [
         "zone-budva-zona-1-ljubicasta"
@@ -207779,7 +208291,6 @@
     },
     {
       "id": "prod-timed-budva-zona-2-crvena",
-      "legacyId": 10042,
       "kind": "timed",
       "zoneIds": [
         "zone-budva-zona-2-crvena"
@@ -207835,7 +208346,6 @@
     },
     {
       "id": "prod-timed-budva-zona-3-zuta",
-      "legacyId": 10043,
       "kind": "timed",
       "zoneIds": [
         "zone-budva-zona-3-zuta"
@@ -207891,7 +208401,6 @@
     },
     {
       "id": "prod-timed-budva-zona-4-zelena",
-      "legacyId": 10044,
       "kind": "timed",
       "zoneIds": [
         "zone-budva-zona-4-zelena"
@@ -207947,7 +208456,6 @@
     },
     {
       "id": "prod-fullday-budva-celodnevna-zona-3-zuta",
-      "legacyId": 100401,
       "kind": "full_day",
       "zoneIds": [
         "zone-budva-zona-3-zuta"
@@ -208000,7 +208508,6 @@
     },
     {
       "id": "prod-fullday-budva-celodnevna-zona-4-zelena",
-      "legacyId": 100402,
       "kind": "full_day",
       "zoneIds": [
         "zone-budva-zona-4-zelena"
@@ -208053,7 +208560,6 @@
     },
     {
       "id": "prod-timed-cetinje-zona-1",
-      "legacyId": 10021,
       "kind": "timed",
       "zoneIds": [
         "zone-cetinje-zona-1"
@@ -208106,7 +208612,6 @@
     },
     {
       "id": "prod-timed-herceg-novi-vip-zona-ljubicasta",
-      "legacyId": 10094,
       "kind": "timed",
       "zoneIds": [
         "zone-herceg-novi-vip-zona-ljubicasta"
@@ -208162,7 +208667,6 @@
     },
     {
       "id": "prod-timed-herceg-novi-zona-1-crvena",
-      "legacyId": 10091,
       "kind": "timed",
       "zoneIds": [
         "zone-herceg-novi-zona-1-crvena"
@@ -208215,7 +208719,6 @@
     },
     {
       "id": "prod-timed-herceg-novi-zona-2-plava",
-      "legacyId": 10092,
       "kind": "timed",
       "zoneIds": [
         "zone-herceg-novi-zona-2-plava"
@@ -208268,7 +208771,6 @@
     },
     {
       "id": "prod-timed-herceg-novi-zona-3-zuta",
-      "legacyId": 10093,
       "kind": "timed",
       "zoneIds": [
         "zone-herceg-novi-zona-3-zuta"
@@ -208321,7 +208823,6 @@
     },
     {
       "id": "prod-fullday-herceg-novi-celodnevna-zona-1-crvena",
-      "legacyId": 100902,
       "kind": "full_day",
       "zoneIds": [
         "zone-herceg-novi-zona-1-crvena"
@@ -208374,7 +208875,6 @@
     },
     {
       "id": "prod-fullday-herceg-novi-celodnevna-zona-2-plava",
-      "legacyId": 100903,
       "kind": "full_day",
       "zoneIds": [
         "zone-herceg-novi-zona-2-plava"
@@ -208427,7 +208927,6 @@
     },
     {
       "id": "prod-fullday-herceg-novi-celodnevna-zona-3-zuta",
-      "legacyId": 100901,
       "kind": "full_day",
       "zoneIds": [
         "zone-herceg-novi-zona-3-zuta"
@@ -208480,7 +208979,6 @@
     },
     {
       "id": "prod-timed-niksic-zona-1",
-      "legacyId": 10071,
       "kind": "timed",
       "zoneIds": [
         "zone-niksic-zona-1"
@@ -208533,7 +209031,6 @@
     },
     {
       "id": "prod-timed-niksic-zona-2",
-      "legacyId": 10072,
       "kind": "timed",
       "zoneIds": [
         "zone-niksic-zona-2"
@@ -208586,7 +209083,6 @@
     },
     {
       "id": "prod-timed-niksic-zona-3",
-      "legacyId": 10073,
       "kind": "timed",
       "zoneIds": [
         "zone-niksic-zona-3"
@@ -208639,7 +209135,6 @@
     },
     {
       "id": "prod-timed-pljevlja-zona-1",
-      "legacyId": 10111,
       "kind": "timed",
       "zoneIds": [
         "zone-pljevlja-zona-1"
@@ -208692,7 +209187,6 @@
     },
     {
       "id": "prod-timed-podgorica-zona-1",
-      "legacyId": 10011,
       "kind": "timed",
       "zoneIds": [
         "zone-podgorica-zona-1"
@@ -208748,7 +209242,6 @@
     },
     {
       "id": "prod-timed-podgorica-zona-2",
-      "legacyId": 10012,
       "kind": "timed",
       "zoneIds": [
         "zone-podgorica-zona-2"
@@ -208806,7 +209299,6 @@
     },
     {
       "id": "prod-timed-podgorica-zona-3",
-      "legacyId": 10013,
       "kind": "timed",
       "zoneIds": [
         "zone-podgorica-zona-3"
@@ -208864,7 +209356,6 @@
     },
     {
       "id": "prod-timed-tivat-zona-1",
-      "legacyId": 10061,
       "kind": "timed",
       "zoneIds": [
         "zone-tivat-zona-1"
@@ -208920,7 +209411,6 @@
     },
     {
       "id": "prod-timed-tivat-zona-2",
-      "legacyId": 10062,
       "kind": "timed",
       "zoneIds": [
         "zone-tivat-zona-2"
@@ -208973,7 +209463,6 @@
     },
     {
       "id": "prod-fullday-tivat-celodnevna-zona-1",
-      "legacyId": 100602,
       "kind": "full_day",
       "zoneIds": [
         "zone-tivat-zona-1"
@@ -209026,7 +209515,6 @@
     },
     {
       "id": "prod-fullday-tivat-celodnevna-zona-2",
-      "legacyId": 100601,
       "kind": "full_day",
       "zoneIds": [
         "zone-tivat-zona-2"
@@ -209079,7 +209567,6 @@
     },
     {
       "id": "prod-timed-ulcinj-zona-1",
-      "legacyId": 10051,
       "kind": "timed",
       "zoneIds": [
         "zone-ulcinj-zona-1"
@@ -209132,7 +209619,6 @@
     },
     {
       "id": "prod-timed-ulcinj-zona-2",
-      "legacyId": 10052,
       "kind": "timed",
       "zoneIds": [
         "zone-ulcinj-zona-2"
@@ -209185,7 +209671,6 @@
     },
     {
       "id": "prod-timed-zabljak-zona-1",
-      "legacyId": 10121,
       "kind": "timed",
       "zoneIds": [
         "zone-zabljak-zona-1"

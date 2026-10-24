@@ -41,22 +41,20 @@
   "currencies": [
     {
       "id": "rsd",
-      "legacyId": 1,
       "code": "RSD",
       "symbol": "RSD",
-      "exchangeRate": 1.0,
       "locales": {
         "sr-Latn": {
-          "name": "Serbian Dinar"
+          "name": "Srpski dinar"
         },
         "sr-Cyrl": {
-          "name": "Serbian Dinar"
+          "name": "Српски динар"
         },
         "en": {
           "name": "Serbian Dinar"
         },
         "ru": {
-          "name": "Serbian Dinar"
+          "name": "Сербский динар"
         }
       }
     }
@@ -77,13 +75,13 @@
           "name": "Srbija"
         },
         "sr-Cyrl": {
-          "name": "Srbija"
+          "name": "Србија"
         },
         "en": {
           "name": "Serbia"
         },
         "ru": {
-          "name": "Srbija"
+          "name": "Сербия"
         }
       },
       "coveragePolygon": null,
@@ -94,7 +92,6 @@
   "operators": [
     {
       "id": "op-example-beograd",
-      "legacyId": null,
       "locales": {
         "sr-Latn": {
           "name": "Primer parking Beograd"

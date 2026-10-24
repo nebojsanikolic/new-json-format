@@ -28,11 +28,11 @@ Human-readable **concept** guide to `parking-config.generated.json`.
 | Field | Role |
 | --- | --- |
 | `dataVersion` | Monotonic config version for cache / “is newer?” |
-| `minAppVersion` | App must be ≥ this to consume the file |
+| `minAppVersions` | Per-platform floors (`ios` / `android` / `web`) |
 | `generatedAt` | ISO timestamp of generation |
-| `source` | Provenance of the transform (URL + legacy version) |
+| `source` | Provenance of the transform (URL + notes) |
 | `locales` | Supported UI languages + default sort order |
-| `currencies` | Catalog with exchange rates |
+| `currencies` | Catalog (codes / symbols / names). FX in separate `exchangeRates` / delivery file |
 | `countries` | Catalog + required timezone |
 | `operators` | Fine / operator catalog (empty until back office fills) |
 | `cities` | Catalog + center, timezone, zone refs |
@@ -66,7 +66,7 @@ Everywhere money appears:
 { "amount": 80.0, "currencyId": "rsd" }
 ```
 
-Never a bare number with a sibling currency string. Decimals are explicit. Exchange rates live on the currency catalog (vs a base currency; production used RSD as base).
+Never a bare number with a sibling currency string. Decimals are explicit. Exchange rates live in a **separate** `exchange-rates.json` (base currency + rates map + `asOf`), not on `currencies[]`.
 
 ### Locales
 
@@ -98,7 +98,7 @@ Optional `effectiveFrom` / `effectiveTo` (ISO date or datetime) on zones, polygo
 ### Versioning & unknown rules
 
 - Bump `dataVersion` on every publish.
-- Raise `minAppVersion` only when the *engine* must understand a new capability to stay safe.
+- Raise `minAppVersions.{ios|android|web}` only when that platform’s *engine* must understand a new capability to stay safe.
 - Rule / payment `type` strings unknown to an older app: ignore that rule or hide that payment path; keep offering known ones.
 
 ## Countries & cities
@@ -267,13 +267,13 @@ Production has no resident/fine/operator records → arrays are empty shells so 
 
 ## IDs
 
-Fresh stable string ids (`city-beograd`, `zone-beograd-zona-1`, `rsd`, …). Optional `legacyId` keeps old numeric ids for review / one-time migration tooling. No requirement to preserve numbers forever.
+Fresh stable string ids (`city-beograd`, `zone-beograd-zona-1`, `rsd`, …). No `legacyId` / legacy attribute bags — old apps will not read this format.
 
 ## Production → new mapping (summary)
 
 | Legacy | New |
 | --- | --- |
-| `version` | `source.legacyVersion`; new `dataVersion` starts at `1.0.0` |
+| `version` | New `dataVersion` starts at `1.0.0` on cutover |
 | `currency[]` | `currencies[]` with string ids + locale name map |
 | `cities` / `montenegro_cities` | `countries` rs/me + `cities[]` |
 | city name_* / cases | `city.locales` |
